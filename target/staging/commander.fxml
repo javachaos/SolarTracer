@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="668.0" prefWidth="1142.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="SolarTracer.gui.GuiController">
+   <children>
+      <TitledPane prefHeight="668.0" prefWidth="1142.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <content>
+            <HBox layoutX="13.0" layoutY="12.0" prefHeight="668.0" prefWidth="1142.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <VBox layoutX="13.0" layoutY="14.0">
+                     <children>
+                        <VBox layoutX="14.0" layoutY="14.0" prefHeight="171.0" prefWidth="276.0">
+                           <children>
+                              <Label fx:id="loadLabel" layoutX="14.0" layoutY="14.0" text="Load:" />
+                              <Label fx:id="loadCurrentLabel" layoutX="14.0" layoutY="29.0" text="Load Current:" />
+                              <Label fx:id="battLevelLabel" layoutX="14.0" layoutY="44.0" text="Battery Level:" />
+                              <Label fx:id="battFullLabel" layoutX="14.0" layoutY="59.0" text="Battery Full:" />
+                              <Label fx:id="battTempLabel" layoutX="14.0" layoutY="74.0" text="Battery Temp:" />
+                              <Label fx:id="pvVoltLabel" layoutX="14.0" layoutY="89.0" text="PV Voltage:" />
+                              <Label fx:id="chargingLabel" layoutX="14.0" layoutY="104.0" text="Charging:" />
+                              <Label fx:id="chargeCurrentLabel" layoutX="14.0" layoutY="119.0" text="Charge Current(A):" />
+                              <Label fx:id="overChargeLabel" layoutX="14.0" layoutY="134.0" text="Over Discharge:" />
+                              <Label fx:id="battMaxLabel" layoutX="14.0" layoutY="149.0" text="Battery Max:" />
+                           </children>
+                        </VBox>
+                        <VBox layoutX="13.0" layoutY="197.0" prefHeight="75.0" prefWidth="276.0" AnchorPane.rightAnchor="853.0">
+                           <children>
+                              <ComboBox fx:id="comList" layoutX="11.0" layoutY="145.0" prefHeight="25.0" prefWidth="282.0" promptText="COMM PORT" />
+                              <TextField fx:id="ipField" layoutX="90.0" layoutY="182.0" prefHeight="25.0" prefWidth="198.0" promptText="IP Address" />
+                              <Button fx:id="connectButton" layoutX="14.0" layoutY="182.0" mnemonicParsing="false" onAction="#connect" text="Connect" />
+                           </children>
+                        </VBox>
+                        <Label fx:id="updateFreqLabel" text="Update Frequency (millis):" />
+                        <ComboBox fx:id="updateFreqComboBox" prefHeight="25.0" prefWidth="279.0" />
+                     </children>
+                  </VBox>
+                  <TabPane layoutX="227.0" layoutY="12.0" prefHeight="643.0" prefWidth="834.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="13.0" AnchorPane.rightAnchor="17.0" AnchorPane.topAnchor="12.0">
+                    <tabs>
+                      <Tab fx:id="loadTab" text="Load">
+                        <content>
+                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <LineChart fx:id="loadGraph" layoutX="84.0" layoutY="19.0" prefHeight="490.0" prefWidth="687.0" title="Load vs Time(h)" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                      <xAxis>
+                                        <CategoryAxis fx:id="loadAxis" side="BOTTOM" />
+                                      </xAxis>
+                                      <yAxis>
+                                        <NumberAxis side="LEFT" />
+                                      </yAxis>
+                                    </LineChart>
+                                 </children>
+                              </AnchorPane>
+                        </content>
+                      </Tab>
+                      <Tab fx:id="loadCurrentTab" text="Load Current">
+                        <content>
+                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <LineChart fx:id="loadCurrentGraph" prefHeight="493.0" prefWidth="687.0" title="Load Current(A) vs Time(h)" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <xAxis>
+                                          <CategoryAxis fx:id="loadCurrentAxis" side="BOTTOM" />
+                                       </xAxis>
+                                       <yAxis>
+                                          <NumberAxis side="LEFT" />
+                                       </yAxis>
+                                    </LineChart>
+                                 </children>
+                              </AnchorPane>
+                        </content>
+                      </Tab>
+                        <Tab fx:id="batteryLevelTab" text="Battery Level">
+                          <content>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <LineChart fx:id="batteryLevelGraph" prefHeight="493.0" prefWidth="818.0" title="Battery Level (V) vs Time(h)" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <xAxis>
+                                          <CategoryAxis fx:id="batteryLevelAxis" side="BOTTOM" />
+                                       </xAxis>
+                                       <yAxis>
+                                          <NumberAxis fx:id="batteryLevelNumAxis" side="LEFT" />
+                                       </yAxis>
+                                    </LineChart>
+                                 </children>
+                              </AnchorPane>
+                          </content>
+                        </Tab>
+                        <Tab fx:id="battTempTab" text="Battery Temp">
+                          <content>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <LineChart fx:id="battTempGraph" prefHeight="493.0" prefWidth="818.0" title="Battery Temp (°C) vs Time(h)" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <xAxis>
+                                          <CategoryAxis fx:id="batteryTempAxis" side="BOTTOM" />
+                                       </xAxis>
+                                       <yAxis>
+                                          <NumberAxis side="LEFT" />
+                                       </yAxis>
+                                    </LineChart>
+                                 </children>
+                              </AnchorPane>
+                          </content>
+                        </Tab>
+                        <Tab fx:id="pvVoltageTab" text="PV Voltage">
+                          <content>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <LineChart fx:id="pvVoltGraph" prefHeight="493.0" prefWidth="818.0" title="PV Voltage(V) vs Time(h)" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <xAxis>
+                                          <CategoryAxis fx:id="pvVoltageAxis" side="BOTTOM" />
+                                       </xAxis>
+                                       <yAxis>
+                                          <NumberAxis side="LEFT" />
+                                       </yAxis>
+                                    </LineChart>
+                                 </children>
+                              </AnchorPane>
+                          </content>
+                        </Tab>
+                        <Tab fx:id="chargeCurrentTab" text="Charge Current">
+                          <content>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <LineChart fx:id="chargeCurrentGraph" prefHeight="493.0" prefWidth="818.0" title="Charge Current(A) vs Time(h)" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <xAxis>
+                                          <CategoryAxis fx:id="chargeCurrentAxis" side="BOTTOM" />
+                                       </xAxis>
+                                       <yAxis>
+                                          <NumberAxis side="LEFT" />
+                                       </yAxis>
+                                    </LineChart>
+                                 </children>
+                              </AnchorPane>
+                          </content>
+                        </Tab>
+                        <Tab fx:id="chargingTab" text="Charging">
+                          <content>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <LineChart fx:id="chargingGraph" prefHeight="493.0" prefWidth="818.0" title="Charging vs Time(h)" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <xAxis>
+                                          <CategoryAxis fx:id="chargingAxis" side="BOTTOM" />
+                                       </xAxis>
+                                       <yAxis>
+                                          <NumberAxis side="LEFT" />
+                                       </yAxis>
+                                    </LineChart>
+                                 </children>
+                              </AnchorPane>
+                          </content>
+                        </Tab>
+                    </tabs>
+                  </TabPane>
+               </children>
+            </HBox>
+         </content>
+      </TitledPane>
+   </children>
+</AnchorPane>

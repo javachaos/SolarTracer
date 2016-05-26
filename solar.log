@@ -1,0 +1,158 @@
+608  [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:525] GUI Heartbeat: 1 
+1591 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:525] GUI Heartbeat: 2 
+2591 [pool-2-thread-2] DEBUG SolarTracer.gui.GuiController - [GuiController.java:525] GUI Heartbeat: 3 
+3591 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:525] GUI Heartbeat: 4 
+4591 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:525] GUI Heartbeat: 5 
+5591 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:525] GUI Heartbeat: 6 
+6591 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:525] GUI Heartbeat: 7 
+7591 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:525] GUI Heartbeat: 8 
+8591 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:525] GUI Heartbeat: 9 
+9591 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:525] GUI Heartbeat: 10 
+10591 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:525] GUI Heartbeat: 11 
+11591 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:525] GUI Heartbeat: 12 
+12591 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:525] GUI Heartbeat: 13 
+13591 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:525] GUI Heartbeat: 14 
+14591 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:525] GUI Heartbeat: 15 
+15591 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:525] GUI Heartbeat: 16 
+16591 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:525] GUI Heartbeat: 17 
+17591 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:525] GUI Heartbeat: 18 
+18591 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:525] GUI Heartbeat: 19 
+19591 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:525] GUI Heartbeat: 20 
+20591 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:525] GUI Heartbeat: 21 
+21591 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:525] GUI Heartbeat: 22 
+22591 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:525] GUI Heartbeat: 23 
+23591 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:525] GUI Heartbeat: 24 
+24591 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:525] GUI Heartbeat: 25 
+25591 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:525] GUI Heartbeat: 26 
+26591 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:525] GUI Heartbeat: 27 
+27591 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:525] GUI Heartbeat: 28 
+28591 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:525] GUI Heartbeat: 29 
+29591 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:525] GUI Heartbeat: 30 
+30591 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:525] GUI Heartbeat: 31 
+31591 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:525] GUI Heartbeat: 32 
+32591 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:525] GUI Heartbeat: 33 
+33591 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:525] GUI Heartbeat: 34 
+34591 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:525] GUI Heartbeat: 35 
+35591 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:525] GUI Heartbeat: 36 
+36591 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:525] GUI Heartbeat: 37 
+37591 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:525] GUI Heartbeat: 38 
+38591 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:525] GUI Heartbeat: 39 
+39591 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:525] GUI Heartbeat: 40 
+40591 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:525] GUI Heartbeat: 41 
+41591 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:525] GUI Heartbeat: 42 
+42591 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:525] GUI Heartbeat: 43 
+43591 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:525] GUI Heartbeat: 44 
+44591 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:525] GUI Heartbeat: 45 
+45591 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:525] GUI Heartbeat: 46 
+46591 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:525] GUI Heartbeat: 47 
+47591 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:525] GUI Heartbeat: 48 
+48591 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:525] GUI Heartbeat: 49 
+49591 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:525] GUI Heartbeat: 50 
+50591 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:525] GUI Heartbeat: 51 
+51591 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:525] GUI Heartbeat: 52 
+52591 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:525] GUI Heartbeat: 53 
+53591 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:525] GUI Heartbeat: 54 
+54591 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:525] GUI Heartbeat: 55 
+55591 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:525] GUI Heartbeat: 56 
+56591 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:525] GUI Heartbeat: 57 
+57591 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:525] GUI Heartbeat: 58 
+58591 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:525] GUI Heartbeat: 59 
+59591 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:525] GUI Heartbeat: 60 
+60591 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:525] GUI Heartbeat: 61 
+61591 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:525] GUI Heartbeat: 62 
+#logback.classic pattern: %-4relative [%thread] %-5level %logger{35} - [%file:%line] %msg %n
+652  [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:525] GUI Heartbeat: 1 
+1645 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:525] GUI Heartbeat: 2 
+2645 [pool-2-thread-2] DEBUG SolarTracer.gui.GuiController - [GuiController.java:525] GUI Heartbeat: 3 
+3645 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:525] GUI Heartbeat: 4 
+4645 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:525] GUI Heartbeat: 5 
+5645 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:525] GUI Heartbeat: 6 
+6645 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:525] GUI Heartbeat: 7 
+7645 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:525] GUI Heartbeat: 8 
+8645 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:525] GUI Heartbeat: 9 
+9645 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:525] GUI Heartbeat: 10 
+10645 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:525] GUI Heartbeat: 11 
+11645 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:525] GUI Heartbeat: 12 
+12645 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:525] GUI Heartbeat: 13 
+13645 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:525] GUI Heartbeat: 14 
+14645 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:525] GUI Heartbeat: 15 
+15645 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:525] GUI Heartbeat: 16 
+16645 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:525] GUI Heartbeat: 17 
+17645 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:525] GUI Heartbeat: 18 
+18645 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:525] GUI Heartbeat: 19 
+19645 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:525] GUI Heartbeat: 20 
+20645 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:525] GUI Heartbeat: 21 
+21645 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:525] GUI Heartbeat: 22 
+22645 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:525] GUI Heartbeat: 23 
+23645 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:525] GUI Heartbeat: 24 
+24645 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:525] GUI Heartbeat: 25 
+#logback.classic pattern: %-4relative [%thread] %-5level %logger{35} - [%file:%line] %msg %n
+667  [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:531] GUI Heartbeat: 1 
+1663 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:531] GUI Heartbeat: 2 
+2663 [pool-2-thread-2] DEBUG SolarTracer.gui.GuiController - [GuiController.java:531] GUI Heartbeat: 3 
+3663 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:531] GUI Heartbeat: 4 
+#logback.classic pattern: %-4relative [%thread] %-5level %logger{35} - [%file:%line] %msg %n
+598  [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:532] GUI Heartbeat: 1 
+1592 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:532] GUI Heartbeat: 2 
+#logback.classic pattern: %-4relative [%thread] %-5level %logger{35} - [%file:%line] %msg %n
+624  [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:537] GUI Heartbeat: 1 
+1620 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:537] GUI Heartbeat: 2 
+2401 [JavaFX Application Thread] DEBUG SolarTracer.gui.GuiController - [GuiController.java:420] Shutting down... 
+#logback.classic pattern: %-4relative [%thread] %-5level %logger{35} - [%file:%line] %msg %n
+732  [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:537] GUI Heartbeat: 1 
+1715 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:537] GUI Heartbeat: 2 
+2715 [pool-2-thread-2] DEBUG SolarTracer.gui.GuiController - [GuiController.java:537] GUI Heartbeat: 3 
+2855 [JavaFX Application Thread] DEBUG SolarTracer.gui.GuiController - [GuiController.java:420] Shutting down... 
+#logback.classic pattern: %-4relative [%thread] %-5level %logger{35} - [%file:%line] %msg %n
+706  [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:537] GUI Heartbeat: 1 
+1678 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:537] GUI Heartbeat: 2 
+2678 [pool-2-thread-2] DEBUG SolarTracer.gui.GuiController - [GuiController.java:537] GUI Heartbeat: 3 
+3678 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:537] GUI Heartbeat: 4 
+3795 [JavaFX Application Thread] DEBUG SolarTracer.gui.GuiController - [GuiController.java:420] Shutting down... 
+#logback.classic pattern: %-4relative [%thread] %-5level %logger{35} - [%file:%line] %msg %n
+630  [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:537] GUI Heartbeat: 1 
+1626 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:537] GUI Heartbeat: 2 
+2626 [pool-2-thread-2] DEBUG SolarTracer.gui.GuiController - [GuiController.java:537] GUI Heartbeat: 3 
+3020 [JavaFX Application Thread] DEBUG SolarTracer.gui.GuiController - [GuiController.java:420] Shutting down... 
+#logback.classic pattern: %-4relative [%thread] %-5level %logger{35} - [%file:%line] %msg %n
+605  [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:537] GUI Heartbeat: 1 
+1592 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:537] GUI Heartbeat: 2 
+2592 [pool-2-thread-2] DEBUG SolarTracer.gui.GuiController - [GuiController.java:537] GUI Heartbeat: 3 
+2794 [JavaFX Application Thread] DEBUG SolarTracer.gui.GuiController - [GuiController.java:420] Shutting down... 
+#logback.classic pattern: %-4relative [%thread] %-5level %logger{35} - [%file:%line] %msg %n
+647  [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:537] GUI Heartbeat: 1 
+1643 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:537] GUI Heartbeat: 2 
+2643 [pool-2-thread-2] DEBUG SolarTracer.gui.GuiController - [GuiController.java:537] GUI Heartbeat: 3 
+3369 [JavaFX Application Thread] DEBUG SolarTracer.gui.GuiController - [GuiController.java:420] Shutting down... 
+#logback.classic pattern: %-4relative [%thread] %-5level %logger{35} - [%file:%line] %msg %n
+614  [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:537] GUI Heartbeat: 1 
+1603 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:537] GUI Heartbeat: 2 
+2603 [pool-2-thread-2] DEBUG SolarTracer.gui.GuiController - [GuiController.java:537] GUI Heartbeat: 3 
+3603 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:537] GUI Heartbeat: 4 
+4603 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:537] GUI Heartbeat: 5 
+5603 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:537] GUI Heartbeat: 6 
+6603 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:537] GUI Heartbeat: 7 
+7603 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:537] GUI Heartbeat: 8 
+8603 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:537] GUI Heartbeat: 9 
+9603 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:537] GUI Heartbeat: 10 
+10603 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:537] GUI Heartbeat: 11 
+11603 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:537] GUI Heartbeat: 12 
+12603 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:537] GUI Heartbeat: 13 
+13603 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:537] GUI Heartbeat: 14 
+14603 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:537] GUI Heartbeat: 15 
+15092 [JavaFX Application Thread] DEBUG SolarTracer.gui.GuiController - [GuiController.java:420] Shutting down... 
+#logback.classic pattern: %-4relative [%thread] %-5level %logger{35} - [%file:%line] %msg %n
+608  [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:536] GUI Heartbeat: 1 
+1604 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:536] GUI Heartbeat: 2 
+2604 [pool-2-thread-2] DEBUG SolarTracer.gui.GuiController - [GuiController.java:536] GUI Heartbeat: 3 
+3604 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:536] GUI Heartbeat: 4 
+4604 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:536] GUI Heartbeat: 5 
+5604 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:536] GUI Heartbeat: 6 
+6605 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:536] GUI Heartbeat: 7 
+7604 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:536] GUI Heartbeat: 8 
+8604 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:536] GUI Heartbeat: 9 
+9604 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:536] GUI Heartbeat: 10 
+10604 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:536] GUI Heartbeat: 11 
+11604 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:536] GUI Heartbeat: 12 
+12604 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:536] GUI Heartbeat: 13 
+13421 [JavaFX Application Thread] DEBUG SolarTracer.gui.GuiController - [GuiController.java:420] Shutting down... 

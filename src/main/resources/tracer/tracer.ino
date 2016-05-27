@@ -5,19 +5,50 @@
 #include <SoftwareSerial.h>
 
 unsigned int speed = 1000; // Default update speed.
-SoftwareSerial myserial(10, 11); // RX, TX
+SoftwareSerial mppt_serial(10, 11); // RX, TX
 
+// DATA SYNCHRONIZATION BYTES
 uint8_t start[] = { 0xAA, 0x55, 0xAA, 0x55, 0xAA, 0x55,
                     0xEB, 0x90, 0xEB, 0x90, 0xEB, 0x90 };
-uint8_t id = 0x16;
-uint8_t cmd[] = { 0xA0, 0x00, 0xB1, 0xA7, 0x7F };
-uint8_t buff[128];
 uint8_t input[4];
 char sep = ':';
 
 void setup() {
   Serial.begin(57600);
-  myserial.begin(9600);
+  mppt_serial.begin(9600);
+}
+
+// Tested works OK
+uint16_t crc(uint8_t *CRC_Buff, uint8_t crc_len) {
+	uint8_t crc_i, crc_j, r1, r2, r3, r4;
+	uint16_t crc_result;
+	r1 =*CRC_Buff;
+	CRC_Buff++;
+	r2=*CRC_Buff;
+	CRC_Buff++;
+	for (crc_i = 0; crc_i < crc_len -2; crc_i++) {
+		r3 =* CRC_Buff;
+		CRC_Buff++;
+		for (crc_j=0; crc_j < 8; crc_j++) {
+			r4 = r1;
+			r1 = (r1<<1);
+			if ((r2 & 0x80) != 0) {
+				r1++;
+			}
+			r2 = r2<<1;
+			if((r3 & 0x80) != 0) {
+				r2++;
+			}
+			r3 = r3<<1;
+			if ((r4 & 0x80) != 0) {
+				r1 = r1^0x10;
+				r2 = r2^0x41;
+			}
+		}
+	}
+	crc_result = r1;
+	crc_result = crc_result << 8 | r2;
+	return crc_result;
 }
 
 // Convert two bytes to a float
@@ -45,17 +76,42 @@ int getSleepTime() {
   return read;
 }
 
-void loop() {
+void manualControlCmd(bool load_onoff) {
+  mppt_serial.write(start, sizeof(start));
+  uint8_t mcc_data[] = { 0x16,       //DEVICE ID BYTE
+	                     0xAA,       //COMMAND BYTE
+	                     0x01,       //DATA LENGTH
+						 0x00
+	                     0x00, 0x00, //CRC CODE
+	                     0x7F };     //END BYTE
+  if (load_onoff) {
+	  mcc_data[3] = 1;
+  } else {
+	  mcc_data[3] = 0;
+  }
+  //Calculate and add CRC bytes.
+  uint16_t crc_d = crc(mcc_data, mcc_data[2] + 5);
+  mcc_data[mcc_data[2] + 3] = crc_d >> 8;
+  mcc_data[mcc_data[2] + 4] = crc_d & 0xFF;
+}
 
-  myserial.write(start, sizeof(start));
-  myserial.write(id);
-  myserial.write(cmd, sizeof(cmd));
+void printAllData() {
 
+  uint8_t data[] = { 0x16,       //DEVICE ID BYTE
+                     0xA0,       //COMMAND BYTE
+                     0x00,       //DATA LENGTH
+                     0xB1, 0xA7, //CRC CODE
+                     0x7F };     //END BYTE
+
+  uint8_t buff[128];
+  mppt_serial.write(start, sizeof(start));
+  mppt_serial.write(data, sizeof(data));
+    
   int read = 0;
 
-  for (int i = 0; i < 255; i++){
-    if (myserial.available()) {
-      buff[read] = myserial.read();
+  for (int i = 0; i < 255; i++) {
+    if (mppt_serial.available()) {
+      buff[read] = mppt_serial.read();
       read++;
     }
   }
@@ -108,7 +164,10 @@ void loop() {
   // 21 Load on / off
   uint8_t load_onoff = buff[21];
   Serial.print(load_onoff);
+}
+
+void loop() {
+  printAllData();
   Serial.println();
   delay(getSleepTime());
 }
-

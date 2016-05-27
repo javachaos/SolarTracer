@@ -25,7 +25,7 @@ public class Main extends Application {
 	 */
 	public static final ScheduledExecutorService COORDINATOR =
 	      Executors.newScheduledThreadPool(Constants.NUM_THREADS);
-	  
+
 	private GuiController guiController;
 	
 	/**
@@ -52,7 +52,7 @@ public class Main extends Application {
 	public static void main(String[] args) {
 		if (!DatabaseUtils.databaseExists()) {
 			DatabaseUtils.createTables();
-			LOGGER.debug("Created tables.");
+			LOGGER.debug("Created new database file.");
 		}
 		launch(args);
 	}

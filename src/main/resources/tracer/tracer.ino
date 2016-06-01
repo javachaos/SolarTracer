@@ -53,7 +53,7 @@ uint16_t crc(uint8_t *CRC_Buff, uint8_t crc_len) {
 
 // Convert two bytes to a float. OK
 float to_float(uint8_t* buffer, int offset) {
-  unsigned short full = buffer[offset+1] << 8 | buff[offset];
+  unsigned short full = buffer[offset+1] << 8 | buffer[offset];
   return full / 100.0;
 }
 
@@ -89,7 +89,7 @@ void manualControlCmd(bool load_onoff) {
   uint8_t mcc_data[] = { 0x16,       //DEVICE ID BYTE
 	                     0xAA,       //COMMAND BYTE
 	                     0x01,       //DATA LENGTH
-						 0x00
+						           0x00,
 	                     0x00, 0x00, //CRC CODE
 	                     0x7F };     //END BYTE
   if (load_onoff) {
@@ -102,15 +102,22 @@ void manualControlCmd(bool load_onoff) {
   mppt_serial.write(d, sizeof(d));
 }
 
+//data_len - number of bytes inside data
+//data - the data payload.
 void cpu_send_ctr_data(uint8_t* data, uint8_t data_len) {
   mppt_serial.write(start, sizeof(start));
-  uint8_t csc_data[] = { 0x16,        //DEVICE ID BYTE
-                         0xAD,        //COMMAND BYTE
-						 data_len,    //DATA LENGTH
-						 data         //DATA PAYLOAD
-	                     0x00, 0x00,  //CRC CODE
-                         0x7F };      //END BYTE
+  uint8_t csc_data[data_len + 5];
 
+  csc_data[0] = 0x16;        //DEVICE ID BYTE
+  csc_data[1] = 0xAD;        //COMMAND BYTE
+  csc_data[2] = data_len;    //DATA LENGTH
+  int i;                     //DATA PAYLOAD
+  for(i = 0; i < data_len; i++) {
+    if (i > 2) {
+      csc_data[i + 2] = data[i];
+    }
+  }
+  csc_data[data_len + 4] = 0x7F;//END BYTE
   //Calculate and add CRC bytes.
   uint8_t* d = calc_and_addcrc(csc_data);
   mppt_serial.write(d, sizeof(d));

@@ -21,8 +21,8 @@ void setup() {
   while (!Serial) {
     ; // wait for serial port to connect. Needed for native USB port only
   }
-  // reserve 200 bytes for the inputString:
-  inputString.reserve(200);
+  // reserve 10 bytes for the inputString:
+  inputString.reserve(10);
   mppt_serial.begin(9600);
 }
 
@@ -79,13 +79,13 @@ void updateSleepTime(String sleepSpeed) {
     return;
   }
 
-  char* s = sleepSpeed.c_str();
+  const char* s = sleepSpeed.c_str();
   for (int j = 0; j <= 3; j++) {
       input[j] = s[j];
   }
 
   speed = (input[0] << 24) | (input[1] << 16) | (input[2] << 8) | input[3];
-  if (read > 86400000 || read < 1000) { // 1 day in milliseconds or 1 second.
+  if (speed > 86400000 || speed < 1000) { // 1 day in milliseconds or 1 second.
     speed = 1000;
   }
 }

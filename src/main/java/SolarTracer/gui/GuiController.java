@@ -3,8 +3,6 @@ package SolarTracer.gui;
 import static jssc.SerialPort.MASK_RXCHAR;
 
 import java.nio.ByteBuffer;
-import java.nio.charset.Charset;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.slf4j.Logger;
@@ -19,7 +17,6 @@ import SolarTracer.utils.DataUtils;
 import SolarTracer.utils.DatabaseUtils;
 import SolarTracer.utils.ExceptionUtils;
 import SolarTracer.utils.SolarException;
-import SolarTracer.utils.StatusUtils;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -235,14 +232,14 @@ public class GuiController implements EventHandler<WindowEvent>, SerialPortEvent
         loadOff.setUserData("LOFF");
         
         toggleGroup.selectedToggleProperty().addListener(new ChangeListener<Toggle>(){
-            public void changed(ObservableValue<? extends Toggle> ov,
-                Toggle toggle, Toggle new_toggle) {
-                    if (new_toggle == null) {
-                    	log("Toggle is Null.");
-                    } else {
-                    	sendCommand((String)new_toggle.getUserData());
-                    }
-                 }
+          public void changed(ObservableValue<? extends Toggle> ov,
+          Toggle toggle, Toggle newToggle) {
+            if (newToggle == null) {
+              log("Toggle is Null.");
+            } else if (!sendCommand((String)newToggle.getUserData())) {
+              toggleGroup.selectToggle(null);
+            }
+          }
         });
 
         batteryLevelNumAxis.setAutoRanging(false);
@@ -417,25 +414,22 @@ public class GuiController implements EventHandler<WindowEvent>, SerialPortEvent
      * Send a command to arduino controller.
      * @param cmd
      */
-	public void sendCommand(String cmd) {
+	public boolean sendCommand(String cmd) {
 		if (client != null && client.isConnected()) {
 		//We're connected via IP.
 			client.addOutMessage(cmd);
+			return true;
 		} else if (arduinoPort != null && arduinoPort.isOpened()) {
 		//We're connected directly via Serial Port.
 			try {
-				if (arduinoPort.writeString(cmd + '\n')) {
-					StatusUtils.showGeneralInfo("Command sent successfully.");
-				} else {
-					StatusUtils.showGeneralInfo("Command send failed!");
-				}
+				return arduinoPort.writeString(cmd + '\n');
 			} catch (SerialPortException e) {
 				ExceptionUtils.log(getClass(), e);
 			}
 		} else {
 			ExceptionUtils.showAlert("Could not send command, we're not connected.");
-			toggleGroup.selectToggle(null);
 		}
+		return false;
 	}
     
     /**

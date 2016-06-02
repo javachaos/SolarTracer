@@ -400,7 +400,7 @@ public class GuiController implements EventHandler<WindowEvent>, SerialPortEvent
     }
     
     protected void disconnect() {
-    	if(client.isConnected()) {
+    	if(client != null && client.isConnected()) {
     		client.shutdown();
     	}
     }

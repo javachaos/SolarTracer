@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import SolarTracer.utils.Constants;
+import SolarTracer.utils.ExceptionUtils;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
@@ -113,7 +114,7 @@ public class SolarClient implements Runnable {
 	      }
 
 	    } catch (SSLException | InterruptedException e1) {
-	      LOGGER.error(e1.getMessage());
+          ExceptionUtils.log(getClass(), e1);
 	      isConnected = false;
 	    } finally {
 	      workerGroup.shutdownGracefully();

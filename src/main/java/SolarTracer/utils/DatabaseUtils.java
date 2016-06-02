@@ -50,7 +50,7 @@ public final class DatabaseUtils {
             Class.forName(Constants.DRIVER);
             isLoaded = true;
         } catch (ClassNotFoundException cnfe) {
-        	LOGGER.error(cnfe.getMessage());
+            ExceptionUtils.log(DatabaseUtils.class, cnfe);
         }
 
     }
@@ -75,7 +75,7 @@ public final class DatabaseUtils {
                     + Constants.DATABASE_FILE.getAbsolutePath());
             }
         } catch (SQLException ex) {
-        	LOGGER.error(ex.getMessage());
+            ExceptionUtils.log(DatabaseUtils.class, ex);
         }
         
         return conn;
@@ -95,7 +95,7 @@ public final class DatabaseUtils {
             stat.executeBatch();
             conn.close();
         } catch (SQLException e) {
-        	LOGGER.error(e.getMessage());
+            ExceptionUtils.log(DatabaseUtils.class, e);
         }
     }
     
@@ -109,7 +109,7 @@ public final class DatabaseUtils {
 				return rs.getInt(1);
 			}			
 		} catch (SQLException e) {
-			LOGGER.error(e.getMessage());
+            ExceptionUtils.log(DatabaseUtils.class, e);
 		}
 		return -1;
     }
@@ -154,7 +154,7 @@ public final class DatabaseUtils {
 			        sb = new StringBuilder();
 				}
 			} catch (SQLException e) {
-				LOGGER.error(e.getMessage());
+	            ExceptionUtils.log(DatabaseUtils.class, e);
 			}
 			return returnData;
     	}
@@ -209,7 +209,7 @@ public final class DatabaseUtils {
 	                    + datetime
 	            		+ ")");
 	        } catch (SQLException e) {
-	        	LOGGER.error(e.getMessage());
+	            ExceptionUtils.log(DatabaseUtils.class, e);
 	        }
     	}
     }
@@ -225,12 +225,12 @@ public final class DatabaseUtils {
 	                try {
 	                    Thread.sleep(Constants.SLEEP_TIME);
 	                } catch (InterruptedException e) {
-	                	LOGGER.error(e.getMessage());
+	                    ExceptionUtils.log(DatabaseUtils.class, e);
 	                }
 	            }
         	}
         } catch (SQLException e) {
-        	LOGGER.error(e.getMessage());
+            ExceptionUtils.log(DatabaseUtils.class, e);
         } finally {
             conn = null;
         }

@@ -45,7 +45,7 @@ public class ShutdownHook extends Thread {
       ses.awaitTermination(Constants.TERMINATION_TIMEOUT, TimeUnit.MILLISECONDS);
       mainThread.join();
     } catch (final InterruptedException e1) {
-      LOGGER.error(e1.getMessage());
+        ExceptionUtils.log(getClass(), e1);
     }
   }
 }

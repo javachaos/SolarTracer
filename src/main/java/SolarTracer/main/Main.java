@@ -65,4 +65,5 @@ public class Main extends Application {
 	private static void addHook() {
 	  Runtime.getRuntime().addShutdownHook(new ShutdownHook(COORDINATOR, Thread.currentThread()));
 	}
+
 }

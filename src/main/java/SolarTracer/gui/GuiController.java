@@ -14,6 +14,7 @@ import SolarTracer.networking.SolarClient;
 import SolarTracer.networking.SolarServer;
 import SolarTracer.utils.Constants;
 import SolarTracer.utils.DatabaseUtils;
+import SolarTracer.utils.ExceptionUtils;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -421,7 +422,7 @@ public class GuiController implements EventHandler<WindowEvent>, SerialPortEvent
             
             success = true;
         } catch (SerialPortException ex) {
-            log("SerialPortException: " + ex.toString());
+            ExceptionUtils.log(getClass(), ex);
         }
         return success;
     }
@@ -438,7 +439,7 @@ public class GuiController implements EventHandler<WindowEvent>, SerialPortEvent
                     arduinoPort.closePort();
                 }
             } catch (SerialPortException ex) {
-                log("SerialPortException: " + ex.getMessage());
+                ExceptionUtils.log(getClass(), ex);
             }
         }
     }
@@ -466,7 +467,7 @@ public class GuiController implements EventHandler<WindowEvent>, SerialPortEvent
               solarServer.sendMessage(s);
               submitMessage(s);
           } catch (SerialPortException ex) {
-              log("SerialPortException: " + ex.getMessage());
+              ExceptionUtils.log(getClass(), ex);
           }
         }
     }
@@ -515,7 +516,7 @@ public class GuiController implements EventHandler<WindowEvent>, SerialPortEvent
 			try {
 				time = dateFormat.format(new Date(Long.parseLong(d[10])));
 			} catch (Exception e) {
-				e.printStackTrace();
+	            ExceptionUtils.log(getClass(), e);
 			}
 	        append(loadLabel, load_onoff+"");
 	        append(loadCurrentLabel, load_current+"");

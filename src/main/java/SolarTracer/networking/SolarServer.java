@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import SolarTracer.gui.GuiController;
 import SolarTracer.utils.Constants;
+import SolarTracer.utils.ExceptionUtils;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelOption;
@@ -73,7 +74,7 @@ public class SolarServer implements Runnable {
 	      ch.closeFuture().sync();
 	      LOGGER.debug("SolarServer Started.");
 	    } catch (final InterruptedException | SSLException | CertificateException e1) {
-	    	LOGGER.error(e1.getMessage());
+          ExceptionUtils.log(getClass(), e1);
 	    } finally {
 	      workerGroup.shutdownGracefully();
 	      bossGroup.shutdownGracefully();

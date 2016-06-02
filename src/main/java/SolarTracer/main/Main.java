@@ -42,7 +42,7 @@ public class Main extends Application {
 		    (AnchorPane) fxmlLoader.load(getClass().getResource("/commander.fxml").openStream());
 	    guiController = (SolarTracer.gui.GuiController) fxmlLoader.getController();
 		COORDINATOR.scheduleAtFixedRate(guiController, 0, Constants.GUI_SLEEPTIME, TimeUnit.MILLISECONDS);
-		COORDINATOR.schedule(new SolarServer(guiController), 10, TimeUnit.SECONDS);
+		COORDINATOR.schedule(new SolarServer(guiController), 0, TimeUnit.NANOSECONDS);
 		addHook();
 	    primaryStage.setOnCloseRequest(guiController);
 		Scene myScene = new Scene(myPane);

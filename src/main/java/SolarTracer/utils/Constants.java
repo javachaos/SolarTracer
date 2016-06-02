@@ -25,30 +25,29 @@ public class Constants {
     	new Constants();
     }
 
-    public static final String TIME_SERVER = "time-a.nist.gov";    
+    public static final String TIME_SERVER = "time.nist.gov";
     
-    private static final Date getTime() {
+    private static final Date time() {
         TimeInfo timeInfo = null;
 		try {
 	    	NTPUDPClient timeClient = new NTPUDPClient();
 	        InetAddress inetAddress = InetAddress.getByName(TIME_SERVER);
 			timeInfo = timeClient.getTime(inetAddress);
 		} catch (IOException e) {
-			e.printStackTrace();
+			ExceptionUtils.log(Constants.class, e);
 		}
         long returnTime = timeInfo.getMessage().getTransmitTimeStamp().getTime();
-        Date time = new Date(returnTime);
-        return time;
+        return new Date(returnTime);
     }
     
     public static void updateTimeoffset() {
-    	TIME_OFFSET = getTime().getTime() - System.currentTimeMillis();
+    	TIME_OFFSET = time().getTime() - System.currentTimeMillis();
     }
     
     /**
      * Offset from true NTP time from the system time.
      */
-    public static long TIME_OFFSET = getTime().getTime() - System.currentTimeMillis();
+    public static long TIME_OFFSET = time().getTime() - System.currentTimeMillis();
     
 	/**
 	 * Sleep time. Used to delay the state monitor.

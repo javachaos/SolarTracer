@@ -15,6 +15,7 @@ import SolarTracer.networking.SolarServer;
 import SolarTracer.utils.Constants;
 import SolarTracer.utils.DatabaseUtils;
 import SolarTracer.utils.ExceptionUtils;
+import SolarTracer.utils.SolarException;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -396,6 +397,7 @@ public class GuiController implements EventHandler<WindowEvent>, SerialPortEvent
           Main.COORDINATOR.submit(client);
         } else {
           LOGGER.debug("Cannot connect non valid IP address.");
+          ExceptionUtils.showAlert(new SolarException("Cannot connect non valid IP address."));
         }
     }
     
@@ -463,6 +465,7 @@ public class GuiController implements EventHandler<WindowEvent>, SerialPortEvent
         if(serialPortEvent.isRXCHAR()) {
           try {
               String s = arduinoPort.readString(serialPortEvent.getEventValue());
+  	          log("Raw: " + s);
               arduinoPort.writeBytes(ByteBuffer.allocate(4).putInt(arduinoSleepTime).array());
               solarServer.sendMessage(s);
               submitMessage(s);
@@ -500,7 +503,6 @@ public class GuiController implements EventHandler<WindowEvent>, SerialPortEvent
 	private void updateGraphs(String dataPoint) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 		Platform.runLater(() -> {
-	        log("Data: " + dataPoint);
 	        String[] d = dataPoint.split(":");
 	        float battery_voltage = Float.parseFloat(d[0]);
 	        float pv_voltage      = Float.parseFloat(d[1]);
@@ -566,12 +568,16 @@ public class GuiController implements EventHandler<WindowEvent>, SerialPortEvent
 	@Override
 	public void run() {
 	  if (isRunning ) {
+		try {
         if (clockUpdateCtr++ >= Constants.UPDATE_CLOCK_FREQUENCY) {
           clockUpdateCtr = 0;
           LOGGER.debug("Updating clock.");
           Constants.updateTimeoffset();
         }
         LOGGER.debug("GUI Heartbeat: " + clockUpdateCtr);
+		} catch (Throwable t1) {
+		  ExceptionUtils.log(getClass(), t1);
+		}
 	  }
 	}
 

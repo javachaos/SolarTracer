@@ -31,18 +31,18 @@ public class ExceptionUtils {
 	 * Show an alert dialog.
 	 * @param ex
 	 */
-	private static void showAlert(Throwable ex) {
+	public static void showAlert(Throwable ex) {
 
 		Alert alert = new Alert(AlertType.ERROR);
-		alert.setTitle("Exception Dialog");
-		alert.setHeaderText("Look, an Exception Dialog");
-		alert.setContentText("Could not find file blabla.txt!");
+		alert.setTitle("Exception Alert");
+		alert.setHeaderText("Exception Dialog");
+		alert.setContentText(ex.getMessage());
 		// Create expandable Exception.
 		StringWriter sw = new StringWriter();
 		PrintWriter pw = new PrintWriter(sw);
 		ex.printStackTrace(pw);
 		String exceptionText = sw.toString();
-		Label label = new Label("The exception stacktrace was:");
+		Label label = new Label("Exception stacktrace:");
 		TextArea textArea = new TextArea(exceptionText);
 		textArea.setEditable(false);
 		textArea.setWrapText(true);

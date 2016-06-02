@@ -93,7 +93,7 @@ public class SolarServer implements Runnable {
 	 * Send message s to connected clients.
 	 * @param s
 	 */
-	public void sendMessage(String s) {
+	public synchronized void sendMessage(String s) {
 		handler.addData(s);
 	}
 	

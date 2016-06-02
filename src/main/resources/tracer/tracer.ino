@@ -51,10 +51,18 @@ uint16_t crc(uint8_t *CRC_Buff, uint8_t crc_len) {
 	return crc_result;
 }
 
-// Convert two bytes to a float
+// Convert two bytes to a float. OK
 float to_float(uint8_t* buffer, int offset) {
   unsigned short full = buffer[offset+1] << 8 | buff[offset];
   return full / 100.0;
+}
+
+// Calc and add crc bytes to data.
+uint8_t* calc_and_addcrc(uint8_t* data) {
+  uint16_t crc_d = crc(data, data[2] + 5);
+  data[data[2] + 3] = crc_d >> 8;
+  data[data[2] + 4] = crc_d & 0xFF;
+  return data;
 }
 
 // Read sleep time from client application.
@@ -90,13 +98,25 @@ void manualControlCmd(bool load_onoff) {
 	  mcc_data[3] = 0;
   }
   //Calculate and add CRC bytes.
-  uint16_t crc_d = crc(mcc_data, mcc_data[2] + 5);
-  mcc_data[mcc_data[2] + 3] = crc_d >> 8;
-  mcc_data[mcc_data[2] + 4] = crc_d & 0xFF;
+  uint8_t* d = calc_and_addcrc(mcc_data);
+  mppt_serial.write(d, sizeof(d));
+}
+
+void cpu_send_ctr_data(uint8_t* data, uint8_t data_len) {
+  mppt_serial.write(start, sizeof(start));
+  uint8_t csc_data[] = { 0x16,        //DEVICE ID BYTE
+                         0xAD,        //COMMAND BYTE
+						 data_len,    //DATA LENGTH
+						 data         //DATA PAYLOAD
+	                     0x00, 0x00,  //CRC CODE
+                         0x7F };      //END BYTE
+
+  //Calculate and add CRC bytes.
+  uint8_t* d = calc_and_addcrc(csc_data);
+  mppt_serial.write(d, sizeof(d));
 }
 
 void printAllData() {
-
   uint8_t data[] = { 0x16,       //DEVICE ID BYTE
                      0xA0,       //COMMAND BYTE
                      0x00,       //DATA LENGTH
@@ -167,6 +187,7 @@ void printAllData() {
 }
 
 void loop() {
+  //manualControlCmd(0);// Send 0 for load off. 1 for load on.
   printAllData();
   Serial.println();
   delay(getSleepTime());

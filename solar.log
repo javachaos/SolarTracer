@@ -787,3 +787,324 @@
 626051 [pool-2-thread-3] DEBUG SolarTracer.gui.GuiController - [GuiController.java:536] GUI Heartbeat: 24 
 627051 [pool-2-thread-3] DEBUG SolarTracer.gui.GuiController - [GuiController.java:536] GUI Heartbeat: 25 
 627059 [JavaFX Application Thread] DEBUG SolarTracer.gui.GuiController - [GuiController.java:420] Shutting down... 
+#logback.classic pattern: %-4relative [%thread] %-5level %logger{35} - [%file:%line] %msg %n
+716  [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:568] GUI Heartbeat: 1 
+723  [JavaFX Application Thread] DEBUG i.n.u.i.l.InternalLoggerFactory - [Slf4JLogger.java:71] Using SLF4J as the default logging framework 
+727  [JavaFX Application Thread] DEBUG i.n.c.MultithreadEventLoopGroup - [Slf4JLogger.java:76] -Dio.netty.eventLoopThreads: 8 
+759  [JavaFX Application Thread] DEBUG i.n.u.internal.PlatformDependent0 - [Slf4JLogger.java:76] java.nio.Buffer.address: available 
+760  [JavaFX Application Thread] DEBUG i.n.u.internal.PlatformDependent0 - [Slf4JLogger.java:76] sun.misc.Unsafe.theUnsafe: available 
+760  [JavaFX Application Thread] DEBUG i.n.u.internal.PlatformDependent0 - [Slf4JLogger.java:71] sun.misc.Unsafe.copyMemory: available 
+761  [JavaFX Application Thread] DEBUG i.n.u.internal.PlatformDependent0 - [Slf4JLogger.java:76] java.nio.Bits.unaligned: true 
+762  [JavaFX Application Thread] DEBUG i.n.util.internal.PlatformDependent - [Slf4JLogger.java:76] Java version: 8 
+763  [JavaFX Application Thread] DEBUG i.n.util.internal.PlatformDependent - [Slf4JLogger.java:76] -Dio.netty.noUnsafe: false 
+763  [JavaFX Application Thread] DEBUG i.n.util.internal.PlatformDependent - [Slf4JLogger.java:76] sun.misc.Unsafe: available 
+764  [JavaFX Application Thread] DEBUG i.n.util.internal.PlatformDependent - [Slf4JLogger.java:76] -Dio.netty.noJavassist: false 
+764  [JavaFX Application Thread] DEBUG i.n.util.internal.PlatformDependent - [Slf4JLogger.java:71] Javassist: unavailable 
+765  [JavaFX Application Thread] DEBUG i.n.util.internal.PlatformDependent - [Slf4JLogger.java:71] You don't have Javassist in your class path or you don't have enough permission to load dynamically generated classes.  Please check the configuration for better performance. 
+765  [JavaFX Application Thread] DEBUG i.n.util.internal.PlatformDependent - [Slf4JLogger.java:76] -Dio.netty.tmpdir: /tmp (java.io.tmpdir) 
+765  [JavaFX Application Thread] DEBUG i.n.util.internal.PlatformDependent - [Slf4JLogger.java:76] -Dio.netty.bitMode: 64 (sun.arch.data.model) 
+765  [JavaFX Application Thread] DEBUG i.n.util.internal.PlatformDependent - [Slf4JLogger.java:76] -Dio.netty.noPreferDirect: false 
+766  [JavaFX Application Thread] DEBUG io.netty.channel.nio.NioEventLoop - [Slf4JLogger.java:76] -Dio.netty.noKeySetOptimization: false 
+766  [JavaFX Application Thread] DEBUG io.netty.channel.nio.NioEventLoop - [Slf4JLogger.java:76] -Dio.netty.selectorAutoRebuildThreshold: 512 
+1711 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:568] GUI Heartbeat: 2 
+2712 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:568] GUI Heartbeat: 3 
+3712 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:568] GUI Heartbeat: 4 
+4711 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:568] GUI Heartbeat: 5 
+5711 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:568] GUI Heartbeat: 6 
+6711 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:568] GUI Heartbeat: 7 
+7711 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:568] GUI Heartbeat: 8 
+8711 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:568] GUI Heartbeat: 9 
+9711 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:568] GUI Heartbeat: 10 
+10712 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:568] GUI Heartbeat: 11 
+10777 [pool-2-thread-2] DEBUG SolarTracer.networking.SolarServer - [SolarServer.java:59] Starting CommServer. 
+10786 [pool-2-thread-2] DEBUG i.n.util.internal.ThreadLocalRandom - [Slf4JLogger.java:71] -Dio.netty.initialSeedUniquifier: 0xda23009bd7bbdac0 (took 17 ms) 
+10916 [pool-2-thread-2] DEBUG io.netty.buffer.AbstractByteBuf - [Slf4JLogger.java:81] -Dio.netty.buffer.bytebuf.checkAccessible: true 
+10918 [pool-2-thread-2] DEBUG io.netty.util.ResourceLeakDetector - [Slf4JLogger.java:81] -Dio.netty.leakDetection.level: simple 
+10918 [pool-2-thread-2] DEBUG io.netty.util.ResourceLeakDetector - [Slf4JLogger.java:81] -Dio.netty.leakDetection.maxRecords: 4 
+10931 [pool-2-thread-2] DEBUG i.n.buffer.PooledByteBufAllocator - [Slf4JLogger.java:76] -Dio.netty.allocator.numHeapArenas: 8 
+10931 [pool-2-thread-2] DEBUG i.n.buffer.PooledByteBufAllocator - [Slf4JLogger.java:76] -Dio.netty.allocator.numDirectArenas: 8 
+10931 [pool-2-thread-2] DEBUG i.n.buffer.PooledByteBufAllocator - [Slf4JLogger.java:76] -Dio.netty.allocator.pageSize: 8192 
+10932 [pool-2-thread-2] DEBUG i.n.buffer.PooledByteBufAllocator - [Slf4JLogger.java:76] -Dio.netty.allocator.maxOrder: 11 
+10932 [pool-2-thread-2] DEBUG i.n.buffer.PooledByteBufAllocator - [Slf4JLogger.java:76] -Dio.netty.allocator.chunkSize: 16777216 
+10932 [pool-2-thread-2] DEBUG i.n.buffer.PooledByteBufAllocator - [Slf4JLogger.java:76] -Dio.netty.allocator.tinyCacheSize: 512 
+10932 [pool-2-thread-2] DEBUG i.n.buffer.PooledByteBufAllocator - [Slf4JLogger.java:76] -Dio.netty.allocator.smallCacheSize: 256 
+10932 [pool-2-thread-2] DEBUG i.n.buffer.PooledByteBufAllocator - [Slf4JLogger.java:76] -Dio.netty.allocator.normalCacheSize: 64 
+10932 [pool-2-thread-2] DEBUG i.n.buffer.PooledByteBufAllocator - [Slf4JLogger.java:76] -Dio.netty.allocator.maxCachedBufferCapacity: 32768 
+10932 [pool-2-thread-2] DEBUG i.n.buffer.PooledByteBufAllocator - [Slf4JLogger.java:76] -Dio.netty.allocator.cacheTrimInterval: 8192 
+10939 [pool-2-thread-2] DEBUG io.netty.buffer.ByteBufUtil - [Slf4JLogger.java:76] -Dio.netty.allocator.type: pooled 
+10939 [pool-2-thread-2] DEBUG io.netty.buffer.ByteBufUtil - [Slf4JLogger.java:76] -Dio.netty.threadLocalDirectBufferSize: 65536 
+10939 [pool-2-thread-2] DEBUG io.netty.buffer.ByteBufUtil - [Slf4JLogger.java:76] -Dio.netty.maxThreadLocalCharBufferSize: 16384 
+10941 [pool-2-thread-2] DEBUG io.netty.util.internal.Cleaner0 - [Slf4JLogger.java:76] java.nio.ByteBuffer.cleaner(): available 
+10958 [pool-2-thread-2] DEBUG io.netty.handler.ssl.OpenSsl - [Slf4JLogger.java:71] netty-tcnative not in the classpath; OpenSslEngine will be unavailable. 
+11178 [pool-2-thread-2] DEBUG io.netty.handler.ssl.JdkSslContext - [Slf4JLogger.java:76] Default protocols (JDK): [TLSv1.2, TLSv1.1, TLSv1]  
+11179 [pool-2-thread-2] DEBUG io.netty.handler.ssl.JdkSslContext - [Slf4JLogger.java:76] Default cipher suites (JDK): [TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256, TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA, TLS_RSA_WITH_AES_128_GCM_SHA256, TLS_RSA_WITH_AES_128_CBC_SHA, SSL_RSA_WITH_3DES_EDE_CBC_SHA] 
+11216 [pool-2-thread-2] DEBUG io.netty.channel.DefaultChannelId - [Slf4JLogger.java:76] -Dio.netty.processId: 9251 (auto-detected) 
+11218 [pool-2-thread-2] DEBUG io.netty.util.NetUtil - [Slf4JLogger.java:86] Loopback interface: lo (lo, 0:0:0:0:0:0:0:1%lo) 
+11219 [pool-2-thread-2] DEBUG io.netty.util.NetUtil - [Slf4JLogger.java:81] /proc/sys/net/core/somaxconn: 128 
+11220 [pool-2-thread-2] DEBUG io.netty.channel.DefaultChannelId - [Slf4JLogger.java:76] -Dio.netty.machineId: 00:13:ef:ff:fe:ba:00:06 (auto-detected) 
+11262 [nioEventLoopGroup-2-1] INFO  i.n.handler.logging.LoggingHandler - [Slf4JLogger.java:101] [id: 0x78c89462] REGISTERED 
+11262 [nioEventLoopGroup-2-1] INFO  i.n.handler.logging.LoggingHandler - [Slf4JLogger.java:101] [id: 0x78c89462] BIND: 0.0.0.0/0.0.0.0:55555 
+11264 [nioEventLoopGroup-2-1] INFO  i.n.handler.logging.LoggingHandler - [Slf4JLogger.java:101] [id: 0x78c89462, L:/0:0:0:0:0:0:0:0:55555] ACTIVE 
+11711 [pool-2-thread-3] DEBUG SolarTracer.gui.GuiController - [GuiController.java:568] GUI Heartbeat: 12 
+12718 [pool-2-thread-3] DEBUG SolarTracer.gui.GuiController - [GuiController.java:568] GUI Heartbeat: 13 
+13711 [pool-2-thread-3] DEBUG SolarTracer.gui.GuiController - [GuiController.java:568] GUI Heartbeat: 14 
+14711 [pool-2-thread-3] DEBUG SolarTracer.gui.GuiController - [GuiController.java:568] GUI Heartbeat: 15 
+15711 [pool-2-thread-3] DEBUG SolarTracer.gui.GuiController - [GuiController.java:568] GUI Heartbeat: 16 
+16712 [pool-2-thread-3] DEBUG SolarTracer.gui.GuiController - [GuiController.java:568] GUI Heartbeat: 17 
+17712 [pool-2-thread-3] DEBUG SolarTracer.gui.GuiController - [GuiController.java:568] GUI Heartbeat: 18 
+18712 [pool-2-thread-3] DEBUG SolarTracer.gui.GuiController - [GuiController.java:568] GUI Heartbeat: 19 
+19711 [pool-2-thread-3] DEBUG SolarTracer.gui.GuiController - [GuiController.java:568] GUI Heartbeat: 20 
+20711 [pool-2-thread-3] DEBUG SolarTracer.gui.GuiController - [GuiController.java:568] GUI Heartbeat: 21 
+21711 [pool-2-thread-3] DEBUG SolarTracer.gui.GuiController - [GuiController.java:568] GUI Heartbeat: 22 
+22711 [pool-2-thread-3] DEBUG SolarTracer.gui.GuiController - [GuiController.java:568] GUI Heartbeat: 23 
+23711 [pool-2-thread-3] DEBUG SolarTracer.gui.GuiController - [GuiController.java:568] GUI Heartbeat: 24 
+24711 [pool-2-thread-3] DEBUG SolarTracer.gui.GuiController - [GuiController.java:568] GUI Heartbeat: 25 
+25711 [pool-2-thread-3] DEBUG SolarTracer.gui.GuiController - [GuiController.java:568] GUI Heartbeat: 26 
+26711 [pool-2-thread-3] DEBUG SolarTracer.gui.GuiController - [GuiController.java:568] GUI Heartbeat: 27 
+27711 [pool-2-thread-3] DEBUG SolarTracer.gui.GuiController - [GuiController.java:568] GUI Heartbeat: 28 
+28711 [pool-2-thread-3] DEBUG SolarTracer.gui.GuiController - [GuiController.java:568] GUI Heartbeat: 29 
+29711 [pool-2-thread-3] DEBUG SolarTracer.gui.GuiController - [GuiController.java:568] GUI Heartbeat: 30 
+30711 [pool-2-thread-3] DEBUG SolarTracer.gui.GuiController - [GuiController.java:568] GUI Heartbeat: 31 
+31711 [pool-2-thread-3] DEBUG SolarTracer.gui.GuiController - [GuiController.java:568] GUI Heartbeat: 32 
+32711 [pool-2-thread-3] DEBUG SolarTracer.gui.GuiController - [GuiController.java:568] GUI Heartbeat: 33 
+33711 [pool-2-thread-3] DEBUG SolarTracer.gui.GuiController - [GuiController.java:568] GUI Heartbeat: 34 
+34712 [pool-2-thread-3] DEBUG SolarTracer.gui.GuiController - [GuiController.java:568] GUI Heartbeat: 35 
+35711 [pool-2-thread-3] DEBUG SolarTracer.gui.GuiController - [GuiController.java:568] GUI Heartbeat: 36 
+36712 [pool-2-thread-3] DEBUG SolarTracer.gui.GuiController - [GuiController.java:568] GUI Heartbeat: 37 
+37712 [pool-2-thread-3] DEBUG SolarTracer.gui.GuiController - [GuiController.java:568] GUI Heartbeat: 38 
+38712 [pool-2-thread-3] DEBUG SolarTracer.gui.GuiController - [GuiController.java:568] GUI Heartbeat: 39 
+39712 [pool-2-thread-3] DEBUG SolarTracer.gui.GuiController - [GuiController.java:568] GUI Heartbeat: 40 
+40711 [pool-2-thread-3] DEBUG SolarTracer.gui.GuiController - [GuiController.java:568] GUI Heartbeat: 41 
+41712 [pool-2-thread-3] DEBUG SolarTracer.gui.GuiController - [GuiController.java:568] GUI Heartbeat: 42 
+42712 [pool-2-thread-3] DEBUG SolarTracer.gui.GuiController - [GuiController.java:568] GUI Heartbeat: 43 
+43712 [pool-2-thread-3] DEBUG SolarTracer.gui.GuiController - [GuiController.java:568] GUI Heartbeat: 44 
+44712 [pool-2-thread-3] DEBUG SolarTracer.gui.GuiController - [GuiController.java:568] GUI Heartbeat: 45 
+45712 [pool-2-thread-3] DEBUG SolarTracer.gui.GuiController - [GuiController.java:568] GUI Heartbeat: 46 
+46712 [pool-2-thread-3] DEBUG SolarTracer.gui.GuiController - [GuiController.java:568] GUI Heartbeat: 47 
+47711 [pool-2-thread-3] DEBUG SolarTracer.gui.GuiController - [GuiController.java:568] GUI Heartbeat: 48 
+48712 [pool-2-thread-3] DEBUG SolarTracer.gui.GuiController - [GuiController.java:568] GUI Heartbeat: 49 
+49711 [pool-2-thread-3] DEBUG SolarTracer.gui.GuiController - [GuiController.java:568] GUI Heartbeat: 50 
+50712 [pool-2-thread-3] DEBUG SolarTracer.gui.GuiController - [GuiController.java:568] GUI Heartbeat: 51 
+51711 [pool-2-thread-3] DEBUG SolarTracer.gui.GuiController - [GuiController.java:568] GUI Heartbeat: 52 
+52712 [pool-2-thread-3] DEBUG SolarTracer.gui.GuiController - [GuiController.java:568] GUI Heartbeat: 53 
+52926 [JavaFX Application Thread] DEBUG SolarTracer.gui.GuiController - [GuiController.java:448] Shutting down... 
+#logback.classic pattern: %-4relative [%thread] %-5level %logger{35} - [%file:%line] %msg %n
+705  [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 1 
+725  [JavaFX Application Thread] DEBUG i.n.u.i.l.InternalLoggerFactory - [Slf4JLogger.java:71] Using SLF4J as the default logging framework 
+729  [JavaFX Application Thread] DEBUG i.n.c.MultithreadEventLoopGroup - [Slf4JLogger.java:76] -Dio.netty.eventLoopThreads: 8 
+754  [JavaFX Application Thread] DEBUG i.n.u.internal.PlatformDependent0 - [Slf4JLogger.java:76] java.nio.Buffer.address: available 
+754  [JavaFX Application Thread] DEBUG i.n.u.internal.PlatformDependent0 - [Slf4JLogger.java:76] sun.misc.Unsafe.theUnsafe: available 
+755  [JavaFX Application Thread] DEBUG i.n.u.internal.PlatformDependent0 - [Slf4JLogger.java:71] sun.misc.Unsafe.copyMemory: available 
+755  [JavaFX Application Thread] DEBUG i.n.u.internal.PlatformDependent0 - [Slf4JLogger.java:76] java.nio.Bits.unaligned: true 
+757  [JavaFX Application Thread] DEBUG i.n.util.internal.PlatformDependent - [Slf4JLogger.java:76] Java version: 8 
+757  [JavaFX Application Thread] DEBUG i.n.util.internal.PlatformDependent - [Slf4JLogger.java:76] -Dio.netty.noUnsafe: false 
+757  [JavaFX Application Thread] DEBUG i.n.util.internal.PlatformDependent - [Slf4JLogger.java:76] sun.misc.Unsafe: available 
+758  [JavaFX Application Thread] DEBUG i.n.util.internal.PlatformDependent - [Slf4JLogger.java:76] -Dio.netty.noJavassist: false 
+759  [JavaFX Application Thread] DEBUG i.n.util.internal.PlatformDependent - [Slf4JLogger.java:71] Javassist: unavailable 
+759  [JavaFX Application Thread] DEBUG i.n.util.internal.PlatformDependent - [Slf4JLogger.java:71] You don't have Javassist in your class path or you don't have enough permission to load dynamically generated classes.  Please check the configuration for better performance. 
+759  [JavaFX Application Thread] DEBUG i.n.util.internal.PlatformDependent - [Slf4JLogger.java:76] -Dio.netty.tmpdir: /tmp (java.io.tmpdir) 
+759  [JavaFX Application Thread] DEBUG i.n.util.internal.PlatformDependent - [Slf4JLogger.java:76] -Dio.netty.bitMode: 64 (sun.arch.data.model) 
+760  [JavaFX Application Thread] DEBUG i.n.util.internal.PlatformDependent - [Slf4JLogger.java:76] -Dio.netty.noPreferDirect: false 
+760  [JavaFX Application Thread] DEBUG io.netty.channel.nio.NioEventLoop - [Slf4JLogger.java:76] -Dio.netty.noKeySetOptimization: false 
+760  [JavaFX Application Thread] DEBUG io.netty.channel.nio.NioEventLoop - [Slf4JLogger.java:76] -Dio.netty.selectorAutoRebuildThreshold: 512 
+1699 [pool-2-thread-2] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 2 
+2699 [pool-2-thread-3] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 3 
+3699 [pool-2-thread-3] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 4 
+4699 [pool-2-thread-3] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 5 
+5699 [pool-2-thread-3] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 6 
+6699 [pool-2-thread-3] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 7 
+7699 [pool-2-thread-3] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 8 
+8699 [pool-2-thread-3] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 9 
+9699 [pool-2-thread-3] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 10 
+10699 [pool-2-thread-3] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 11 
+10768 [pool-2-thread-2] DEBUG SolarTracer.networking.SolarServer - [SolarServer.java:60] Starting CommServer. 
+10778 [pool-2-thread-2] DEBUG i.n.util.internal.ThreadLocalRandom - [Slf4JLogger.java:71] -Dio.netty.initialSeedUniquifier: 0x6493ccc57f67cf02 (took 18 ms) 
+11017 [pool-2-thread-2] DEBUG io.netty.buffer.AbstractByteBuf - [Slf4JLogger.java:81] -Dio.netty.buffer.bytebuf.checkAccessible: true 
+11018 [pool-2-thread-2] DEBUG io.netty.util.ResourceLeakDetector - [Slf4JLogger.java:81] -Dio.netty.leakDetection.level: simple 
+11019 [pool-2-thread-2] DEBUG io.netty.util.ResourceLeakDetector - [Slf4JLogger.java:81] -Dio.netty.leakDetection.maxRecords: 4 
+11029 [pool-2-thread-2] DEBUG i.n.buffer.PooledByteBufAllocator - [Slf4JLogger.java:76] -Dio.netty.allocator.numHeapArenas: 8 
+11029 [pool-2-thread-2] DEBUG i.n.buffer.PooledByteBufAllocator - [Slf4JLogger.java:76] -Dio.netty.allocator.numDirectArenas: 8 
+11030 [pool-2-thread-2] DEBUG i.n.buffer.PooledByteBufAllocator - [Slf4JLogger.java:76] -Dio.netty.allocator.pageSize: 8192 
+11030 [pool-2-thread-2] DEBUG i.n.buffer.PooledByteBufAllocator - [Slf4JLogger.java:76] -Dio.netty.allocator.maxOrder: 11 
+11030 [pool-2-thread-2] DEBUG i.n.buffer.PooledByteBufAllocator - [Slf4JLogger.java:76] -Dio.netty.allocator.chunkSize: 16777216 
+11030 [pool-2-thread-2] DEBUG i.n.buffer.PooledByteBufAllocator - [Slf4JLogger.java:76] -Dio.netty.allocator.tinyCacheSize: 512 
+11030 [pool-2-thread-2] DEBUG i.n.buffer.PooledByteBufAllocator - [Slf4JLogger.java:76] -Dio.netty.allocator.smallCacheSize: 256 
+11030 [pool-2-thread-2] DEBUG i.n.buffer.PooledByteBufAllocator - [Slf4JLogger.java:76] -Dio.netty.allocator.normalCacheSize: 64 
+11030 [pool-2-thread-2] DEBUG i.n.buffer.PooledByteBufAllocator - [Slf4JLogger.java:76] -Dio.netty.allocator.maxCachedBufferCapacity: 32768 
+11031 [pool-2-thread-2] DEBUG i.n.buffer.PooledByteBufAllocator - [Slf4JLogger.java:76] -Dio.netty.allocator.cacheTrimInterval: 8192 
+11037 [pool-2-thread-2] DEBUG io.netty.buffer.ByteBufUtil - [Slf4JLogger.java:76] -Dio.netty.allocator.type: pooled 
+11038 [pool-2-thread-2] DEBUG io.netty.buffer.ByteBufUtil - [Slf4JLogger.java:76] -Dio.netty.threadLocalDirectBufferSize: 65536 
+11038 [pool-2-thread-2] DEBUG io.netty.buffer.ByteBufUtil - [Slf4JLogger.java:76] -Dio.netty.maxThreadLocalCharBufferSize: 16384 
+11039 [pool-2-thread-2] DEBUG io.netty.util.internal.Cleaner0 - [Slf4JLogger.java:76] java.nio.ByteBuffer.cleaner(): available 
+11055 [pool-2-thread-2] DEBUG io.netty.handler.ssl.OpenSsl - [Slf4JLogger.java:71] netty-tcnative not in the classpath; OpenSslEngine will be unavailable. 
+11276 [pool-2-thread-2] DEBUG io.netty.handler.ssl.JdkSslContext - [Slf4JLogger.java:76] Default protocols (JDK): [TLSv1.2, TLSv1.1, TLSv1]  
+11276 [pool-2-thread-2] DEBUG io.netty.handler.ssl.JdkSslContext - [Slf4JLogger.java:76] Default cipher suites (JDK): [TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256, TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA, TLS_RSA_WITH_AES_128_GCM_SHA256, TLS_RSA_WITH_AES_128_CBC_SHA, SSL_RSA_WITH_3DES_EDE_CBC_SHA] 
+11303 [pool-2-thread-2] DEBUG io.netty.channel.DefaultChannelId - [Slf4JLogger.java:76] -Dio.netty.processId: 9561 (auto-detected) 
+11306 [pool-2-thread-2] DEBUG io.netty.util.NetUtil - [Slf4JLogger.java:86] Loopback interface: lo (lo, 0:0:0:0:0:0:0:1%lo) 
+11307 [pool-2-thread-2] DEBUG io.netty.util.NetUtil - [Slf4JLogger.java:81] /proc/sys/net/core/somaxconn: 128 
+11308 [pool-2-thread-2] DEBUG io.netty.channel.DefaultChannelId - [Slf4JLogger.java:76] -Dio.netty.machineId: 00:13:ef:ff:fe:ba:00:06 (auto-detected) 
+11339 [nioEventLoopGroup-2-1] INFO  i.n.handler.logging.LoggingHandler - [Slf4JLogger.java:101] [id: 0x6156a7cc] REGISTERED 
+11341 [nioEventLoopGroup-2-1] INFO  i.n.handler.logging.LoggingHandler - [Slf4JLogger.java:101] [id: 0x6156a7cc] BIND: 0.0.0.0/0.0.0.0:55555 
+11342 [nioEventLoopGroup-2-1] INFO  i.n.handler.logging.LoggingHandler - [Slf4JLogger.java:101] [id: 0x6156a7cc] CLOSE 
+11344 [nioEventLoopGroup-2-1] INFO  i.n.handler.logging.LoggingHandler - [Slf4JLogger.java:101] [id: 0x6156a7cc] UNREGISTERED 
+11699 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 12 
+12699 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 13 
+13699 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 14 
+14699 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 15 
+15706 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 16 
+16699 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 17 
+17699 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 18 
+18699 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 19 
+19699 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 20 
+20699 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 21 
+21699 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 22 
+22699 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 23 
+23699 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 24 
+24699 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 25 
+25699 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 26 
+26699 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 27 
+27699 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 28 
+28699 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 29 
+29699 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 30 
+30699 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 31 
+31699 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 32 
+32699 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 33 
+33699 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 34 
+34699 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 35 
+35699 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 36 
+36699 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 37 
+37699 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 38 
+38699 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 39 
+39699 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 40 
+39740 [JavaFX Application Thread] DEBUG SolarTracer.gui.GuiController - [GuiController.java:452] Shutting down... 
+#logback.classic pattern: %-4relative [%thread] %-5level %logger{35} - [%file:%line] %msg %n
+652  [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 1 
+657  [JavaFX Application Thread] DEBUG i.n.u.i.l.InternalLoggerFactory - [Slf4JLogger.java:71] Using SLF4J as the default logging framework 
+661  [JavaFX Application Thread] DEBUG i.n.c.MultithreadEventLoopGroup - [Slf4JLogger.java:76] -Dio.netty.eventLoopThreads: 8 
+687  [JavaFX Application Thread] DEBUG i.n.u.internal.PlatformDependent0 - [Slf4JLogger.java:76] java.nio.Buffer.address: available 
+687  [JavaFX Application Thread] DEBUG i.n.u.internal.PlatformDependent0 - [Slf4JLogger.java:76] sun.misc.Unsafe.theUnsafe: available 
+688  [JavaFX Application Thread] DEBUG i.n.u.internal.PlatformDependent0 - [Slf4JLogger.java:71] sun.misc.Unsafe.copyMemory: available 
+688  [JavaFX Application Thread] DEBUG i.n.u.internal.PlatformDependent0 - [Slf4JLogger.java:76] java.nio.Bits.unaligned: true 
+690  [JavaFX Application Thread] DEBUG i.n.util.internal.PlatformDependent - [Slf4JLogger.java:76] Java version: 8 
+690  [JavaFX Application Thread] DEBUG i.n.util.internal.PlatformDependent - [Slf4JLogger.java:76] -Dio.netty.noUnsafe: false 
+690  [JavaFX Application Thread] DEBUG i.n.util.internal.PlatformDependent - [Slf4JLogger.java:76] sun.misc.Unsafe: available 
+691  [JavaFX Application Thread] DEBUG i.n.util.internal.PlatformDependent - [Slf4JLogger.java:76] -Dio.netty.noJavassist: false 
+691  [JavaFX Application Thread] DEBUG i.n.util.internal.PlatformDependent - [Slf4JLogger.java:71] Javassist: unavailable 
+692  [JavaFX Application Thread] DEBUG i.n.util.internal.PlatformDependent - [Slf4JLogger.java:71] You don't have Javassist in your class path or you don't have enough permission to load dynamically generated classes.  Please check the configuration for better performance. 
+692  [JavaFX Application Thread] DEBUG i.n.util.internal.PlatformDependent - [Slf4JLogger.java:76] -Dio.netty.tmpdir: /tmp (java.io.tmpdir) 
+692  [JavaFX Application Thread] DEBUG i.n.util.internal.PlatformDependent - [Slf4JLogger.java:76] -Dio.netty.bitMode: 64 (sun.arch.data.model) 
+692  [JavaFX Application Thread] DEBUG i.n.util.internal.PlatformDependent - [Slf4JLogger.java:76] -Dio.netty.noPreferDirect: false 
+693  [JavaFX Application Thread] DEBUG io.netty.channel.nio.NioEventLoop - [Slf4JLogger.java:76] -Dio.netty.noKeySetOptimization: false 
+693  [JavaFX Application Thread] DEBUG io.netty.channel.nio.NioEventLoop - [Slf4JLogger.java:76] -Dio.netty.selectorAutoRebuildThreshold: 512 
+1646 [pool-2-thread-1] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 2 
+2646 [pool-2-thread-3] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 3 
+3646 [pool-2-thread-3] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 4 
+4646 [pool-2-thread-3] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 5 
+5646 [pool-2-thread-3] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 6 
+6646 [pool-2-thread-3] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 7 
+7646 [pool-2-thread-3] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 8 
+8646 [pool-2-thread-3] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 9 
+9646 [pool-2-thread-3] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 10 
+10646 [pool-2-thread-3] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 11 
+10700 [pool-2-thread-1] DEBUG SolarTracer.networking.SolarServer - [SolarServer.java:60] Starting SolarServer. 
+10710 [pool-2-thread-1] DEBUG i.n.util.internal.ThreadLocalRandom - [Slf4JLogger.java:71] -Dio.netty.initialSeedUniquifier: 0x1cca12607a2efd57 (took 16 ms) 
+10884 [pool-2-thread-1] DEBUG io.netty.buffer.AbstractByteBuf - [Slf4JLogger.java:81] -Dio.netty.buffer.bytebuf.checkAccessible: true 
+10886 [pool-2-thread-1] DEBUG io.netty.util.ResourceLeakDetector - [Slf4JLogger.java:81] -Dio.netty.leakDetection.level: simple 
+10886 [pool-2-thread-1] DEBUG io.netty.util.ResourceLeakDetector - [Slf4JLogger.java:81] -Dio.netty.leakDetection.maxRecords: 4 
+10896 [pool-2-thread-1] DEBUG i.n.buffer.PooledByteBufAllocator - [Slf4JLogger.java:76] -Dio.netty.allocator.numHeapArenas: 8 
+10896 [pool-2-thread-1] DEBUG i.n.buffer.PooledByteBufAllocator - [Slf4JLogger.java:76] -Dio.netty.allocator.numDirectArenas: 8 
+10897 [pool-2-thread-1] DEBUG i.n.buffer.PooledByteBufAllocator - [Slf4JLogger.java:76] -Dio.netty.allocator.pageSize: 8192 
+10897 [pool-2-thread-1] DEBUG i.n.buffer.PooledByteBufAllocator - [Slf4JLogger.java:76] -Dio.netty.allocator.maxOrder: 11 
+10897 [pool-2-thread-1] DEBUG i.n.buffer.PooledByteBufAllocator - [Slf4JLogger.java:76] -Dio.netty.allocator.chunkSize: 16777216 
+10897 [pool-2-thread-1] DEBUG i.n.buffer.PooledByteBufAllocator - [Slf4JLogger.java:76] -Dio.netty.allocator.tinyCacheSize: 512 
+10897 [pool-2-thread-1] DEBUG i.n.buffer.PooledByteBufAllocator - [Slf4JLogger.java:76] -Dio.netty.allocator.smallCacheSize: 256 
+10897 [pool-2-thread-1] DEBUG i.n.buffer.PooledByteBufAllocator - [Slf4JLogger.java:76] -Dio.netty.allocator.normalCacheSize: 64 
+10898 [pool-2-thread-1] DEBUG i.n.buffer.PooledByteBufAllocator - [Slf4JLogger.java:76] -Dio.netty.allocator.maxCachedBufferCapacity: 32768 
+10898 [pool-2-thread-1] DEBUG i.n.buffer.PooledByteBufAllocator - [Slf4JLogger.java:76] -Dio.netty.allocator.cacheTrimInterval: 8192 
+10904 [pool-2-thread-1] DEBUG io.netty.buffer.ByteBufUtil - [Slf4JLogger.java:76] -Dio.netty.allocator.type: pooled 
+10905 [pool-2-thread-1] DEBUG io.netty.buffer.ByteBufUtil - [Slf4JLogger.java:76] -Dio.netty.threadLocalDirectBufferSize: 65536 
+10905 [pool-2-thread-1] DEBUG io.netty.buffer.ByteBufUtil - [Slf4JLogger.java:76] -Dio.netty.maxThreadLocalCharBufferSize: 16384 
+10906 [pool-2-thread-1] DEBUG io.netty.util.internal.Cleaner0 - [Slf4JLogger.java:76] java.nio.ByteBuffer.cleaner(): available 
+10923 [pool-2-thread-1] DEBUG io.netty.handler.ssl.OpenSsl - [Slf4JLogger.java:71] netty-tcnative not in the classpath; OpenSslEngine will be unavailable. 
+11155 [pool-2-thread-1] DEBUG io.netty.handler.ssl.JdkSslContext - [Slf4JLogger.java:76] Default protocols (JDK): [TLSv1.2, TLSv1.1, TLSv1]  
+11156 [pool-2-thread-1] DEBUG io.netty.handler.ssl.JdkSslContext - [Slf4JLogger.java:76] Default cipher suites (JDK): [TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256, TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA, TLS_RSA_WITH_AES_128_GCM_SHA256, TLS_RSA_WITH_AES_128_CBC_SHA, SSL_RSA_WITH_3DES_EDE_CBC_SHA] 
+11181 [pool-2-thread-1] DEBUG io.netty.channel.DefaultChannelId - [Slf4JLogger.java:76] -Dio.netty.processId: 9649 (auto-detected) 
+11184 [pool-2-thread-1] DEBUG io.netty.util.NetUtil - [Slf4JLogger.java:86] Loopback interface: lo (lo, 0:0:0:0:0:0:0:1%lo) 
+11185 [pool-2-thread-1] DEBUG io.netty.util.NetUtil - [Slf4JLogger.java:81] /proc/sys/net/core/somaxconn: 128 
+11186 [pool-2-thread-1] DEBUG io.netty.channel.DefaultChannelId - [Slf4JLogger.java:76] -Dio.netty.machineId: 00:13:ef:ff:fe:ba:00:06 (auto-detected) 
+11216 [nioEventLoopGroup-2-1] INFO  i.n.handler.logging.LoggingHandler - [Slf4JLogger.java:101] [id: 0xbeeff0fd] REGISTERED 
+11216 [nioEventLoopGroup-2-1] INFO  i.n.handler.logging.LoggingHandler - [Slf4JLogger.java:101] [id: 0xbeeff0fd] BIND: 0.0.0.0/0.0.0.0:55555 
+11218 [nioEventLoopGroup-2-1] INFO  i.n.handler.logging.LoggingHandler - [Slf4JLogger.java:101] [id: 0xbeeff0fd] CLOSE 
+11219 [nioEventLoopGroup-2-1] INFO  i.n.handler.logging.LoggingHandler - [Slf4JLogger.java:101] [id: 0xbeeff0fd] UNREGISTERED 
+11646 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 12 
+12646 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 13 
+13646 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 14 
+14646 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 15 
+15646 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 16 
+16654 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 17 
+17646 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 18 
+18646 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 19 
+19646 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 20 
+20646 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 21 
+21646 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 22 
+22646 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 23 
+23646 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 24 
+24646 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 25 
+25646 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 26 
+26646 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 27 
+27646 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 28 
+28646 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 29 
+29646 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 30 
+30646 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 31 
+31646 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 32 
+32646 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 33 
+33646 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 34 
+34646 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 35 
+35646 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 36 
+36646 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 37 
+37646 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 38 
+38646 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 39 
+39646 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 40 
+40646 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 41 
+41646 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 42 
+42646 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 43 
+43646 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 44 
+44646 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 45 
+45646 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 46 
+46646 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 47 
+47646 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 48 
+48646 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 49 
+49646 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 50 
+50646 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 51 
+51646 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 52 
+52646 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 53 
+53646 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 54 
+54646 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 55 
+55646 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 56 
+56646 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 57 
+57646 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 58 
+58646 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 59 
+59646 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 60 
+60646 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 61 
+61646 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 62 
+62646 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 63 
+63646 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 64 
+64646 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 65 
+65646 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 66 
+66646 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 67 
+67646 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 68 
+68646 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 69 
+69646 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 70 
+70646 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 71 
+71646 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 72 
+72646 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 73 
+73646 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 74 
+74646 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 75 
+75646 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 76 
+76646 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 77 
+77646 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 78 
+78646 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 79 
+79646 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 80 
+80646 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 81 
+81646 [pool-2-thread-4] DEBUG SolarTracer.gui.GuiController - [GuiController.java:573] GUI Heartbeat: 82 
+82451 [JavaFX Application Thread] DEBUG SolarTracer.gui.GuiController - [GuiController.java:452] Shutting down... 

@@ -10,6 +10,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import SolarTracer.main.Main;
+import SolarTracer.networking.SolarClient;
+import SolarTracer.networking.SolarServer;
 import SolarTracer.utils.Constants;
 import SolarTracer.utils.DatabaseUtils;
 import javafx.application.Platform;
@@ -46,6 +48,14 @@ public class GuiController implements EventHandler<WindowEvent>, SerialPortEvent
 	 */
 	public static final Logger LOGGER = LoggerFactory.getLogger(GuiController.class);
 
+	  
+	/**
+	 * IP Regex.
+	 */
+	private static final String IPADDRESS_PATTERN =
+	    "^([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." + "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\."
+	        + "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." + "([01]?\\d\\d?|2[0-4]\\d|25[0-5])$";
+	
 	/**
 	 * The update sleep time of the arduino device.
 	 */
@@ -355,6 +365,12 @@ public class GuiController implements EventHandler<WindowEvent>, SerialPortEvent
 
 	private boolean isRunning = true;
 
+
+	private SolarClient client;
+
+
+	private SolarServer solarServer;
+
     private void detectPort() {
         portList = FXCollections.observableArrayList();
         String[] serialPortNames = SerialPortList.getPortNames();
@@ -371,9 +387,25 @@ public class GuiController implements EventHandler<WindowEvent>, SerialPortEvent
      */
     @FXML
     protected void connect(final ActionEvent event) {
+    	disconnectArduino();
+    	String ip = ipField.getText();
+        if (ip.matches(IPADDRESS_PATTERN)) {
+          client = new SolarClient(ip, Constants.PORT);
+          LOGGER.debug("Connecting to " + ip);
+          Main.COORDINATOR.submit(client);
+        } else {
+          LOGGER.debug("Cannot connect non valid IP address.");
+        }
+    }
+    
+    protected void disconnect() {
+    	if(client.isConnected()) {
+    		client.shutdown();
+    	}
     }
     
     public boolean connectArduino(final String port) {
+    	disconnect();
     	log("Connecting to Arduino...");
         boolean success = false;
         arduinoPort = new SerialPort(port);
@@ -429,35 +461,40 @@ public class GuiController implements EventHandler<WindowEvent>, SerialPortEvent
 	public void serialEvent(SerialPortEvent serialPortEvent) {
         if(serialPortEvent.isRXCHAR()) {
           try {
-        	  String[] tmp = null;
               String s = arduinoPort.readString(serialPortEvent.getEventValue());
               arduinoPort.writeBytes(ByteBuffer.allocate(4).putInt(arduinoSleepTime).array());
-              if (s.contains(System.lineSeparator())) {
-            	  tmp = s.split(System.lineSeparator());
-            	  if (tmp != null && tmp.length > 0) {
-	                  info.append(tmp[0]);
-	            	  data = info.toString();
-	                  info = new StringBuilder();
-	                  for (int j = 0; j < tmp.length; j++) {
-	                    if (j > 1) {
-	                      info.append(tmp[j]);
-	                      info.append("#");
-	                    }
-	                  }
-	                  data += ":" + new Date(Constants.getCurrentTimeMillis()).getTime();//Add time...
-	                  DatabaseUtils.insertData(data);
-	                  if (data.split(":").length == Constants.DEFAULT_DATA_LENGTH) {
-	                	  updateGraphs(data);
-	                  }
-            	  }
-              } else {
-                  info.append(s);
-              }
+              solarServer.sendMessage(s);
+              submitMessage(s);
           } catch (SerialPortException ex) {
               log("SerialPortException: " + ex.getMessage());
           }
         }
     }
+
+	public void submitMessage(String rawMsg) {
+  	  String[] tmp = null;
+	  if (rawMsg.contains(System.lineSeparator())) {
+        tmp = rawMsg.split(System.lineSeparator());
+        if (tmp != null && tmp.length > 0) {
+          info.append(tmp[0]);
+          data = info.toString();
+          info = new StringBuilder();
+          for (int j = 0; j < tmp.length; j++) {
+            if (j > 1) {
+              info.append(tmp[j]);
+              info.append("#");
+            }
+          }
+          data += ":" + new Date(Constants.getCurrentTimeMillis()).getTime();//Add time...
+          DatabaseUtils.insertData(data);
+          if (data.split(":").length == Constants.DEFAULT_DATA_LENGTH) {
+            updateGraphs(data);
+          }
+      	}
+      } else {
+        info.append(rawMsg);
+      }
+	}
 	
 	private void updateGraphs(String dataPoint) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
@@ -535,6 +572,14 @@ public class GuiController implements EventHandler<WindowEvent>, SerialPortEvent
         }
         LOGGER.debug("GUI Heartbeat: " + clockUpdateCtr);
 	  }
+	}
+
+	/**
+	 * Set the server.
+	 * @param solarServer
+	 */
+	public void setServer(SolarServer solarServer) {
+		this.solarServer = solarServer;
 	}
 }
 

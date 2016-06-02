@@ -101,6 +101,15 @@ public class Constants {
 	 * GUI Update frequency.
 	 */
 	public static final long GUI_SLEEPTIME = 1000;
+
+	public static final int NUM_NIO_THREADS = 1;
+
+	/**
+	 * Application PORT.
+	 */
+	public static final int PORT = 55555;
+
+	public static final String CLOSE_CMD = "CLOSE";
 	
     static {
     	init();

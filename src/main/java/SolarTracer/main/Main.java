@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import SolarTracer.gui.GuiController;
+import SolarTracer.networking.SolarServer;
 import SolarTracer.utils.Constants;
 import SolarTracer.utils.DatabaseUtils;
 import SolarTracer.utils.ShutdownHook;
@@ -41,6 +42,7 @@ public class Main extends Application {
 		    (AnchorPane) fxmlLoader.load(getClass().getResource("/commander.fxml").openStream());
 	    guiController = (SolarTracer.gui.GuiController) fxmlLoader.getController();
 		COORDINATOR.scheduleAtFixedRate(guiController, 0, Constants.GUI_SLEEPTIME, TimeUnit.MILLISECONDS);
+		COORDINATOR.schedule(new SolarServer(guiController), 10, TimeUnit.SECONDS);
 		addHook();
 	    primaryStage.setOnCloseRequest(guiController);
 		Scene myScene = new Scene(myPane);

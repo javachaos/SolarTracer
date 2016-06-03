@@ -65,14 +65,6 @@ float to_float(uint8_t* buffer, int offset) {
   return full / 100.0;
 }
 
-// Calc and add crc bytes to data.
-uint8_t* calc_and_addcrc(uint8_t* data) {
-  uint16_t crc_d = crc(data, data[2] + 5);
-  data[data[2] + 3] = crc_d >> 8;
-  data[data[2] + 4] = crc_d & 0xFF;
-  return data;
-}
-
 // Read sleep time from client application.
 void updateSleepTime(String sleepSpeed) {
   if (sleepSpeed.length() != 5) {//4bytes plus 1 newline
@@ -93,26 +85,30 @@ void updateSleepTime(String sleepSpeed) {
 void manualControlCmd(bool load_onoff) {
   mppt_serial.write(start, sizeof(start));
   uint8_t mcc_data[] = { 0x16,       //DEVICE ID BYTE
-	                     0xAA,       //COMMAND BYTE
-	                     0x01,       //DATA LENGTH
-						 0x00,
-	                     0x00, 0x00, //CRC CODE
-	                     0x7F };     //END BYTE
+	                       0xAA,       //COMMAND BYTE
+	                       0x01,       //DATA LENGTH
+						             0x00,
+						             0x00, 0x00, //CRC CODE
+	                       0x7F };     //END BYTE
   if (load_onoff) {
 	  mcc_data[3] = 1;
   } else {
 	  mcc_data[3] = 0;
   }
+  //Calculate and add CRC bytes.
+  uint16_t crc_d = crc(mcc_data, mcc_data[2] + 5);
+  mcc_data[mcc_data[2] + 3] = crc_d >> 8;
+  mcc_data[mcc_data[2] + 4] = crc_d & 0xFF;
+  //Echo reply over TX.
+  Serial.print("MCC_WRITE:");
   for (int i = 0; i < sizeof(mcc_data); i++) {
-    Serial.print(mcc_data[],HEX);
+    Serial.print(mcc_data[i],HEX);
     if (i < sizeof(mcc_data) - 1) {
-      Serial.print(':');
+      Serial.print(',');
     }
   }
   Serial.println();//
-  //Calculate and add CRC bytes.
-  uint8_t* d = calc_and_addcrc(mcc_data);
-  mppt_serial.write(d, sizeof(d));
+  mppt_serial.write(mcc_data, sizeof(mcc_data));
 }
 
 void printAllData() {

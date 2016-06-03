@@ -193,7 +193,6 @@ void loop() {
     inputString = "";
     stringComplete = false;
   }
-
   delay(speed);
 }
 

@@ -13,8 +13,16 @@ uint8_t start[] = { 0xAA, 0x55, 0xAA, 0x55, 0xAA, 0x55,
 uint8_t input[4];
 char sep = ':';
 
+String inputString = "";         // a string to hold incoming data
+boolean stringComplete = false;  // whether the string is complete
+
 void setup() {
   Serial.begin(57600);
+  while (!Serial) {
+    ; // wait for serial port to connect. Needed for native USB port only
+  }
+  // reserve 200 bytes for the inputString:
+  inputString.reserve(200);
   mppt_serial.begin(9600);
 }
 
@@ -66,22 +74,20 @@ uint8_t* calc_and_addcrc(uint8_t* data) {
 }
 
 // Read sleep time from client application.
-int getSleepTime() {
-  int read = 0;
-  // Read the next 4 bytes from Serial into input buffer.
-  for (int j = 0; j < 4; j++) {
-    if (Serial.available() > 0) {
-      input[read] = Serial.read();
-      read++;
-    }
+void updateSleepTime(String sleepSpeed) {
+  if (sleepSpeed.length() != 5) {//4bytes plus 1 newline
+    return;
   }
 
-  read = (input[0] << 24) | (input[1] << 16) | (input[2] << 8) | input[3];
-  if (read > 86400000 || read < 1000) { // 1 day in milliseconds or 1 second.
-    return speed;
+  char* s = sleepSpeed.c_str();
+  for (int j = 0; j <= 3; j++) {
+      input[j] = s[j];
   }
-  // Convert it into an integer and return it.
-  return read;
+
+  speed = (input[0] << 24) | (input[1] << 16) | (input[2] << 8) | input[3];
+  if (read > 86400000 || read < 1000) { // 1 day in milliseconds or 1 second.
+    speed = 1000;
+  }
 }
 
 void manualControlCmd(bool load_onoff) {
@@ -89,7 +95,7 @@ void manualControlCmd(bool load_onoff) {
   uint8_t mcc_data[] = { 0x16,       //DEVICE ID BYTE
 	                     0xAA,       //COMMAND BYTE
 	                     0x01,       //DATA LENGTH
-						           0x00,
+						 0x00,
 	                     0x00, 0x00, //CRC CODE
 	                     0x7F };     //END BYTE
   if (load_onoff) {
@@ -99,27 +105,6 @@ void manualControlCmd(bool load_onoff) {
   }
   //Calculate and add CRC bytes.
   uint8_t* d = calc_and_addcrc(mcc_data);
-  mppt_serial.write(d, sizeof(d));
-}
-
-//data_len - number of bytes inside data
-//data - the data payload.
-void cpu_send_ctr_data(uint8_t* data, uint8_t data_len) {
-  mppt_serial.write(start, sizeof(start));
-  uint8_t csc_data[data_len + 5];
-
-  csc_data[0] = 0x16;        //DEVICE ID BYTE
-  csc_data[1] = 0xAD;        //COMMAND BYTE
-  csc_data[2] = data_len;    //DATA LENGTH
-  int i;                     //DATA PAYLOAD
-  for(i = 0; i < data_len; i++) {
-    if (i > 2) {
-      csc_data[i + 2] = data[i];
-    }
-  }
-  csc_data[data_len + 4] = 0x7F;//END BYTE
-  //Calculate and add CRC bytes.
-  uint8_t* d = calc_and_addcrc(csc_data);
   mppt_serial.write(d, sizeof(d));
 }
 
@@ -194,8 +179,35 @@ void printAllData() {
 }
 
 void loop() {
-  //manualControlCmd(0);// Send 0 for load off. 1 for load on.
   printAllData();
   Serial.println();
-  delay(getSleepTime());
+  if (stringComplete) {
+    if (inputString == "LON") {
+      manualControlCmd(true);
+    } else if (inputString == "LOFF") {
+      manualControlCmd(false);
+    } else {
+      updateSleepTime(inputString);
+    }
+    // clear the string:
+    inputString = "";
+    stringComplete = false;
+  }
+
+  delay(speed);
+}
+
+void serialEvent() {
+  while (Serial.available()) {
+    // get the new byte:
+    char inChar = (char)Serial.read();
+    // if the incoming character is a newline, set a flag
+    // so the main loop can do something about it:
+    if (inChar != '\n') {
+      // add it to the inputString:
+      inputString += inChar;
+    } else if (inChar == '\n') {
+      stringComplete = true;
+    }
+  }
 }

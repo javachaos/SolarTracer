@@ -3,6 +3,7 @@ package SolarTracer.utils;
 import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
+import java.nio.charset.Charset;
 import java.time.Clock;
 import java.time.Duration;
 import java.util.Date;
@@ -109,6 +110,8 @@ public class Constants {
 	public static final int PORT = 55555;
 
 	public static final String CLOSE_CMD = "CLOSE";
+
+	public static final Charset CHARSET = Charset.forName("UTF-8");
 	
     static {
     	init();

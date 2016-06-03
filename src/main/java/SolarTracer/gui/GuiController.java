@@ -3,6 +3,7 @@ package SolarTracer.gui;
 import static jssc.SerialPort.MASK_RXCHAR;
 
 import java.nio.ByteBuffer;
+import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -423,7 +424,7 @@ public class GuiController implements EventHandler<WindowEvent>, SerialPortEvent
 		} else if (arduinoPort != null && arduinoPort.isOpened()) {
 		//We're connected directly via Serial Port.
 			try {
-				if (arduinoPort.writeString(cmd)) {
+				if (arduinoPort.writeString(cmd + '\n')) {
 					StatusUtils.showGeneralInfo("Command sent successfully.");
 				} else {
 					StatusUtils.showGeneralInfo("Command send failed!");
@@ -520,7 +521,9 @@ public class GuiController implements EventHandler<WindowEvent>, SerialPortEvent
           try {
               String s = arduinoPort.readString(serialPortEvent.getEventValue());
   	          log("Raw: " + s);
-              arduinoPort.writeBytes(ByteBuffer.allocate(4).putInt(arduinoSleepTime).array());
+  	          sendCommand(
+  	        		  new String(ByteBuffer.allocate(4).putInt(arduinoSleepTime).array(),
+  	        				  Constants.CHARSET));
               if (solarServer != null) {
                   solarServer.sendMessage(s);
               }

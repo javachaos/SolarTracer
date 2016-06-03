@@ -13,9 +13,12 @@ import SolarTracer.main.Main;
 import SolarTracer.networking.SolarClient;
 import SolarTracer.networking.SolarServer;
 import SolarTracer.utils.Constants;
+import SolarTracer.utils.DataPoint;
+import SolarTracer.utils.DataUtils;
 import SolarTracer.utils.DatabaseUtils;
 import SolarTracer.utils.ExceptionUtils;
 import SolarTracer.utils.SolarException;
+import SolarTracer.utils.StatusUtils;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -34,6 +37,9 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Toggle;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.control.ToggleGroup;
 import javafx.stage.WindowEvent;
 import javafx.util.StringConverter;
 import jssc.SerialPort;
@@ -174,6 +180,14 @@ public class GuiController implements EventHandler<WindowEvent>, SerialPortEvent
     @FXML
     private Tab chargeCurrentTab;
     
+    @FXML
+    private ToggleButton loadOn;
+    
+    @FXML
+    private ToggleButton loadOff;
+    
+    private ToggleGroup toggleGroup;
+    
     // Graph series
     private Series<String, Float> loadSeries;
 	private Series<String, Float> loadCurrentSeries;
@@ -186,6 +200,7 @@ public class GuiController implements EventHandler<WindowEvent>, SerialPortEvent
     
     @FXML
     void initialize() {
+    	toggleGroup = new ToggleGroup();
         assert loadGraph != null : "fx:id=\"loadGraph\" was not injected: check your FXML file 'commander.fxml'.";
         assert ipField != null : "fx:id=\"ipField\" was not injected: check your FXML file 'commander.fxml'.";
         assert loadCurrentTab != null : "fx:id=\"loadCurrentTab\" was not injected: check your FXML file 'commander.fxml'.";
@@ -211,6 +226,23 @@ public class GuiController implements EventHandler<WindowEvent>, SerialPortEvent
         assert chargingGraph != null : "fx:id=\"chargingGraph\" was not injected: check your FXML file 'commander.fxml'.";
         assert pvVoltLabel != null : "fx:id=\"pvVoltLabel\" was not injected: check your FXML file 'commander.fxml'.";
         assert chargeCurrentTab != null : "fx:id=\"chargeCurrentTab\" was not injected: check your FXML file 'commander.fxml'.";
+
+        loadOn.setToggleGroup(toggleGroup);
+        loadOff.setToggleGroup(toggleGroup);
+
+        loadOn.setUserData("LON");
+        loadOff.setUserData("LOFF");
+        
+        toggleGroup.selectedToggleProperty().addListener(new ChangeListener<Toggle>(){
+            public void changed(ObservableValue<? extends Toggle> ov,
+                Toggle toggle, Toggle new_toggle) {
+                    if (new_toggle == null) {
+                    	log("Toggle is Null.");
+                    } else {
+                    	sendCommand((String)new_toggle.getUserData());
+                    }
+                 }
+        });
 
         batteryLevelNumAxis.setAutoRanging(false);
         batteryLevelNumAxis.setUpperBound(16.0);
@@ -367,9 +399,7 @@ public class GuiController implements EventHandler<WindowEvent>, SerialPortEvent
 
 	private boolean isRunning = true;
 
-
 	private SolarClient client;
-
 
 	private SolarServer solarServer;
 
@@ -381,6 +411,31 @@ public class GuiController implements EventHandler<WindowEvent>, SerialPortEvent
             portList.add(name);
         }
     }
+    
+    /**
+     * Send a command to arduino controller.
+     * @param cmd
+     */
+	public void sendCommand(String cmd) {
+		if (client != null && client.isConnected()) {
+		//We're connected via IP.
+			client.addOutMessage(cmd);
+		} else if (arduinoPort != null && arduinoPort.isOpened()) {
+		//We're connected directly via Serial Port.
+			try {
+				if (arduinoPort.writeString(cmd)) {
+					StatusUtils.showGeneralInfo("Command sent successfully.");
+				} else {
+					StatusUtils.showGeneralInfo("Command send failed!");
+				}
+			} catch (SerialPortException e) {
+				ExceptionUtils.log(getClass(), e);
+			}
+		} else {
+			ExceptionUtils.showAlert("Could not send command, we're not connected.");
+			toggleGroup.selectToggle(null);
+		}
+	}
     
     /**
      * Connect event.
@@ -421,7 +476,6 @@ public class GuiController implements EventHandler<WindowEvent>, SerialPortEvent
                     SerialPort.PARITY_NONE);
         	arduinoPort.setEventsMask(MASK_RXCHAR);
         	arduinoPort.addEventListener(this);
-            
             success = true;
         } catch (SerialPortException ex) {
             ExceptionUtils.log(getClass(), ex);
@@ -445,7 +499,7 @@ public class GuiController implements EventHandler<WindowEvent>, SerialPortEvent
             }
         }
     }
-
+    
 	@Override
 	public void handle(WindowEvent event) {
 		shutdown();
@@ -467,7 +521,9 @@ public class GuiController implements EventHandler<WindowEvent>, SerialPortEvent
               String s = arduinoPort.readString(serialPortEvent.getEventValue());
   	          log("Raw: " + s);
               arduinoPort.writeBytes(ByteBuffer.allocate(4).putInt(arduinoSleepTime).array());
-              solarServer.sendMessage(s);
+              if (solarServer != null) {
+                  solarServer.sendMessage(s);
+              }
               submitMessage(s);
           } catch (SerialPortException ex) {
               ExceptionUtils.log(getClass(), ex);
@@ -501,60 +557,43 @@ public class GuiController implements EventHandler<WindowEvent>, SerialPortEvent
 	}
 	
 	private void updateGraphs(String dataPoint) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 		Platform.runLater(() -> {
-	        String[] d = dataPoint.split(":");
-	        float battery_voltage = Float.parseFloat(d[0]);
-	        float pv_voltage      = Float.parseFloat(d[1]);
-	        float load_current    = Float.parseFloat(d[2]);
-	        float over_discharge  = Float.parseFloat(d[3]);
-	        float battery_max     = Float.parseFloat(d[4]);
-	        float full            = Float.parseFloat(d[5]);
-	        float charging        = Float.parseFloat(d[6]);
-	        float battery_temp    = Float.parseFloat(d[7]);
-	        float charge_current  = Float.parseFloat(d[8]);
-	        float load_onoff      = Float.parseFloat(d[9]);
-	        String time = "";
-			try {
-				time = dateFormat.format(new Date(Long.parseLong(d[10])));
-			} catch (Exception e) {
-	            ExceptionUtils.log(getClass(), e);
-			}
-	        append(loadLabel, load_onoff+"");
-	        append(loadCurrentLabel, load_current+"");
-	        append(battLevelLabel, battery_voltage+"");
-	        append(battFullLabel, full+"");
-	        append(battTempLabel, battery_temp+"");
-	        append(pvVoltLabel, pv_voltage+"");
-	        append(chargingLabel, charging+"");
-	        append(chargeCurrentLabel, charge_current+"");
-	        append(battMaxLabel, battery_max+"");
-	        append(overChargeLabel, over_discharge+"");
-	        loadSeries.getData().add(new XYChart.Data<String, Float>(time, load_onoff));
+			DataPoint d = DataUtils.parseDataPoint(dataPoint);
+	        append(loadLabel, d.getLoadOnoff()+"");
+	        append(loadCurrentLabel, d.getLoadCurrent()+"");
+	        append(battLevelLabel, d.getBatteryVoltage()+"");
+	        append(battFullLabel, d.getBatteryFull()+"");
+	        append(battTempLabel, d.getBatteryTemp()+"");
+	        append(pvVoltLabel, d.getPvVoltage()+"");
+	        append(chargingLabel, d.getCharging()+"");
+	        append(chargeCurrentLabel, d.getChargeCurrent()+"");
+	        append(battMaxLabel, d.getBatteryMax()+"");
+	        append(overChargeLabel, d.getOverDischarge()+"");
+	        loadSeries.getData().add(new XYChart.Data<String, Float>(d.getTimeFormatted(), d.getLoadOnoff()));
 	        if (loadSeries.getData().size() >= Constants.DATA_WINDOW_SIZE) {
 	        	loadSeries.getData().remove(0);//Remove the first element.
 	        }
-	        loadCurrentSeries.getData().add(new XYChart.Data<String, Float>(time, load_current));
+	        loadCurrentSeries.getData().add(new XYChart.Data<String, Float>(d.getTimeFormatted(), d.getLoadCurrent()));
 	        if (loadCurrentSeries.getData().size() >= Constants.DATA_WINDOW_SIZE) {
 	        	loadCurrentSeries.getData().remove(0);//Remove the first element.
 	        }
-	        battLevelSeries.getData().add(new XYChart.Data<String, Float>(time, battery_voltage));
+	        battLevelSeries.getData().add(new XYChart.Data<String, Float>(d.getTimeFormatted(), d.getBatteryVoltage()));
 	        if (battLevelSeries.getData().size() >= Constants.DATA_WINDOW_SIZE) {
 	        	battLevelSeries.getData().remove(0);//Remove the first element.
 	        }
-	        battTempSeries.getData().add(new XYChart.Data<String, Float>(time, battery_temp));
+	        battTempSeries.getData().add(new XYChart.Data<String, Float>(d.getTimeFormatted(), d.getBatteryTemp()));
 	        if (battTempSeries.getData().size() >= Constants.DATA_WINDOW_SIZE) {
 	        	battTempSeries.getData().remove(0);//Remove the first element.
 	        }
-	        pvVoltSeries.getData().add(new XYChart.Data<String, Float>(time, pv_voltage));
+	        pvVoltSeries.getData().add(new XYChart.Data<String, Float>(d.getTimeFormatted(), d.getPvVoltage()));
 	        if (pvVoltSeries.getData().size() >= Constants.DATA_WINDOW_SIZE) {
 	        	pvVoltSeries.getData().remove(0);//Remove the first element.
 	        }
-	        chargingSeries.getData().add(new XYChart.Data<String, Float>(time, charging));
+	        chargingSeries.getData().add(new XYChart.Data<String, Float>(d.getTimeFormatted(), d.getCharging()));
 	        if (chargingSeries.getData().size() >= Constants.DATA_WINDOW_SIZE) {
 	        	chargingSeries.getData().remove(0);//Remove the first element.
 	        }
-	        chargeCurrentSeries.getData().add(new XYChart.Data<String, Float>(time, charge_current));
+	        chargeCurrentSeries.getData().add(new XYChart.Data<String, Float>(d.getTimeFormatted(), d.getChargeCurrent()));
 	        if (chargeCurrentSeries.getData().size() >= Constants.DATA_WINDOW_SIZE) {
 	        	chargeCurrentSeries.getData().remove(0);//Remove the first element.
 	        }
@@ -573,6 +612,9 @@ public class GuiController implements EventHandler<WindowEvent>, SerialPortEvent
           clockUpdateCtr = 0;
           LOGGER.debug("Updating clock.");
           Constants.updateTimeoffset();
+        }
+        if (client != null && client.isConnected()) {
+          submitMessage(client.getNextMessage());
         }
         LOGGER.debug("GUI Heartbeat: " + clockUpdateCtr);
 		} catch (Throwable t1) {

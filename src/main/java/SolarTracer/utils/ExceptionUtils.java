@@ -58,4 +58,12 @@ public class ExceptionUtils {
 		alert.getDialogPane().setExpandableContent(expContent);
 		alert.showAndWait();
 	}
+	
+	/**
+	 * Show an alert dialog.
+	 * @param ex
+	 */
+	public static void showAlert(String msg) {
+		showAlert(new SolarException(msg));
+	}
 }

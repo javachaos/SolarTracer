@@ -86,7 +86,7 @@ public class SolarServer implements Runnable {
 	 * @param msg
 	 */
 	public void handleMessage(String msg) {
-		controller.submitMessage(msg);
+		controller.sendCommand(msg);
 	}
 
 	/**

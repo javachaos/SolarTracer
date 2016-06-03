@@ -62,7 +62,6 @@ public class SolarClient implements Runnable {
 	 */
 	private ArrayBlockingQueue<String> inMsgs;
 	
-	
 	public SolarClient(final String servHost, final int servPort) {
 	    this.host = servHost;
 	    this.port = servPort;
@@ -137,6 +136,14 @@ public class SolarClient implements Runnable {
 	public void addInMessage(String msg) {
 	  inMsgs.offer(msg);
     }
+	
+	public void addOutMessage(String msg) {
+		outMsgs.offer(msg);
+	}
+	
+	public String getNextMessage() {
+		return inMsgs.poll();
+	}
 
 	/**
 	 * Return true if isConnected.

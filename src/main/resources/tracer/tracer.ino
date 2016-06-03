@@ -99,15 +99,6 @@ void manualControlCmd(bool load_onoff) {
   uint16_t crc_d = crc(mcc_data, mcc_data[2] + 5);
   mcc_data[mcc_data[2] + 3] = crc_d >> 8;
   mcc_data[mcc_data[2] + 4] = crc_d & 0xFF;
-  //Echo reply over TX.
-  Serial.print("MCC_WRITE:");
-  for (int i = 0; i < sizeof(mcc_data); i++) {
-    Serial.print(mcc_data[i],HEX);
-    if (i < sizeof(mcc_data) - 1) {
-      Serial.print(',');
-    }
-  }
-  Serial.println();//
   mppt_serial.write(mcc_data, sizeof(mcc_data));
 }
 
@@ -205,7 +196,6 @@ void loop() {
     } else {
       updateSleepTime(inputString);
     }
-    Serial.println(inputString);//Echo inputString back.
     // clear the string:
     inputString = "";
     stringComplete = false;

@@ -112,6 +112,8 @@ public class Constants {
 	public static final String CLOSE_CMD = "CLOSE";
 
 	public static final Charset CHARSET = Charset.forName("UTF-8");
+
+	public static final String NEWLINE = "\n";
 	
     static {
     	init();

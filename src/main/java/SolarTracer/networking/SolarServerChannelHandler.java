@@ -14,7 +14,7 @@ import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
 import io.netty.util.concurrent.GlobalEventExecutor;
 
-public class SolarServerChannelHandler extends SimpleChannelInboundHandler<String>{
+public class SolarServerChannelHandler extends SimpleChannelInboundHandler<String> {
 
 	/**
 	 * Solar Server.
@@ -27,7 +27,7 @@ public class SolarServerChannelHandler extends SimpleChannelInboundHandler<Strin
 	 */
 	public static final Logger LOGGER = LoggerFactory.getLogger(SolarServerChannelHandler.class);
 	private static final ChannelGroup channels =
-	    new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
+		      new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
 	
 	public SolarServerChannelHandler(SolarServer solarServer) {
 		this.server = solarServer;

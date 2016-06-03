@@ -2,6 +2,7 @@ package SolarTracer.networking;
 
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
+import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
@@ -17,9 +18,9 @@ public class SolarServerChannelInitializer extends ChannelInitializer<SocketChan
 	/**
 	 * Solar Channel Handler.
 	 */
-	private SolarServerChannelHandler solarChannelHandler;
+	private SimpleChannelInboundHandler<String> solarChannelHandler;
 
-	public SolarServerChannelInitializer(SslContext sslCtx, SolarServerChannelHandler handler) {
+	public SolarServerChannelInitializer(SslContext sslCtx, SimpleChannelInboundHandler<String> handler) {
 		this.sslCtx = sslCtx;
 		this.solarChannelHandler = handler;
 	}

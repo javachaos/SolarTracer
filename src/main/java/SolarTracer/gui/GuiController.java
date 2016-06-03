@@ -401,6 +401,9 @@ public class GuiController implements EventHandler<WindowEvent>, SerialPortEvent
 
 	private SolarServer solarServer;
 
+	/**
+	 * Detect all Serial COM ports
+	 */
     private void detectPort() {
         portList = FXCollections.observableArrayList();
         String[] serialPortNames = SerialPortList.getPortNames();
@@ -422,7 +425,7 @@ public class GuiController implements EventHandler<WindowEvent>, SerialPortEvent
 		} else if (arduinoPort != null && arduinoPort.isOpened()) {
 		//We're connected directly via Serial Port.
 			try {
-				return arduinoPort.writeString(cmd + '\n');
+				return arduinoPort.writeString(cmd + Constants.NEWLINE);
 			} catch (SerialPortException e) {
 				ExceptionUtils.log(getClass(), e);
 			}
@@ -451,12 +454,22 @@ public class GuiController implements EventHandler<WindowEvent>, SerialPortEvent
         }
     }
     
+    /**
+     * Disconnect TCP connection. If connection exists.
+     */
     protected void disconnect() {
     	if(client != null && client.isConnected()) {
     		client.shutdown();
     	}
     }
     
+    /**
+     * Connect to arduino
+     * @param port
+     * 		the arduino port address.
+     * @return
+     * 		true if success false if failure
+     */
     public boolean connectArduino(final String port) {
     	disconnect();
     	log("Connecting to Arduino...");
@@ -478,10 +491,21 @@ public class GuiController implements EventHandler<WindowEvent>, SerialPortEvent
         return success;
     }
     
+    /**
+     * Append txt to the lbl provided.
+     * 
+     * @param lbl
+     * 		the label to append txt to.
+     * @param txt
+     * 		the text to append to lbl.
+     */
     private void append(Label lbl, String txt) {
     	lbl.setText(lbl.getText().substring(0, lbl.getText().indexOf(':') + 1) + txt);
     }
     
+    /**
+     * Disconnect Arduino.
+     */
     public void disconnectArduino() {
         if(arduinoPort != null){
             try {
@@ -500,6 +524,9 @@ public class GuiController implements EventHandler<WindowEvent>, SerialPortEvent
 		shutdown();
 	}
 	
+	/**
+	 * Shutdown the GUI.
+	 */
 	public void shutdown() {
 		LOGGER.debug("Shutting down...");
 		isRunning = false;
@@ -522,14 +549,19 @@ public class GuiController implements EventHandler<WindowEvent>, SerialPortEvent
               if (solarServer != null) {
                   solarServer.sendMessage(s);
               }
-              submitMessage(s);
+              storeMessage(s);
           } catch (Throwable ex) {
               ExceptionUtils.log(getClass(), ex);
           }
         }
     }
 
-	public void submitMessage(String rawMsg) {
+	/**
+	 * Parse and store the raw message contain in the string.
+	 * @param rawMsg
+	 * 		parse and store this raw message.
+	 */
+	public void storeMessage(String rawMsg) {
   	  String[] tmp = null;
 	  if (rawMsg.contains(System.lineSeparator())) {
         tmp = rawMsg.split(System.lineSeparator());
@@ -546,7 +578,7 @@ public class GuiController implements EventHandler<WindowEvent>, SerialPortEvent
           data += ":" + new Date(Constants.getCurrentTimeMillis()).getTime();//Add time...
           DatabaseUtils.insertData(data);
           if (data.split(":").length == Constants.DEFAULT_DATA_LENGTH) {
-            updateGraphs(data);
+            updateGraphs(DataUtils.parseDataPoint(data));
           }
       	}
       } else {
@@ -554,9 +586,12 @@ public class GuiController implements EventHandler<WindowEvent>, SerialPortEvent
       }
 	}
 	
-	private void updateGraphs(String dataPoint) {
+	/**
+	 * Update graphs.
+	 * @param d
+	 */
+	private void updateGraphs(DataPoint d) {
 		Platform.runLater(() -> {
-			DataPoint d = DataUtils.parseDataPoint(dataPoint);
 	        append(loadLabel, d.getLoadOnoff()+"");
 	        append(loadCurrentLabel, d.getLoadCurrent()+"");
 	        append(battLevelLabel, d.getBatteryVoltage()+"");
@@ -614,7 +649,7 @@ public class GuiController implements EventHandler<WindowEvent>, SerialPortEvent
         
         if (client != null && client.isConnected()) {
         //If we are connected to a server as a client...
-          submitMessage(client.getNextMessage());
+          storeMessage(client.getNextMessage());
         }
         LOGGER.debug("GUI Heartbeat: " + clockUpdateCtr);
 		} catch (Throwable t1) {

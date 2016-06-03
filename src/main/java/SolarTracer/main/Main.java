@@ -14,6 +14,7 @@ import SolarTracer.utils.Constants;
 import SolarTracer.utils.DatabaseUtils;
 import SolarTracer.utils.ShutdownHook;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
@@ -43,7 +44,6 @@ public class Main extends Application {
 	    guiController = (SolarTracer.gui.GuiController) fxmlLoader.getController();
 		COORDINATOR.scheduleAtFixedRate(guiController, 0, Constants.GUI_SLEEPTIME, TimeUnit.MILLISECONDS);
 		COORDINATOR.schedule(new SolarServer(guiController), 0, TimeUnit.NANOSECONDS);
-		addHook();
 	    primaryStage.setOnCloseRequest(guiController);
 		Scene myScene = new Scene(myPane);
 		myScene.setRoot(myPane);
@@ -56,6 +56,7 @@ public class Main extends Application {
 			DatabaseUtils.createTables();
 			LOGGER.debug("Created new database file.");
 		}
+		addHook();
 		launch(args);
 	}
 	
@@ -65,5 +66,4 @@ public class Main extends Application {
 	private static void addHook() {
 	  Runtime.getRuntime().addShutdownHook(new ShutdownHook(COORDINATOR, Thread.currentThread()));
 	}
-
 }

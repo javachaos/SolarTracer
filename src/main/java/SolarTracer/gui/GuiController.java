@@ -510,6 +510,7 @@ public class GuiController implements EventHandler<WindowEvent>, SerialPortEvent
 		LOGGER.debug("Shutting down...");
 		isRunning = false;
 		disconnectArduino();
+		solarServer.shutdown();
 		DatabaseUtils.shutdown();
 		Main.COORDINATOR.shutdown();
 		Platform.exit();
@@ -528,7 +529,7 @@ public class GuiController implements EventHandler<WindowEvent>, SerialPortEvent
                   solarServer.sendMessage(s);
               }
               submitMessage(s);
-          } catch (SerialPortException ex) {
+          } catch (Throwable ex) {
               ExceptionUtils.log(getClass(), ex);
           }
         }
@@ -609,14 +610,16 @@ public class GuiController implements EventHandler<WindowEvent>, SerialPortEvent
 
 	@Override
 	public void run() {
-	  if (isRunning ) {
+	  if (isRunning) {
 		try {
         if (clockUpdateCtr++ >= Constants.UPDATE_CLOCK_FREQUENCY) {
           clockUpdateCtr = 0;
           LOGGER.debug("Updating clock.");
           Constants.updateTimeoffset();
         }
+        
         if (client != null && client.isConnected()) {
+        //If we are connected to a server as a client...
           submitMessage(client.getNextMessage());
         }
         LOGGER.debug("GUI Heartbeat: " + clockUpdateCtr);

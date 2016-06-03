@@ -96,5 +96,12 @@ public class SolarServer implements Runnable {
 	public synchronized void sendMessage(String s) {
 		handler.addData(s);
 	}
-	
+
+    public void shutdown() {
+      LOGGER.debug("SolarServer shutdown initiated.");
+      workerGroup.shutdownGracefully();
+      bossGroup.shutdownGracefully();
+      LOGGER.debug("SolarServer shutdown complete.");
+    }
+
 }

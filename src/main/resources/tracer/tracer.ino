@@ -181,23 +181,8 @@ void printAllData() {
 void loop() {
   printAllData();
   Serial.println();
-  if (stringComplete) {
-    if (inputString == "LON") {
-      manualControlCmd(true);
-    } else if (inputString == "LOFF") {
-      manualControlCmd(false);
-    } else {
-      updateSleepTime(inputString);
-    }
-    // clear the string:
-    inputString = "";
-    stringComplete = false;
-  }
-  delay(speed);
-}
 
-void serialEvent() {
-  while (Serial.available()) {
+  if (Serial.available()) {// There is data available.
     // get the new byte:
     char inChar = (char)Serial.read();
     // if the incoming character is a newline, set a flag
@@ -209,4 +194,18 @@ void serialEvent() {
       stringComplete = true;
     }
   }
+  if (stringComplete) {
+    if (inputString == "LON") {
+      manualControlCmd(true);
+    } else if (inputString == "LOFF") {
+      manualControlCmd(false);
+    } else {
+      updateSleepTime(inputString);
+    }
+    Serial.println(inputString);//Echo inputString back.
+    // clear the string:
+    inputString = "";
+    stringComplete = false;
+  }
+  delay(speed);
 }

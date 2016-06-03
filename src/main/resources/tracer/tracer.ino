@@ -103,6 +103,13 @@ void manualControlCmd(bool load_onoff) {
   } else {
 	  mcc_data[3] = 0;
   }
+  for (int i = 0; i < sizeof(mcc_data); i++) {
+    Serial.print(mcc_data[],HEX);
+    if (i < sizeof(mcc_data) - 1) {
+      Serial.print(':');
+    }
+  }
+  Serial.println();//
   //Calculate and add CRC bytes.
   uint8_t* d = calc_and_addcrc(mcc_data);
   mppt_serial.write(d, sizeof(d));

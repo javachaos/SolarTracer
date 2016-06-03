@@ -114,6 +114,9 @@ public class Constants {
 	public static final Charset CHARSET = Charset.forName("UTF-8");
 
 	public static final String NEWLINE = "\n";
+
+	public static final int NETWORK_BUFFER_SIZE = 100;
+	public static final int SERIAL_BUFFER_SIZE = 256;
 	
     static {
     	init();

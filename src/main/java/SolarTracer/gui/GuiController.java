@@ -1,7 +1,5 @@
 package SolarTracer.gui;
 
-import static jssc.SerialPort.MASK_RXCHAR;
-
 import java.nio.ByteBuffer;
 import java.util.Date;
 
@@ -16,6 +14,8 @@ import SolarTracer.utils.DataPoint;
 import SolarTracer.utils.DataUtils;
 import SolarTracer.utils.DatabaseUtils;
 import SolarTracer.utils.ExceptionUtils;
+import SolarTracer.utils.Serial;
+import SolarTracer.utils.SerialUtils;
 import SolarTracer.utils.SolarException;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -41,20 +41,14 @@ import javafx.scene.control.ToggleGroup;
 import javafx.stage.WindowEvent;
 import javafx.util.StringConverter;
 import jssc.SerialPort;
-import jssc.SerialPortEvent;
-import jssc.SerialPortEventListener;
-import jssc.SerialPortException;
-import jssc.SerialPortList;
 
-public class GuiController implements EventHandler<WindowEvent>, SerialPortEventListener, Runnable {
-
-
+public class GuiController implements EventHandler<WindowEvent>, Runnable {
+	
 	/**
 	 * Logger.
 	 */
 	public static final Logger LOGGER = LoggerFactory.getLogger(GuiController.class);
 
-	  
 	/**
 	 * IP Regex.
 	 */
@@ -186,6 +180,10 @@ public class GuiController implements EventHandler<WindowEvent>, SerialPortEvent
     
     private ToggleGroup toggleGroup;
     
+    private String data = "";
+    
+    private StringBuilder info = new StringBuilder();
+    
     // Graph series
     private Series<String, Float> loadSeries;
 	private Series<String, Float> loadCurrentSeries;
@@ -236,8 +234,9 @@ public class GuiController implements EventHandler<WindowEvent>, SerialPortEvent
           Toggle toggle, Toggle newToggle) {
             if (newToggle == null) {
               log("Toggle is Null.");
-            } else if (!sendCommand((String)newToggle.getUserData())) {
-              toggleGroup.selectToggle(null);
+            } else {
+              sendCommand((String)newToggle.getUserData());
+              //toggleGroup.selectToggle(null);
             }
           }
         });
@@ -248,8 +247,8 @@ public class GuiController implements EventHandler<WindowEvent>, SerialPortEvent
         batteryLevelNumAxis.setTickUnit(0.5);
         batteryLevelNumAxis.setTickMarkVisible(true);
 
-        detectPort();
-
+        portList = SerialUtils.detectPorts();
+        
         updateFreqList = FXCollections.observableArrayList();
         updateFreqList.add(1000);    // 1 second
         updateFreqList.add(2000);    // 2 seconds
@@ -388,10 +387,7 @@ public class GuiController implements EventHandler<WindowEvent>, SerialPortEvent
     public GuiController() {
     }
 
-    SerialPort arduinoPort = null;
     ObservableList<String> portList;
-	private StringBuilder info = new StringBuilder();
-	private String data = "";
 
 	private int clockUpdateCtr;
 
@@ -401,38 +397,26 @@ public class GuiController implements EventHandler<WindowEvent>, SerialPortEvent
 
 	private SolarServer solarServer;
 
-	/**
-	 * Detect all Serial COM ports
-	 */
-    private void detectPort() {
-        portList = FXCollections.observableArrayList();
-        String[] serialPortNames = SerialPortList.getPortNames();
-        for(final String name : serialPortNames){
-            log("Adding " + name + " to port list." + System.lineSeparator());
-            portList.add(name);
-        }
-    }
+	private Serial serial;
     
     /**
      * Send a command to arduino controller.
      * @param cmd
      */
-	public boolean sendCommand(String cmd) {
+	public void sendCommand(String cmd) {
 		if (client != null && client.isConnected()) {
 		//We're connected via IP.
 			client.addOutMessage(cmd);
-			return true;
-		} else if (arduinoPort != null && arduinoPort.isOpened()) {
+		} else if (serial != null) {
 		//We're connected directly via Serial Port.
 			try {
-				return arduinoPort.writeString(cmd + Constants.NEWLINE);
-			} catch (SerialPortException e) {
+				serial.write(cmd + Constants.NEWLINE);
+			} catch (Exception e) {
 				ExceptionUtils.log(getClass(), e);
 			}
 		} else {
 			ExceptionUtils.showAlert("Could not send command, we're not connected.");
 		}
-		return false;
 	}
     
     /**
@@ -470,26 +454,30 @@ public class GuiController implements EventHandler<WindowEvent>, SerialPortEvent
      * @return
      * 		true if success false if failure
      */
-    public boolean connectArduino(final String port) {
+    public void connectArduino(final String port) {
     	disconnect();
     	log("Connecting to Arduino...");
-        boolean success = false;
-        arduinoPort = new SerialPort(port);
         try {
-        	arduinoPort.openPort();
-        	arduinoPort.setParams(
-                    SerialPort.BAUDRATE_57600,
-                    SerialPort.DATABITS_8,
-                    SerialPort.STOPBITS_1,
-                    SerialPort.PARITY_NONE);
-        	arduinoPort.setEventsMask(MASK_RXCHAR);
-        	arduinoPort.addEventListener(this);
-            success = true;
-        } catch (SerialPortException ex) {
+        	serial = new Serial(this, port, SerialPort.BAUDRATE_57600);
+        } catch (Exception ex) {
             ExceptionUtils.log(getClass(), ex);
         }
-        return success;
     }
+
+    public void serialAvailable(Serial s) {//Unused
+	}
+	
+	public void serialEvent(Serial s) {
+		s.readString();
+        log("Raw: " + s);
+        sendCommand(
+        		  new String(ByteBuffer.allocate(4).putInt(arduinoSleepTime).array(),
+        				  Constants.CHARSET));
+        if (solarServer != null) {
+            solarServer.sendMessage(s.readString());
+        }
+        storeMessage(s.readString());
+	}
     
     /**
      * Append txt to the lbl provided.
@@ -507,13 +495,10 @@ public class GuiController implements EventHandler<WindowEvent>, SerialPortEvent
      * Disconnect Arduino.
      */
     public void disconnectArduino() {
-        if(arduinoPort != null){
+        if(serial != null) {
             try {
-                arduinoPort.removeEventListener();
-                if(arduinoPort.isOpened()){
-                    arduinoPort.closePort();
-                }
-            } catch (SerialPortException ex) {
+            	serial.stop();
+            } catch (Exception ex) {
                 ExceptionUtils.log(getClass(), ex);
             }
         }
@@ -536,25 +521,6 @@ public class GuiController implements EventHandler<WindowEvent>, SerialPortEvent
 		Main.COORDINATOR.shutdown();
 		Platform.exit();
 	}
-
-	@Override
-	public void serialEvent(SerialPortEvent serialPortEvent) {
-        if(serialPortEvent.isRXCHAR()) {
-          try {
-              String s = arduinoPort.readString(serialPortEvent.getEventValue());
-  	          log("Raw: " + s);
-  	          sendCommand(
-  	        		  new String(ByteBuffer.allocate(4).putInt(arduinoSleepTime).array(),
-  	        				  Constants.CHARSET));
-              if (solarServer != null) {
-                  solarServer.sendMessage(s);
-              }
-              storeMessage(s);
-          } catch (Throwable ex) {
-              ExceptionUtils.log(getClass(), ex);
-          }
-        }
-    }
 
 	/**
 	 * Parse and store the raw message contain in the string.

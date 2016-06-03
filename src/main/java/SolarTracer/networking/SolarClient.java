@@ -65,6 +65,8 @@ public class SolarClient implements Runnable {
 	public SolarClient(final String servHost, final int servPort) {
 	    this.host = servHost;
 	    this.port = servPort;
+	    outMsgs = new ArrayBlockingQueue<String>(Constants.NETWORK_BUFFER_SIZE);
+	    inMsgs = new ArrayBlockingQueue<String>(Constants.NETWORK_BUFFER_SIZE);
 	}
 	  
 	@Override

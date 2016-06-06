@@ -72,7 +72,7 @@ public class SerialCommImpl implements SerialPortDataListener, SerialConnection 
 	                if (singleData != Constants.NEWLINE_ASCII) {
 	                    charStack.append(new String(new byte[]{ singleData }, Constants.CHARSET));
 	                } else {
-	                    charStack.append(Constants.NEWLINE);
+	                    //charStack.append(Constants.NEWLINE);
 	                    stringQueue.add(charStack.toString());
 	                    updateListeners(charStack.toString());
 	                    charStack = new StringBuilder();

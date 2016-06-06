@@ -26,7 +26,7 @@ public class SolarWebServer extends AbstractHandler implements Runnable {
 	/**
 	 * Most current datapoint.
 	 */
-	private DataPoint current;
+	private DataPoint current = new DataPoint(null);
 
 	/**
 	 * Server port.

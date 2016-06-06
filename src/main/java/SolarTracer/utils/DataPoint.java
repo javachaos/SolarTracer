@@ -81,16 +81,30 @@ public class DataPoint {
 	 */
 	public DataPoint(long timestamp, float[] data) {
 		this.timestamp = timestamp;
-        battery_voltage = data[0];
-        pv_voltage      = data[1];
-        load_current    = data[2];
-        over_discharge  = data[3];
-        battery_max     = data[4];
-        full            = data[5];
-        charging        = data[6];
-        battery_temp    = data[7];
-        charge_current  = data[8];
-        load_onoff      = data[9];
+		
+		if (data != null) {
+	        battery_voltage = data[0];
+	        pv_voltage      = data[1];
+	        load_current    = data[2];
+	        over_discharge  = data[3];
+	        battery_max     = data[4];
+	        full            = data[5];
+	        charging        = data[6];
+	        battery_temp    = data[7];
+	        charge_current  = data[8];
+	        load_onoff      = data[9];
+		} else {
+	        battery_voltage = 0f;
+	        pv_voltage      = 0f;
+	        load_current    = 0f;
+	        over_discharge  = 0f;
+	        battery_max     = 0f;
+	        full            = 0f;
+	        charging        = 0f;
+	        battery_temp    = 0f;
+	        charge_current  = 0f;
+	        load_onoff      = 0f;
+		}
 	}
 	
 	/**

@@ -168,11 +168,11 @@ public class GuiController implements EventHandler<WindowEvent>, DataRecvListene
               String oldValue, String newValue) {
                 serial.disconnect();
                 serial.connect(newValue);
+                serial.addDataPointListener(solarServer);
             }
         });
         setupSeries();
         setupGraphs();
-        serial.addDataPointListener(solarServer);
     }
 
     private void setupGraphs() {

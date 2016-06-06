@@ -12,6 +12,7 @@ import SolarTracer.serial.SerialConnection;
 import SolarTracer.serial.SerialFactory;
 import SolarTracer.utils.Constants;
 import SolarTracer.utils.DataPoint;
+import SolarTracer.utils.DataRecvListener;
 import SolarTracer.utils.DataUtils;
 import SolarTracer.utils.DatabaseUtils;
 import SolarTracer.utils.ExceptionUtils;
@@ -36,7 +37,7 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.stage.WindowEvent;
 
-public class GuiController implements EventHandler<WindowEvent>, Runnable {
+public class GuiController implements EventHandler<WindowEvent>, DataRecvListener, Runnable {
     
     /**
      * Logger.
@@ -384,7 +385,6 @@ public class GuiController implements EventHandler<WindowEvent>, Runnable {
 	        if (serial.isConnected()) {
 	        	serial.writeData(new String(ByteBuffer.allocate(4).putInt(arduinoSleepTime).array(),
 	                Constants.CHARSET) + Constants.NEWLINE);
-	        	readSerial();
 	        }
         LOGGER.debug("GUI Heartbeat: " + clockUpdateCtr);
 		} catch (Throwable t1) {
@@ -393,18 +393,17 @@ public class GuiController implements EventHandler<WindowEvent>, Runnable {
 	  }
 	}
 
-	private void readSerial() {
-      for (String s : serial.getStrings()) {
-          storeMessage(s);
-      }
-	}
-
 	/**
 	 * Set the server.
 	 * @param solarServer
 	 */
 	public void setServer(SolarWebServer solarServer) {
 		this.solarServer = solarServer;
+	}
+
+	@Override
+	public void dataRecieved(String data) {
+        storeMessage(data);
 	}
 }
 

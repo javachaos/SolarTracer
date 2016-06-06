@@ -14,10 +14,12 @@ import com.fazecast.jSerialComm.SerialPort;
 import com.fazecast.jSerialComm.SerialPortDataListener;
 import com.fazecast.jSerialComm.SerialPortEvent;
 
+import SolarTracer.data.DataPoint;
+import SolarTracer.data.DataPointListener;
+import SolarTracer.data.DataRecvListener;
 import SolarTracer.gui.GuiController;
 import SolarTracer.utils.Constants;
-import SolarTracer.utils.DataPoint;
-import SolarTracer.utils.DataRecvListener;
+import SolarTracer.utils.DataUtils;
 import SolarTracer.utils.ExceptionUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -30,7 +32,6 @@ public class SerialCommImpl implements SerialPortDataListener, SerialConnection 
     private static final Logger LOGGER = LoggerFactory.getLogger(GuiController.class);
 
     private SerialPort[] serialPorts = SerialPort.getCommPorts();
-    
     private SerialPort serialPort;
 
     //input and output streams for sending and receiving data
@@ -52,6 +53,7 @@ public class SerialCommImpl implements SerialPortDataListener, SerialConnection 
     private LinkedList<String> stringQueue;
     private StringBuilder charStack;
     private ArrayList<DataRecvListener> listeners;
+	private ArrayList<DataPointListener> dataPointListeners;
     
     /**
      * Serial Communication Constructor.
@@ -60,6 +62,7 @@ public class SerialCommImpl implements SerialPortDataListener, SerialConnection 
         stringQueue = new LinkedList<String>();
         charStack = new StringBuilder();
         listeners = new ArrayList<DataRecvListener>();
+        dataPointListeners = new ArrayList<DataPointListener>();
     }
 
     @Override
@@ -94,6 +97,7 @@ public class SerialCommImpl implements SerialPortDataListener, SerialConnection 
      */
     private void updateListeners(String data) {
         listeners.parallelStream().forEach(l -> l.dataRecieved(data));
+        dataPointListeners.parallelStream().forEach(l -> l.dataPointReceived(DataUtils.parseDataPoint(data)));
     }
 
     @Override
@@ -181,5 +185,23 @@ public class SerialCommImpl implements SerialPortDataListener, SerialConnection 
 	@Override
 	public int getListeningEvents() {
 		return SerialPort.LISTENING_EVENT_DATA_AVAILABLE;
+	}
+
+	@Override
+	public void addDataPointListener(DataPointListener dl) {
+        if (dl == null) {
+            throw new NullPointerException("DataPointListener cannot be null.");
+        } else {
+            dataPointListeners.add(dl);
+        }
+	}
+
+	@Override
+	public boolean removeDataPointListener(DataPointListener dl) {
+        if (dl == null) {
+            throw new NullPointerException("DataPointListener cannot be null.");
+        } else {
+            return dataPointListeners.remove(dl);
+        }
 	}
 }

@@ -6,13 +6,13 @@ import java.util.Date;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import SolarTracer.data.DataPoint;
+import SolarTracer.data.DataRecvListener;
 import SolarTracer.main.Main;
 import SolarTracer.networking.SolarWebServer;
 import SolarTracer.serial.SerialConnection;
 import SolarTracer.serial.SerialFactory;
 import SolarTracer.utils.Constants;
-import SolarTracer.utils.DataPoint;
-import SolarTracer.utils.DataRecvListener;
 import SolarTracer.utils.DataUtils;
 import SolarTracer.utils.DatabaseUtils;
 import SolarTracer.utils.ExceptionUtils;
@@ -151,6 +151,7 @@ public class GuiController implements EventHandler<WindowEvent>, DataRecvListene
     @FXML
     void initialize() {
     	serial = SerialFactory.getSerial();
+    	serial.addDataRecvListener(this);
         sanityCheck();
         setupToggle();
         batteryLevelNumAxis.setAutoRanging(false);
@@ -171,6 +172,7 @@ public class GuiController implements EventHandler<WindowEvent>, DataRecvListene
         });
         setupSeries();
         setupGraphs();
+        serial.addDataPointListener(solarServer);
     }
 
     private void setupGraphs() {
@@ -317,7 +319,6 @@ public class GuiController implements EventHandler<WindowEvent>, DataRecvListene
       data += ":" + new Date(Constants.getCurrentTimeMillis()).getTime();//Add time...
       DatabaseUtils.insertData(data);
       DataPoint d = DataUtils.parseDataPoint(data);
-      solarServer.updateData(d);
       updateGraphs(d);
     }
     
@@ -386,7 +387,7 @@ public class GuiController implements EventHandler<WindowEvent>, DataRecvListene
 	        	serial.writeData(new String(ByteBuffer.allocate(4).putInt(arduinoSleepTime).array(),
 	                Constants.CHARSET) + Constants.NEWLINE);
 	        }
-        LOGGER.debug("GUI Heartbeat: " + clockUpdateCtr);
+            LOGGER.debug("GUI Heartbeat: " + clockUpdateCtr);
 		} catch (Throwable t1) {
 		  ExceptionUtils.log(getClass(), t1);
 		}

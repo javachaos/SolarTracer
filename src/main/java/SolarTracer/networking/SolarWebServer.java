@@ -12,11 +12,12 @@ import org.eclipse.jetty.server.handler.AbstractHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import SolarTracer.data.DataPoint;
+import SolarTracer.data.DataPointListener;
 import SolarTracer.utils.Constants;
-import SolarTracer.utils.DataPoint;
 import SolarTracer.utils.ExceptionUtils;
 
-public class SolarWebServer extends AbstractHandler implements Runnable {
+public class SolarWebServer extends AbstractHandler implements Runnable, DataPointListener {
 	
 	/**
 	 * Logger.
@@ -59,10 +60,6 @@ public class SolarWebServer extends AbstractHandler implements Runnable {
 		LOGGER.debug("Shutdown Complete.");
 	}
 
-	public void updateData(DataPoint data) {
-		current = data;
-	}
-
 	public boolean isConnected() {
 		return server.isRunning();
 	}
@@ -91,4 +88,11 @@ public class SolarWebServer extends AbstractHandler implements Runnable {
 				+ "<tr><td>Time</td><td>"+current.getTimeFormatted()+"</td></tr>"
 				+ "</tbody></table>");
 		}
+
+	@Override
+	public void dataPointReceived(DataPoint dataPoint) {
+		if (dataPoint != null) {
+		  current = dataPoint;
+	    }
+	}
 }

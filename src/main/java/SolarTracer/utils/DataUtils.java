@@ -1,7 +1,15 @@
 package SolarTracer.utils;
 
-public class DataUtils {
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+public class DataUtils {
+	
+	/**
+	 * Logger.
+	 */
+	public static final Logger LOGGER = LoggerFactory.getLogger(DataUtils.class);
+	
 	/**
 	 * Parse the datastring into a DataPoint.
 	 * 
@@ -21,7 +29,8 @@ public class DataUtils {
 	        }
 	        return new DataPoint(returnArr);
 		} else {
-			throw new IllegalArgumentException("Invalid data format.");
+			LOGGER.error("Invalid data format.");
+			return new DataPoint(null);
 		}
 	}
 }

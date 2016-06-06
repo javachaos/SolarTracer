@@ -27,22 +27,20 @@
                               <Label fx:id="battMaxLabel" layoutX="14.0" layoutY="149.0" text="Battery Max:" />
                            </children>
                         </VBox>
-                        <VBox layoutX="13.0" layoutY="197.0" prefHeight="75.0" prefWidth="276.0" AnchorPane.rightAnchor="853.0">
+                        <VBox layoutX="13.0" layoutY="197.0" prefHeight="103.0" prefWidth="276.0" AnchorPane.rightAnchor="853.0">
                            <children>
                               <ComboBox fx:id="comList" layoutX="11.0" layoutY="145.0" prefHeight="25.0" prefWidth="282.0" promptText="COMM PORT" />
-                              <TextField fx:id="ipField" layoutX="90.0" layoutY="182.0" prefHeight="25.0" prefWidth="198.0" promptText="IP Address" />
-                              <Button fx:id="connectButton" layoutX="14.0" layoutY="182.0" mnemonicParsing="false" onAction="#connect" text="Connect" />
+                              <Label fx:id="updateFreqLabel" prefHeight="22.0" prefWidth="173.0" text="Update Frequency (millis):" />
+                              <ComboBox fx:id="updateFreqComboBox" prefHeight="25.0" prefWidth="279.0" />
+                              <HBox>
+                                 <children>
+                                    <Label prefHeight="27.0" prefWidth="36.0" text="Load:" />
+                                    <ToggleButton fx:id="loadOn" mnemonicParsing="false" text="ON" />
+                                    <ToggleButton fx:id="loadOff" mnemonicParsing="false" text="OFF" />
+                                 </children>
+                              </HBox>
                            </children>
                         </VBox>
-                        <Label fx:id="updateFreqLabel" text="Update Frequency (millis):" />
-                        <ComboBox fx:id="updateFreqComboBox" prefHeight="25.0" prefWidth="279.0" />
-                        <HBox>
-                           <children>
-                              <Label prefHeight="27.0" prefWidth="36.0" text="Load:" />
-                              <ToggleButton fx:id="loadOn" mnemonicParsing="false" text="ON" />
-                              <ToggleButton fx:id="loadOff" mnemonicParsing="false" text="OFF" />
-                           </children>
-                        </HBox>
                      </children>
                   </VBox>
                   <TabPane layoutX="227.0" layoutY="12.0" prefHeight="643.0" prefWidth="834.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="13.0" AnchorPane.rightAnchor="17.0" AnchorPane.topAnchor="12.0">

@@ -189,4 +189,18 @@ public class DataPoint {
 	public float getLoadOnoff() {
 		return load_onoff;
 	}
+	
+	@Override
+	public String toString() {
+		return battery_voltage + Constants.COLON +
+               pv_voltage      + Constants.COLON +
+               load_current    + Constants.COLON +
+               over_discharge  + Constants.COLON +
+               battery_max     + Constants.COLON +
+               full            + Constants.COLON +
+               charging        + Constants.COLON +
+               battery_temp    + Constants.COLON +
+               charge_current  + Constants.COLON +
+               load_onoff      + Constants.NEWLINE;
+	}
 }

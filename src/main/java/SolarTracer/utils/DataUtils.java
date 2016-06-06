@@ -12,12 +12,16 @@ public class DataUtils {
 	 * @return
 	 *     a DataPoint.
 	 */
-	public static final DataPoint parseDataPoint(String dataPoint) {
+	public static final DataPoint parseDataPoint(String dataPoint) {		
         String[] d = dataPoint.split(":");
-        float[] returnArr = new float[11];
-        for(int i = 0; i < returnArr.length; i++) {
-        	returnArr[i] = Float.parseFloat(d[i]);
-        }
-        return new DataPoint(returnArr);
+	    if (d.length == Constants.DEFAULT_DATA_LENGTH) {
+	        float[] returnArr = new float[11];
+	        for(int i = 0; i < returnArr.length; i++) {
+	        	returnArr[i] = Float.parseFloat(d[i]);
+	        }
+	        return new DataPoint(returnArr);
+		} else {
+			throw new IllegalArgumentException("Invalid data format.");
+		}
 	}
 }

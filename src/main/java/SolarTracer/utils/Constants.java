@@ -107,7 +107,7 @@ public class Constants {
 	/**
 	 * Application PORT.
 	 */
-	public static final int PORT = 55555;
+	public static final int PORT = 8080;
 
 	public static final String CLOSE_CMD = "CLOSE";
 
@@ -115,8 +115,12 @@ public class Constants {
 
 	public static final String NEWLINE = "\n";
 
+	public static final int NEWLINE_ASCII = 10;
+
 	public static final int NETWORK_BUFFER_SIZE = 100;
 	public static final int SERIAL_BUFFER_SIZE = 256;
+
+	public static final String COLON = ":";
 	
     static {
     	init();

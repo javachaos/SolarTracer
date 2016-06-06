@@ -7,22 +7,20 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import SolarTracer.main.Main;
-import SolarTracer.networking.SolarClient;
-import SolarTracer.networking.SolarServer;
+import SolarTracer.networking.SolarWebServer;
+import SolarTracer.serial.SerialConnection;
+import SolarTracer.serial.SerialFactory;
 import SolarTracer.utils.Constants;
 import SolarTracer.utils.DataPoint;
 import SolarTracer.utils.DataUtils;
 import SolarTracer.utils.DatabaseUtils;
 import SolarTracer.utils.ExceptionUtils;
-import SolarTracer.utils.Serial;
-import SolarTracer.utils.SerialUtils;
-import SolarTracer.utils.SolarException;
+import SolarTracer.utils.FreqListStringConverter;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.chart.CategoryAxis;
@@ -30,177 +28,231 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.chart.XYChart.Series;
-import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
-import javafx.scene.control.TextField;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.stage.WindowEvent;
-import javafx.util.StringConverter;
-import jssc.SerialPort;
 
 public class GuiController implements EventHandler<WindowEvent>, Runnable {
-	
-	/**
-	 * Logger.
-	 */
-	public static final Logger LOGGER = LoggerFactory.getLogger(GuiController.class);
-
-	/**
-	 * IP Regex.
-	 */
-	private static final String IPADDRESS_PATTERN =
-	    "^([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." + "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\."
-	        + "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." + "([01]?\\d\\d?|2[0-4]\\d|25[0-5])$";
-	
-	/**
-	 * The update sleep time of the arduino device.
-	 */
+    
+    /**
+     * Logger.
+     */
+    public static final Logger LOGGER = LoggerFactory.getLogger(GuiController.class);
+    
+    /**
+     * The update sleep time of the arduino device.
+     */
     private int arduinoSleepTime = 1000;
-
-	@FXML
+    @FXML
     private CategoryAxis chargingAxis;
-
     @FXML
     private Label battMaxLabel;
-
     @FXML
     private LineChart<String, Float> loadGraph;
-
     @FXML
     private CategoryAxis loadCurrentAxis;
-
-    @FXML
-    private TextField ipField;
-
     @FXML
     private Label overChargeLabel;
-
     @FXML
     private Tab loadCurrentTab;
-
     @FXML
     private CategoryAxis pvVoltageAxis;
-
-    @FXML
-    private Button connectButton;
-
     @FXML
     private Label loadLabel;
-
     @FXML
     private Tab pvVoltageTab;
-
     @FXML
     private Label chargeCurrentLabel;
-
     @FXML
     private CategoryAxis batteryLevelAxis;
-    
     @FXML
     private NumberAxis batteryLevelNumAxis;
-
     @FXML
     private CategoryAxis loadAxis;
-
     @FXML
     private LineChart<String, Float> pvVoltGraph;
-
     @FXML
     private Tab loadTab;
-
     @FXML
     private LineChart<String, Float> batteryLevelGraph;
-
     @FXML
     private Tab battTempTab;
-
     @FXML
     private Label chargingLabel;
-
     @FXML
     private Tab batteryLevelTab;
-
     @FXML
     private Label loadCurrentLabel;
-
     @FXML
     private ComboBox<String> comList;
-    
     @FXML
     private ComboBox<Integer> updateFreqComboBox;
-
     @FXML
     private Tab chargingTab;
-
     @FXML
     private CategoryAxis batteryTempAxis;
-
     @FXML
     private Label battLevelLabel;
-
     @FXML
     private Label battFullLabel;
-
     @FXML
     private Label battTempLabel;
-
     @FXML
     private LineChart<String, Float> loadCurrentGraph;
-
     @FXML
     private LineChart<String, Float> chargeCurrentGraph;
-
     @FXML
     private LineChart<String, Float> battTempGraph;
-
     @FXML
     private LineChart<String, Float> chargingGraph;
-
     @FXML
     private CategoryAxis chargeCurrentAxis;
-
     @FXML
     private Label pvVoltLabel;
-    
     @FXML
     private Label updateFreqLabel;
-
     @FXML
     private Tab chargeCurrentTab;
-    
     @FXML
     private ToggleButton loadOn;
-    
     @FXML
     private ToggleButton loadOff;
-    
     private ToggleGroup toggleGroup;
-    
-    private String data = "";
-    
-    private StringBuilder info = new StringBuilder();
     
     // Graph series
     private Series<String, Float> loadSeries;
-	private Series<String, Float> loadCurrentSeries;
-	private Series<String, Float> battLevelSeries;
-	private Series<String, Float> battTempSeries;
-	private Series<String, Float> pvVoltSeries;
-	private Series<String, Float> chargingSeries;
-	private Series<String, Float> chargeCurrentSeries;
-	private ObservableList<Integer> updateFreqList;
+    private Series<String, Float> loadCurrentSeries;
+    private Series<String, Float> battLevelSeries;
+    private Series<String, Float> battTempSeries;
+    private Series<String, Float> pvVoltSeries;
+    private Series<String, Float> chargingSeries;
+    private Series<String, Float> chargeCurrentSeries;
+    private ObservableList<Integer> updateFreqList;
+
+    ObservableList<String> portList;
+
+    private int clockUpdateCtr;
+
+    private boolean isRunning = true;
+    private SolarWebServer solarServer;
+    private SerialConnection serial;
+    
+    /**
+     * GuiController Ctor.
+     */
+    public GuiController() {
+    }
     
     @FXML
     void initialize() {
-    	toggleGroup = new ToggleGroup();
+    	serial = SerialFactory.getSerial();
+        sanityCheck();
+        setupToggle();
+        batteryLevelNumAxis.setAutoRanging(false);
+        batteryLevelNumAxis.setUpperBound(16.0);
+        batteryLevelNumAxis.setLowerBound(11.0);
+        batteryLevelNumAxis.setTickUnit(0.5);
+        batteryLevelNumAxis.setTickMarkVisible(true);
+        portList = serial.getPortNames();
+        setupFreqList();
+        comList.setItems(portList);
+        comList.valueProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, 
+              String oldValue, String newValue) {
+                serial.disconnect();
+                serial.connect(newValue);
+            }
+        });
+        setupSeries();
+        setupGraphs();
+    }
+
+    private void setupGraphs() {
+        // Setup graphs
+        loadGraph.getData().add(loadSeries);
+        loadCurrentGraph.getData().add(loadCurrentSeries);
+        batteryLevelGraph.getData().add(battLevelSeries);
+        battTempGraph.getData().add(battTempSeries);
+        pvVoltGraph.getData().add(pvVoltSeries);
+        chargeCurrentGraph.getData().add(chargeCurrentSeries);
+        chargingGraph.getData().add(chargingSeries);
+    }
+
+    private void setupSeries() {
+        // Setup series
+        loadSeries = new XYChart.Series<String, Float>();
+        loadSeries.setName("Load Series");
+        loadCurrentSeries = new XYChart.Series<String, Float>();
+        loadCurrentSeries.setName("Load Current Series");
+        battLevelSeries = new XYChart.Series<String, Float>();
+        battLevelSeries.setName("Battery Level Series");
+        battTempSeries = new XYChart.Series<String, Float>();
+        battTempSeries.setName("Battery Temp Series");
+        pvVoltSeries = new XYChart.Series<String, Float>();
+        pvVoltSeries.setName("PV Voltage Series");
+        chargingSeries = new XYChart.Series<String, Float>();
+        chargingSeries.setName("Charging Series");
+        chargeCurrentSeries = new XYChart.Series<String, Float>();
+        chargeCurrentSeries.setName("Charge Current Series");
+    }
+
+    private void setupFreqList() {
+        updateFreqList = FXCollections.observableArrayList();
+        updateFreqList.add(1000);    // 1 second
+        updateFreqList.add(2000);    // 2 seconds
+        updateFreqList.add(3000);    // 3 seconds
+        updateFreqList.add(4000);    // 4 seconds
+        updateFreqList.add(5000);    // 5 seconds
+        updateFreqList.add(10000);   // 10 seconds
+        updateFreqList.add(25000);   // 25 seconds
+        updateFreqList.add(30000);   // 30 seconds
+        updateFreqList.add(60000);   // 1 min
+        updateFreqList.add(300000);  // 5 mins
+        updateFreqList.add(600000);  // 10 mins
+        updateFreqList.add(3600000); // 1 hour
+        updateFreqList.add(18000000);// 5 hours
+        updateFreqComboBox.setItems(updateFreqList);
+        updateFreqComboBox.setConverter(new FreqListStringConverter());
+        updateFreqComboBox.valueProperty().addListener(new ChangeListener<Integer>() {
+            @Override
+            public void changed(ObservableValue<? extends Integer> observable, 
+                    Integer oldValue, Integer newValue) {
+                arduinoSleepTime = newValue;
+                append(updateFreqLabel, (newValue / 1000) + " seconds.");
+            }
+        });
+    }
+
+    private void setupToggle() {
+        toggleGroup = new ToggleGroup();
+        loadOn.setToggleGroup(toggleGroup);
+        loadOff.setToggleGroup(toggleGroup);
+        loadOn.setUserData("LON");
+        loadOff.setUserData("LOFF");
+        toggleGroup.selectedToggleProperty().addListener(new ChangeListener<Toggle>(){
+          public void changed(ObservableValue<? extends Toggle> ov,
+          Toggle toggle, Toggle newToggle) {
+            if (newToggle == null) {
+              log("Toggle is Null.");
+              toggleGroup.selectToggle(null);
+            } else {
+              serial.writeData((String)newToggle.getUserData() + Constants.NEWLINE);
+            }
+          }
+        });
+    }
+
+    /**
+     * Check all fxml objects.
+     */
+    private void sanityCheck() {
         assert loadGraph != null : "fx:id=\"loadGraph\" was not injected: check your FXML file 'commander.fxml'.";
-        assert ipField != null : "fx:id=\"ipField\" was not injected: check your FXML file 'commander.fxml'.";
         assert loadCurrentTab != null : "fx:id=\"loadCurrentTab\" was not injected: check your FXML file 'commander.fxml'.";
-        assert connectButton != null : "fx:id=\"connectButton\" was not injected: check your FXML file 'commander.fxml'.";
         assert loadLabel != null : "fx:id=\"loadLabel\" was not injected: check your FXML file 'commander.fxml'.";
         assert pvVoltageTab != null : "fx:id=\"pvVoltageTab\" was not injected: check your FXML file 'commander.fxml'.";
         assert chargeCurrentLabel != null : "fx:id=\"chargeCurrentLabel\" was not injected: check your FXML file 'commander.fxml'.";
@@ -222,341 +274,58 @@ public class GuiController implements EventHandler<WindowEvent>, Runnable {
         assert chargingGraph != null : "fx:id=\"chargingGraph\" was not injected: check your FXML file 'commander.fxml'.";
         assert pvVoltLabel != null : "fx:id=\"pvVoltLabel\" was not injected: check your FXML file 'commander.fxml'.";
         assert chargeCurrentTab != null : "fx:id=\"chargeCurrentTab\" was not injected: check your FXML file 'commander.fxml'.";
-
-        loadOn.setToggleGroup(toggleGroup);
-        loadOff.setToggleGroup(toggleGroup);
-
-        loadOn.setUserData("LON");
-        loadOff.setUserData("LOFF");
-        
-        toggleGroup.selectedToggleProperty().addListener(new ChangeListener<Toggle>(){
-          public void changed(ObservableValue<? extends Toggle> ov,
-          Toggle toggle, Toggle newToggle) {
-            if (newToggle == null) {
-              log("Toggle is Null.");
-            } else {
-              sendCommand((String)newToggle.getUserData());
-              //toggleGroup.selectToggle(null);
-            }
-          }
-        });
-
-        batteryLevelNumAxis.setAutoRanging(false);
-        batteryLevelNumAxis.setUpperBound(16.0);
-        batteryLevelNumAxis.setLowerBound(11.0);
-        batteryLevelNumAxis.setTickUnit(0.5);
-        batteryLevelNumAxis.setTickMarkVisible(true);
-
-        portList = SerialUtils.detectPorts();
-        
-        updateFreqList = FXCollections.observableArrayList();
-        updateFreqList.add(1000);    // 1 second
-        updateFreqList.add(2000);    // 2 seconds
-        updateFreqList.add(3000);    // 3 seconds
-        updateFreqList.add(4000);    // 4 seconds
-        updateFreqList.add(5000);    // 5 seconds
-        updateFreqList.add(10000);   // 10 seconds
-        updateFreqList.add(25000);   // 25 seconds
-        updateFreqList.add(30000);   // 30 seconds
-        updateFreqList.add(60000);   // 1 min
-        updateFreqList.add(300000);  // 5 mins
-        updateFreqList.add(600000);  // 10 mins
-        updateFreqList.add(3600000); // 1 hour
-        updateFreqList.add(18000000);// 5 hours
-
-        updateFreqComboBox.setItems(updateFreqList);
-        updateFreqComboBox.setConverter(new StringConverter<Integer>() {
-          @Override
-          public String toString(Integer integer) {
-        	  switch (integer) {
-        	  case 1000:
-        		  return "1 second";
-        	  case 2000:
-        		  return "2 seconds";
-        	  case 3000:
-        		  return "3 seconds";
-        	  case 4000:
-        		  return "4 seconds";
-        	  case 5000:
-        		  return "5 seconds";
-        	  case 10000:
-        		  return "10 seconds";
-        	  case 25000:
-        		  return "25 seconds";
-        	  case 30000:
-        		  return "30 seconds";
-        	  case 60000:
-        		  return "1 min";
-        	  case 300000:
-        		  return "5 minutes";
-        	  case 600000:
-        		  return "10 minutes";
-        	  case 1800000:
-        		  return "30 minutes";
-        	  case 3600000:
-        		  return "1 hour";
-        	  case 18000000:
-        		  return "5 hours";
-              default:
-        		  return "";
-        	  }
-          }
-          
-          @Override 
-          public Integer fromString(String data) {
-        	  switch (data) {
-        	  case "1 second":
-        		  return 1000;
-        	  case "2 seconds":
-        		  return 2000;
-        	  case "3 seconds":
-        		  return 3000;
-        	  case "4 seconds":
-        		  return 4000;
-        	  case "5 seconds":
-        		  return 5000;
-        	  case "10 seconds":
-        		  return 10000;
-        	  case "25 seconds":
-        		  return 25000;
-        	  case "30 seconds":
-        		  return 30000;
-        	  case "1 min":
-        		  return 60000;
-        	  case "5 minutes":
-        		  return 300000;
-        	  case "10 minutes":
-        		  return 600000;
-        	  case "30 minutes":
-        		  return 1800000;
-        	  case "1 hour":
-        		  return 3600000;
-        	  case "5 hours":
-        		  return 18000000;
-              default:
-        		  return 0;
-        	  }
-          }
-        });
-
-        updateFreqComboBox.valueProperty().addListener(new ChangeListener<Integer>() {
-            @Override
-            public void changed(ObservableValue<? extends Integer> observable, 
-            		Integer oldValue, Integer newValue) {
-            	arduinoSleepTime = newValue;
-            	append(updateFreqLabel, (newValue / 1000) + " seconds.");
-            }
-        });
-        
-        comList.setItems(portList);
-        comList.valueProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, 
-              String oldValue, String newValue) {
-                disconnectArduino();
-                connectArduino(newValue);
-            }
-        });
-
-        // Setup series
-        loadSeries = new XYChart.Series<String, Float>();
-        loadSeries.setName("Load Series");
-        loadCurrentSeries = new XYChart.Series<String, Float>();
-        loadCurrentSeries.setName("Load Current Series");
-        battLevelSeries = new XYChart.Series<String, Float>();
-        battLevelSeries.setName("Battery Level Series");
-        battTempSeries = new XYChart.Series<String, Float>();
-        battTempSeries.setName("Battery Temp Series");
-        pvVoltSeries = new XYChart.Series<String, Float>();
-        pvVoltSeries.setName("PV Voltage Series");
-        chargingSeries = new XYChart.Series<String, Float>();
-        chargingSeries.setName("Charging Series");
-        chargeCurrentSeries = new XYChart.Series<String, Float>();
-        chargeCurrentSeries.setName("Charge Current Series");
-
-        // Setup graphs
-        loadGraph.getData().add(loadSeries);
-        loadCurrentGraph.getData().add(loadCurrentSeries);
-        batteryLevelGraph.getData().add(battLevelSeries);
-        battTempGraph.getData().add(battTempSeries);
-        pvVoltGraph.getData().add(pvVoltSeries);
-        chargeCurrentGraph.getData().add(chargeCurrentSeries);
-        chargingGraph.getData().add(chargingSeries);
     }
-
-    public GuiController() {
-    }
-
-    ObservableList<String> portList;
-
-	private int clockUpdateCtr;
-
-	private boolean isRunning = true;
-
-	private SolarClient client;
-
-	private SolarServer solarServer;
-
-	private Serial serial;
-    
-    /**
-     * Send a command to arduino controller.
-     * @param cmd
-     */
-	public void sendCommand(String cmd) {
-		if (client != null && client.isConnected()) {
-		//We're connected via IP.
-			client.addOutMessage(cmd);
-		} else if (serial != null) {
-		//We're connected directly via Serial Port.
-			try {
-				serial.write(cmd + Constants.NEWLINE);
-			} catch (Exception e) {
-				ExceptionUtils.log(getClass(), e);
-			}
-		} else {
-			ExceptionUtils.showAlert("Could not send command, we're not connected.");
-		}
-	}
-    
-    /**
-     * Connect event.
-     * 
-     * @param event the action event.
-     */
-    @FXML
-    protected void connect(final ActionEvent event) {
-    	disconnectArduino();
-    	String ip = ipField.getText();
-        if (ip.matches(IPADDRESS_PATTERN)) {
-          client = new SolarClient(ip, Constants.PORT);
-          LOGGER.debug("Connecting to " + ip);
-          Main.COORDINATOR.submit(client);
-        } else {
-          LOGGER.debug("Cannot connect non valid IP address.");
-          ExceptionUtils.showAlert(new SolarException("Cannot connect non valid IP address."));
-        }
-    }
-    
-    /**
-     * Disconnect TCP connection. If connection exists.
-     */
-    protected void disconnect() {
-    	if(client != null && client.isConnected()) {
-    		client.shutdown();
-    	}
-    }
-    
-    /**
-     * Connect to arduino
-     * @param port
-     * 		the arduino port address.
-     * @return
-     * 		true if success false if failure
-     */
-    public void connectArduino(final String port) {
-    	disconnect();
-    	log("Connecting to Arduino...");
-        try {
-        	serial = new Serial(this, port, SerialPort.BAUDRATE_57600);
-        } catch (Exception ex) {
-            ExceptionUtils.log(getClass(), ex);
-        }
-    }
-
-    public void serialAvailable(Serial s) {//Unused
-	}
-	
-	public void serialEvent(Serial s) {
-		s.readString();
-        log("Raw: " + s);
-        sendCommand(
-        		  new String(ByteBuffer.allocate(4).putInt(arduinoSleepTime).array(),
-        				  Constants.CHARSET));
-        if (solarServer != null) {
-            solarServer.sendMessage(s.readString());
-        }
-        storeMessage(s.readString());
-	}
     
     /**
      * Append txt to the lbl provided.
      * 
      * @param lbl
-     * 		the label to append txt to.
+     *         the label to append txt to.
      * @param txt
-     * 		the text to append to lbl.
+     *         the text to append to lbl.
      */
     private void append(Label lbl, String txt) {
-    	lbl.setText(lbl.getText().substring(0, lbl.getText().indexOf(':') + 1) + txt);
+        lbl.setText(lbl.getText().substring(0, lbl.getText().indexOf(':') + 1) + txt);
+    }
+    
+    @Override
+    public void handle(WindowEvent event) {
+        shutdown();
     }
     
     /**
-     * Disconnect Arduino.
+     * Shutdown the GUI.
      */
-    public void disconnectArduino() {
-        if(serial != null) {
-            try {
-            	serial.stop();
-            } catch (Exception ex) {
-                ExceptionUtils.log(getClass(), ex);
-            }
-        }
+    public void shutdown() {
+        LOGGER.debug("Shutting down...");
+        isRunning = false;
+        serial.disconnect();
+        solarServer.shutdown();
+        DatabaseUtils.shutdown();
+        Main.COORDINATOR.shutdown();
+        Platform.exit();
+    }
+
+    /**
+     * Parse and store the raw message contain in the string.
+     * @param rawMsg
+     *         parse and store this raw message.
+     */
+    public void storeMessage(String rawMsg) {
+      String data = rawMsg;
+      data += ":" + new Date(Constants.getCurrentTimeMillis()).getTime();//Add time...
+      DatabaseUtils.insertData(data);
+      DataPoint d = DataUtils.parseDataPoint(data);
+      solarServer.updateData(d);
+      updateGraphs(d);
     }
     
-	@Override
-	public void handle(WindowEvent event) {
-		shutdown();
-	}
-	
-	/**
-	 * Shutdown the GUI.
-	 */
-	public void shutdown() {
-		LOGGER.debug("Shutting down...");
-		isRunning = false;
-		disconnectArduino();
-		solarServer.shutdown();
-		DatabaseUtils.shutdown();
-		Main.COORDINATOR.shutdown();
-		Platform.exit();
-	}
-
-	/**
-	 * Parse and store the raw message contain in the string.
-	 * @param rawMsg
-	 * 		parse and store this raw message.
-	 */
-	public void storeMessage(String rawMsg) {
-  	  String[] tmp = null;
-	  if (rawMsg.contains(System.lineSeparator())) {
-        tmp = rawMsg.split(System.lineSeparator());
-        if (tmp != null && tmp.length > 0) {
-          info.append(tmp[0]);
-          data = info.toString();
-          info = new StringBuilder();
-          for (int j = 0; j < tmp.length; j++) {
-            if (j > 1) {
-              info.append(tmp[j]);
-              info.append("#");
-            }
-          }
-          data += ":" + new Date(Constants.getCurrentTimeMillis()).getTime();//Add time...
-          DatabaseUtils.insertData(data);
-          if (data.split(":").length == Constants.DEFAULT_DATA_LENGTH) {
-            updateGraphs(DataUtils.parseDataPoint(data));
-          }
-      	}
-      } else {
-        info.append(rawMsg);
-      }
-	}
 	
 	/**
 	 * Update graphs.
 	 * @param d
 	 */
-	private void updateGraphs(DataPoint d) {
+    private void updateGraphs(DataPoint d) {
 		Platform.runLater(() -> {
 	        append(loadLabel, d.getLoadOnoff()+"");
 	        append(loadCurrentLabel, d.getLoadCurrent()+"");
@@ -607,16 +376,16 @@ public class GuiController implements EventHandler<WindowEvent>, Runnable {
 	public void run() {
 	  if (isRunning) {
 		try {
-        if (clockUpdateCtr++ >= Constants.UPDATE_CLOCK_FREQUENCY) {
-          clockUpdateCtr = 0;
-          LOGGER.debug("Updating clock.");
-          Constants.updateTimeoffset();
-        }
-        
-        if (client != null && client.isConnected()) {
-        //If we are connected to a server as a client...
-          storeMessage(client.getNextMessage());
-        }
+	        if (clockUpdateCtr++ >= Constants.UPDATE_CLOCK_FREQUENCY) {
+	          clockUpdateCtr = 0;
+	          LOGGER.debug("Updating clock.");
+	          Constants.updateTimeoffset();
+	        }
+	        if (serial.isConnected()) {
+	        	serial.writeData(new String(ByteBuffer.allocate(4).putInt(arduinoSleepTime).array(),
+	                Constants.CHARSET) + Constants.NEWLINE);
+	        	readSerial();
+	        }
         LOGGER.debug("GUI Heartbeat: " + clockUpdateCtr);
 		} catch (Throwable t1) {
 		  ExceptionUtils.log(getClass(), t1);
@@ -624,11 +393,17 @@ public class GuiController implements EventHandler<WindowEvent>, Runnable {
 	  }
 	}
 
+	private void readSerial() {
+      for (String s : serial.getStrings()) {
+          storeMessage(s);
+      }
+	}
+
 	/**
 	 * Set the server.
 	 * @param solarServer
 	 */
-	public void setServer(SolarServer solarServer) {
+	public void setServer(SolarWebServer solarServer) {
 		this.solarServer = solarServer;
 	}
 }

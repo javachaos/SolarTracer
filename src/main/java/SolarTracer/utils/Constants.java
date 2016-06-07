@@ -123,6 +123,11 @@ public class Constants {
 	public static final String COLON = ":";
 
 	public static final int BAUD_RATE = 57600;
+
+	/**
+	 * Serial Timeout
+	 */
+	public static final int SERIAL_TIMEOUT = 1000;
 	
     static {
     	init();

@@ -1,8 +1,9 @@
 package SolarTracer.serial;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -32,8 +33,8 @@ public class SerialCommImpl implements SerialPortDataListener, SerialConnection 
     private SerialPort serialPort;
 
     //input and output streams for sending and receiving data
-    private BufferedReader input = null;
-    private OutputStream output = null;
+    private BufferedReader input;
+    private BufferedWriter output;
 
     //just a boolean flag that i use for enabling
     //and disabling buttons depending on whether the program
@@ -83,7 +84,7 @@ public class SerialCommImpl implements SerialPortDataListener, SerialConnection 
     @Override
     public void writeData(String data) {
         try {
-            output.write(data.getBytes());
+        	output.write(data);
             output.flush();
         } catch (Exception e) {
             LOGGER.error("Failed to write data.");
@@ -103,16 +104,21 @@ public class SerialCommImpl implements SerialPortDataListener, SerialConnection 
 
     @Override
     public void connect(String port) {
-    	serialPort = SerialPort.getCommPort(port);
-        serialPort.setComPortTimeouts(SerialPort.TIMEOUT_READ_SEMI_BLOCKING, 100, 0);
-        serialPort.setBaudRate(Constants.BAUD_RATE);
-        serialPort.setParity(0);
-        serialPort.setNumDataBits(8);
-        serialPort.setNumStopBits(1);
-        input = new BufferedReader(new InputStreamReader(serialPort.getInputStream()));
-        output = serialPort.getOutputStream();
-        serialPort.addDataListener(this);
-    	bConnected = serialPort.openPort();
+    	try {
+	    	serialPort = SerialPort.getCommPort(port);
+	    	serialPort.setComPortTimeouts(SerialPort.TIMEOUT_READ_SEMI_BLOCKING, Constants.SERIAL_TIMEOUT, 0);
+	        serialPort.setParity(0);
+	        serialPort.setNumDataBits(8);
+	        serialPort.setNumStopBits(1);
+	        serialPort.setBaudRate(Constants.BAUD_RATE);
+	        input = new BufferedReader(new InputStreamReader(serialPort.getInputStream()));
+	        output = new BufferedWriter(new OutputStreamWriter(serialPort.getOutputStream()));
+	        serialPort.addDataListener(this);
+	    	bConnected = serialPort.openPort();
+    	} catch (Exception e) {
+    		LOGGER.error("Failed to connect.");
+    		ExceptionUtils.log(getClass(), e);
+    	}
     }
     
     @Override

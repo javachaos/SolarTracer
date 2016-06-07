@@ -63,9 +63,10 @@ public class SerialCommImpl implements SerialPortDataListener, SerialConnection 
             try {
             	while (input.available() > 0) {
 	                byte singleData = (byte)input.read();
-	
 	                if (singleData != Constants.NEWLINE_ASCII) {
-	                    charStack.append(new String(new byte[]{ singleData }, Constants.CHARSET));
+	                	String s = new String(new byte[]{ singleData }, Constants.CHARSET);
+	                    charStack.append(s);
+	                    LOGGER.debug("SerialEvent: " + s);
 	                } else {
 	                    updateListeners(charStack.toString());
 	                    charStack = new StringBuilder();

@@ -135,7 +135,6 @@ public class GuiController implements EventHandler<WindowEvent>, DataRecvListene
     private ObservableList<Integer> updateFreqList;
 
     ObservableList<String> portList;
-
     private int clockUpdateCtr;
 
     private boolean isRunning = true;

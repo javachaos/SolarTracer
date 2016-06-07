@@ -1,20 +1,10 @@
 package SolarTracer.serial;
 
-import java.util.List;
-
-import SolarTracer.data.DataPoint;
 import SolarTracer.data.DataPointListener;
 import SolarTracer.data.DataRecvListener;
 import javafx.collections.ObservableList;
 
 public interface SerialConnection {
-	
-	/**
-	 * Send a data point over this connection.
-	 * @param data
-	 * 		the data to send over the connection.
-	 */
-	void sendDataPoint(final DataPoint data);
 	
 	/**
 	 * Receive data from this connection.
@@ -76,13 +66,6 @@ public interface SerialConnection {
 	 * 		true if the connection is still alive.
 	 */
 	public boolean isConnected();
-    
-    /**
-     * Get the list of strings. Received from last call to getStrings.
-     * @return
-     * 		the list of strings read from input
-     */
-    public List<String> getStrings();
     
     /**
      * Get the set of Port names.

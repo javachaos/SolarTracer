@@ -3,9 +3,6 @@ package SolarTracer.serial;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +11,6 @@ import com.fazecast.jSerialComm.SerialPort;
 import com.fazecast.jSerialComm.SerialPortDataListener;
 import com.fazecast.jSerialComm.SerialPortEvent;
 
-import SolarTracer.data.DataPoint;
 import SolarTracer.data.DataPointListener;
 import SolarTracer.data.DataRecvListener;
 import SolarTracer.gui.GuiController;
@@ -50,7 +46,6 @@ public class SerialCommImpl implements SerialPortDataListener, SerialConnection 
     final static int SPACE_ASCII = 32;
     final static int DASH_ASCII = 45;
     
-    private LinkedList<String> stringQueue;
     private StringBuilder charStack;
     private ArrayList<DataRecvListener> listeners;
 	private ArrayList<DataPointListener> dataPointListeners;
@@ -59,7 +54,6 @@ public class SerialCommImpl implements SerialPortDataListener, SerialConnection 
      * Serial Communication Constructor.
      */
     public SerialCommImpl() {
-        stringQueue = new LinkedList<String>();
         charStack = new StringBuilder();
         listeners = new ArrayList<DataRecvListener>();
         dataPointListeners = new ArrayList<DataPointListener>();
@@ -75,14 +69,12 @@ public class SerialCommImpl implements SerialPortDataListener, SerialConnection 
 	                if (singleData != Constants.NEWLINE_ASCII) {
 	                    charStack.append(new String(new byte[]{ singleData }, Constants.CHARSET));
 	                } else {
-	                    //charStack.append(Constants.NEWLINE);
-	                    stringQueue.add(charStack.toString());
 	                    updateListeners(charStack.toString());
 	                    charStack = new StringBuilder();
 	                }
             	}
             } catch (Exception e) {
-                LOGGER.debug("Failed to read data.");
+                LOGGER.debug("Failed to read data. (" + e.getMessage() + ").");
                 ExceptionUtils.log(getClass(), e);
             }
         }
@@ -149,19 +141,6 @@ public class SerialCommImpl implements SerialPortDataListener, SerialConnection 
     @Override
     public boolean isConnected() {
         return bConnected;
-    }
-
-    @Override
-    public List<String> getStrings() {
-        ArrayList<String> returnStrings = new ArrayList<String>();
-        returnStrings.addAll(stringQueue);
-        stringQueue.removeAll(returnStrings);
-        return Collections.synchronizedList(returnStrings);
-    }
-
-    @Override
-    public void sendDataPoint(final DataPoint data) {
-        writeData(data.toString());
     }
 
     @Override

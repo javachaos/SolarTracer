@@ -15,6 +15,7 @@ import SolarTracer.utils.Constants;
 import SolarTracer.utils.DatabaseUtils;
 import SolarTracer.utils.ExceptionUtils;
 import SolarTracer.utils.FreqListStringConverter;
+import SolarTracer.utils.StatusUtils;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -253,6 +254,7 @@ public class GuiController implements EventHandler<WindowEvent>, DataPointListen
     protected void sendData(String userData) {
     	if (serial != null && serial.isConnected()) {
           serial.writeData(userData + Constants.NEWLINE);
+          StatusUtils.showGeneralInfo("Sent data: " + userData);
     	}
 	}
 
@@ -386,8 +388,8 @@ public class GuiController implements EventHandler<WindowEvent>, DataPointListen
 	          LOGGER.debug("Updating clock.");
 	          Constants.updateTimeoffset();
 	        }
-	        sendData(new String(ByteBuffer.allocate(4).putInt(arduinoSleepTime).array(),
-	                Constants.CHARSET));
+//	        sendData(new String(ByteBuffer.allocate(4).putInt(arduinoSleepTime).array(),
+//	                Constants.CHARSET));
             LOGGER.debug("GUI Heartbeat: " + clockUpdateCtr);
 		} catch (Throwable t1) {
 		  ExceptionUtils.log(getClass(), t1);

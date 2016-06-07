@@ -29,7 +29,7 @@ public class DataUtils {
 	        for(int i = 0; i < returnArr.length; i++) {
 	        	returnArr[i] = Float.parseFloat(d[i]);
 	        }
-	        return new DataPoint(Long.parseLong(d[Constants.DEFAULT_DATA_LENGTH]), returnArr);
+	        return new DataPoint(Long.parseLong(d[Constants.DEFAULT_DATA_LENGTH - 1]), returnArr);
 		} else {
 			LOGGER.error("Invalid data format.");
 			return new DataPoint(null);

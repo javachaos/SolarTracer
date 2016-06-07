@@ -63,8 +63,7 @@ public class SerialCommImpl implements SerialPortDataListener, SerialConnection 
             try {
             	updateListeners(input.readLine());
             } catch (Exception e) {
-                LOGGER.debug("Failed to read data. (" + e.getMessage() + ").");
-                ExceptionUtils.log(getClass(), e);
+                LOGGER.error("Failed to read data. (" + e.getMessage() + ").");
             }
         }
         if (ev.getEventType() == SerialPort.LISTENING_EVENT_DATA_WRITTEN) {
@@ -111,10 +110,10 @@ public class SerialCommImpl implements SerialPortDataListener, SerialConnection 
 	        serialPort.setNumDataBits(8);
 	        serialPort.setNumStopBits(1);
 	        serialPort.setBaudRate(Constants.BAUD_RATE);
+	    	bConnected = serialPort.openPort();
 	        input = new BufferedReader(new InputStreamReader(serialPort.getInputStream()));
 	        output = new BufferedWriter(new OutputStreamWriter(serialPort.getOutputStream()));
 	        serialPort.addDataListener(this);
-	    	bConnected = serialPort.openPort();
     	} catch (Exception e) {
     		LOGGER.error("Failed to connect.");
     		ExceptionUtils.log(getClass(), e);

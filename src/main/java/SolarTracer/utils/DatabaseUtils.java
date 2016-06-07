@@ -12,6 +12,8 @@ import java.util.Date;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import SolarTracer.data.DataPoint;
+
 /**
  * 
  * @author fred
@@ -161,24 +163,8 @@ public final class DatabaseUtils {
 		return null;
     }
     
-    public static synchronized void insertData(String dataPoint) {
-    	if (dataPoint != null && dataPoint.length() > 0) {
-	        String[] d = dataPoint.split(":");
-	        if (d.length != Constants.DEFAULT_DATA_LENGTH) {
-	        	return;
-	        }
-	        float battery_voltage = Float.parseFloat(d[0]);
-	        float pv_voltage      = Float.parseFloat(d[1]);
-	        float load_current    = Float.parseFloat(d[2]);
-	        float over_discharge  = Float.parseFloat(d[3]);
-	        float battery_max     = Float.parseFloat(d[4]);
-	        float full            = Float.parseFloat(d[5]);
-	        float charging        = Float.parseFloat(d[6]);
-	        float battery_temp    = Float.parseFloat(d[7]);
-	        float charge_current  = Float.parseFloat(d[8]);
-	        float load_onoff      = Float.parseFloat(d[9]);
-	        long  datetime        = Long.parseLong(d[10]);
-	
+    public static synchronized void insertData(DataPoint data) {
+    	if (data != null) {	
 	        try {
 	            Statement stat = getConnection().createStatement();
 	            stat.executeUpdate("INSERT INTO Data("
@@ -196,17 +182,17 @@ public final class DatabaseUtils {
 	            		+ ")"
 	            		
 	            		+ "VALUES("
-	            		+ battery_voltage + ", "
-	            		+ pv_voltage +      ", "
-	                    + load_current +    ", "
-	                    + over_discharge +  ", "
-	                    + battery_max +     ", "
-	                    + full +            ", "
-	                    + charging +        ", "
-	                    + battery_temp +    ", "
-	                    + charge_current +  ", "
-	                    + load_onoff +      ", "
-	                    + datetime
+	            		+ data.getBatteryVoltage() + ", "
+	            		+ data.getPvVoltage()      + ", "
+	                    + data.getLoadCurrent()    + ", "
+	                    + data.getLoadCurrent()    + ", "
+	                    + data.getBatteryMax()     + ", "
+	                    + data.getBatteryFull()    + ", "
+	                    + data.getCharging()       + ", "
+	                    + data.getBatteryTemp()    + ", "
+	                    + data.getChargeCurrent()  + ", "
+	                    + data.getLoadOnoff()      + ", "
+	                    + data.getTime()
 	            		+ ")");
 	        } catch (SQLException e) {
 	            ExceptionUtils.log(DatabaseUtils.class, e);

@@ -1,7 +1,6 @@
 package SolarTracer.serial;
 
 import SolarTracer.data.DataPointListener;
-import SolarTracer.data.DataRecvListener;
 import javafx.collections.ObservableList;
 
 public interface SerialConnection {
@@ -11,23 +10,7 @@ public interface SerialConnection {
 	 * @param dl
 	 *     the data to be provided to the caller.
 	 */
-	void addDataRecvListener(DataRecvListener dl);
-	
-	/**
-	 * Receive data from this connection.
-	 * @param dl
-	 *     the data to be provided to the caller.
-	 */
 	void addDataPointListener(DataPointListener dl);
-	
-	/**
-	 * Remove the data receive listener dl.
-	 * @param dl
-	 * 		the data listener to remove.
-	 * @return
-	 * 		the success of the operation as a boolean.
-	 */
-	boolean removeDataRecvListener(DataRecvListener dl);
 	
 	
 	/**

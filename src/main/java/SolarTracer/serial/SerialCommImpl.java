@@ -3,6 +3,7 @@ package SolarTracer.serial;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Date;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,7 +13,6 @@ import com.fazecast.jSerialComm.SerialPortDataListener;
 import com.fazecast.jSerialComm.SerialPortEvent;
 
 import SolarTracer.data.DataPointListener;
-import SolarTracer.data.DataRecvListener;
 import SolarTracer.gui.GuiController;
 import SolarTracer.utils.Constants;
 import SolarTracer.utils.DataUtils;
@@ -47,7 +47,6 @@ public class SerialCommImpl implements SerialPortDataListener, SerialConnection 
     final static int DASH_ASCII = 45;
     
     private StringBuilder charStack;
-    private ArrayList<DataRecvListener> listeners;
 	private ArrayList<DataPointListener> dataPointListeners;
     
     /**
@@ -55,7 +54,6 @@ public class SerialCommImpl implements SerialPortDataListener, SerialConnection 
      */
     public SerialCommImpl() {
         charStack = new StringBuilder();
-        listeners = new ArrayList<DataRecvListener>();
         dataPointListeners = new ArrayList<DataPointListener>();
     }
 
@@ -88,8 +86,8 @@ public class SerialCommImpl implements SerialPortDataListener, SerialConnection 
      * @param data
      */
     private void updateListeners(String data) {
-        listeners.parallelStream().forEach(l -> l.dataRecieved(data));
-        dataPointListeners.parallelStream().forEach(l -> l.dataPointReceived(DataUtils.parseDataPoint(data)));
+    	String info = data + ":" + new Date(Constants.getCurrentTimeMillis()).getTime();// Add Timestamp.
+        dataPointListeners.parallelStream().forEach(l -> l.dataPointReceived(DataUtils.parseDataPoint(info)));
     }
 
     @Override
@@ -141,24 +139,6 @@ public class SerialCommImpl implements SerialPortDataListener, SerialConnection 
     @Override
     public boolean isConnected() {
         return bConnected;
-    }
-
-    @Override
-    public void addDataRecvListener(DataRecvListener dl) {
-        if (dl == null) {
-            throw new NullPointerException("DataRecvListener cannot be null.");
-        } else {
-            listeners.add(dl);
-        }
-    }
-    
-    @Override
-    public boolean removeDataRecvListener(DataRecvListener dl) {
-        if (dl == null) {
-            throw new NullPointerException("DataRecvListener cannot be null.");
-        } else {
-            return listeners.remove(dl);
-        }
     }
     
 	@Override

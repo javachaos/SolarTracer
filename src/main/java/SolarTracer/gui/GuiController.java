@@ -1,19 +1,17 @@
 package SolarTracer.gui;
 
 import java.nio.ByteBuffer;
-import java.util.Date;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import SolarTracer.data.DataPoint;
-import SolarTracer.data.DataRecvListener;
+import SolarTracer.data.DataPointListener;
 import SolarTracer.main.Main;
 import SolarTracer.networking.SolarWebServer;
 import SolarTracer.serial.SerialConnection;
 import SolarTracer.serial.SerialFactory;
 import SolarTracer.utils.Constants;
-import SolarTracer.utils.DataUtils;
 import SolarTracer.utils.DatabaseUtils;
 import SolarTracer.utils.ExceptionUtils;
 import SolarTracer.utils.FreqListStringConverter;
@@ -37,7 +35,7 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.stage.WindowEvent;
 
-public class GuiController implements EventHandler<WindowEvent>, DataRecvListener, Runnable {
+public class GuiController implements EventHandler<WindowEvent>, DataPointListener, Runnable {
     
     /**
      * Logger.
@@ -150,7 +148,7 @@ public class GuiController implements EventHandler<WindowEvent>, DataRecvListene
     @FXML
     void initialize() {
     	serial = SerialFactory.getSerial();
-    	serial.addDataRecvListener(this);
+    	serial.addDataPointListener(this);
         sanityCheck();
         setupToggle();
         batteryLevelNumAxis.setAutoRanging(false);
@@ -306,19 +304,16 @@ public class GuiController implements EventHandler<WindowEvent>, DataRecvListene
         DatabaseUtils.shutdown();
         Main.COORDINATOR.shutdown();
         Platform.exit();
-    }
+    }    
 
     /**
      * Parse and store the raw message contain in the string.
      * @param rawMsg
      *         parse and store this raw message.
      */
-    public void storeMessage(String rawMsg) {
-      String data = rawMsg;
-      data += ":" + new Date(Constants.getCurrentTimeMillis()).getTime();//Add time...
+    public void storeData(DataPoint data) {
       DatabaseUtils.insertData(data);
-      DataPoint d = DataUtils.parseDataPoint(data);
-      updateGraphs(d);
+      updateGraphs(data);
     }
     
 	
@@ -400,10 +395,10 @@ public class GuiController implements EventHandler<WindowEvent>, DataRecvListene
 	public void setServer(SolarWebServer solarServer) {
 		this.solarServer = solarServer;
 	}
-
+	
 	@Override
-	public void dataRecieved(String data) {
-        storeMessage(data);
+	public void dataPointReceived(DataPoint dataPoint) {
+		storeData(dataPoint);
 	}
 }
 

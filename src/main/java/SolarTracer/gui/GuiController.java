@@ -239,15 +239,24 @@ public class GuiController implements EventHandler<WindowEvent>, DataPointListen
           Toggle toggle, Toggle newToggle) {
             if (newToggle == null) {
               log("Toggle is Null.");
-              toggleGroup.selectToggle(null);
             } else {
-              serial.writeData((String)newToggle.getUserData() + Constants.NEWLINE);
+            	sendData((String)newToggle.getUserData());
             }
           }
         });
     }
 
     /**
+     * Send data over serial. Appends Newline.
+     * @param userData
+     */
+    protected void sendData(String userData) {
+    	if (serial != null && serial.isConnected()) {
+          serial.writeData(userData + Constants.NEWLINE);
+    	}
+	}
+
+	/**
      * Check all fxml objects.
      */
     private void sanityCheck() {
@@ -377,10 +386,8 @@ public class GuiController implements EventHandler<WindowEvent>, DataPointListen
 	          LOGGER.debug("Updating clock.");
 	          Constants.updateTimeoffset();
 	        }
-	        if (serial.isConnected()) {
-	        	serial.writeData(new String(ByteBuffer.allocate(4).putInt(arduinoSleepTime).array(),
-	                Constants.CHARSET) + Constants.NEWLINE);
-	        }
+	        sendData(new String(ByteBuffer.allocate(4).putInt(arduinoSleepTime).array(),
+	                Constants.CHARSET));
             LOGGER.debug("GUI Heartbeat: " + clockUpdateCtr);
 		} catch (Throwable t1) {
 		  ExceptionUtils.log(getClass(), t1);

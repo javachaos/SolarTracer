@@ -6,6 +6,7 @@ import java.io.StringWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
@@ -24,14 +25,14 @@ public class ExceptionUtils {
 	public static void log(final Class<?> clazz, final Throwable ex) {
 	  Logger logger = LoggerFactory.getLogger(clazz);
 	  logger.error(ex.getMessage());
-	  showAlert(ex);
+	  Platform.runLater(() -> showAlert(ex));
 	}
 	
 	/**
 	 * Show an alert dialog.
 	 * @param ex
 	 */
-	public static void showAlert(Throwable ex) {
+	private static void showAlert(Throwable ex) {
 
 		Alert alert = new Alert(AlertType.ERROR);
 		alert.setTitle("Exception Alert");
@@ -64,6 +65,6 @@ public class ExceptionUtils {
 	 * @param ex
 	 */
 	public static void showAlert(String msg) {
-		showAlert(new SolarException(msg));
+		Platform.runLater(() -> showAlert(new SolarException(msg)));
 	}
 }

@@ -114,12 +114,15 @@ public class SerialCommImpl implements SerialPortDataListener, SerialConnection 
     @Override
     public void connect(String port) {
     	serialPort = SerialPort.getCommPort(port);
-    	bConnected = serialPort.openPort();
-        input = serialPort.getInputStream();
-        output = serialPort.getOutputStream();
         serialPort.setComPortTimeouts(SerialPort.TIMEOUT_READ_SEMI_BLOCKING, 100, 0);
         serialPort.setBaudRate(Constants.BAUD_RATE);
+        serialPort.setParity(0);
+        serialPort.setNumDataBits(8);
+        serialPort.setNumStopBits(1);
+        input = serialPort.getInputStream();
+        output = serialPort.getOutputStream();
         serialPort.addDataListener(this);
+    	bConnected = serialPort.openPort();
     }
     
     @Override

@@ -79,7 +79,7 @@ public class Constants {
     /**
      * Number of values to show in graph view.
      */
-	public static final int DATA_WINDOW_SIZE = 50;
+	public static final int DATA_WINDOW_SIZE = 10;
 
 	/**
 	 * Synchronize the system clock every 5 minutes with NTP time.

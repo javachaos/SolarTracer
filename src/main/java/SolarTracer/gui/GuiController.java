@@ -225,6 +225,8 @@ public class GuiController implements EventHandler<WindowEvent>, DataPointListen
                     Integer oldValue, Integer newValue) {
                 arduinoSleepTime = newValue;
                 append(updateFreqLabel, (newValue / 1000) + " seconds.");
+                sendData(new String(ByteBuffer.allocate(4).putInt(arduinoSleepTime).array(),
+    	                Constants.CHARSET));
             }
         });
     }
@@ -388,8 +390,6 @@ public class GuiController implements EventHandler<WindowEvent>, DataPointListen
 	          LOGGER.debug("Updating clock.");
 	          Constants.updateTimeoffset();
 	        }
-//	        sendData(new String(ByteBuffer.allocate(4).putInt(arduinoSleepTime).array(),
-//	                Constants.CHARSET));
             LOGGER.debug("GUI Heartbeat: " + clockUpdateCtr);
 		} catch (Throwable t1) {
 		  ExceptionUtils.log(getClass(), t1);

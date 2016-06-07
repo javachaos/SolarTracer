@@ -12,7 +12,7 @@ public class StatusUtils {
 			alert.setTitle(title);
 			alert.setHeaderText(header);
 			alert.setContentText(info);
-			alert.showAndWait();
+			alert.show();
 		});
 	}
 	

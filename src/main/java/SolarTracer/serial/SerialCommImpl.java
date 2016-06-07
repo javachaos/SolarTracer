@@ -66,7 +66,6 @@ public class SerialCommImpl implements SerialPortDataListener, SerialConnection 
 	                if (singleData != Constants.NEWLINE_ASCII) {
 	                	String s = new String(new byte[]{ singleData }, Constants.CHARSET);
 	                    charStack.append(s);
-	                    LOGGER.debug("SerialEvent: " + s);
 	                } else {
 	                    updateListeners(charStack.toString());
 	                    charStack = new StringBuilder();
@@ -119,6 +118,7 @@ public class SerialCommImpl implements SerialPortDataListener, SerialConnection 
         input = serialPort.getInputStream();
         output = serialPort.getOutputStream();
         serialPort.setComPortTimeouts(SerialPort.TIMEOUT_READ_SEMI_BLOCKING, 100, 0);
+        serialPort.setBaudRate(Constants.BAUD_RATE);
         serialPort.addDataListener(this);
     }
     

@@ -121,6 +121,8 @@ public class Constants {
 	public static final int SERIAL_BUFFER_SIZE = 256;
 
 	public static final String COLON = ":";
+
+	public static final int BAUD_RATE = 57600;
 	
     static {
     	init();

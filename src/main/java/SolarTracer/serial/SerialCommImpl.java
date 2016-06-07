@@ -1,6 +1,7 @@
 package SolarTracer.serial;
 
-import java.io.InputStream;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Date;
@@ -31,7 +32,7 @@ public class SerialCommImpl implements SerialPortDataListener, SerialConnection 
     private SerialPort serialPort;
 
     //input and output streams for sending and receiving data
-    private InputStream input = null;
+    private BufferedReader input = null;
     private OutputStream output = null;
 
     //just a boolean flag that i use for enabling
@@ -46,14 +47,12 @@ public class SerialCommImpl implements SerialPortDataListener, SerialConnection 
     final static int SPACE_ASCII = 32;
     final static int DASH_ASCII = 45;
     
-    private StringBuilder charStack;
 	private ArrayList<DataPointListener> dataPointListeners;
     
     /**
      * Serial Communication Constructor.
      */
     public SerialCommImpl() {
-        charStack = new StringBuilder();
         dataPointListeners = new ArrayList<DataPointListener>();
     }
 
@@ -61,16 +60,7 @@ public class SerialCommImpl implements SerialPortDataListener, SerialConnection 
     public void serialEvent(SerialPortEvent ev) {
         if (ev.getEventType() == SerialPort.LISTENING_EVENT_DATA_AVAILABLE) {
             try {
-            	while (input.available() > 0) {
-	                byte singleData = (byte)input.read();
-	                if (singleData != Constants.NEWLINE_ASCII) {
-	                	String s = new String(new byte[]{ singleData }, Constants.CHARSET);
-	                    charStack.append(s);
-	                } else {
-	                    updateListeners(charStack.toString());
-	                    charStack = new StringBuilder();
-	                }
-            	}
+            	updateListeners(input.readLine());
             } catch (Exception e) {
                 LOGGER.debug("Failed to read data. (" + e.getMessage() + ").");
                 ExceptionUtils.log(getClass(), e);
@@ -119,7 +109,7 @@ public class SerialCommImpl implements SerialPortDataListener, SerialConnection 
         serialPort.setParity(0);
         serialPort.setNumDataBits(8);
         serialPort.setNumStopBits(1);
-        input = serialPort.getInputStream();
+        input = new BufferedReader(new InputStreamReader(serialPort.getInputStream()));
         output = serialPort.getOutputStream();
         serialPort.addDataListener(this);
     	bConnected = serialPort.openPort();

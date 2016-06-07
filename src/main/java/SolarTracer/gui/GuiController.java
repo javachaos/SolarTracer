@@ -174,6 +174,22 @@ public class GuiController implements EventHandler<WindowEvent>, DataPointListen
     }
 
     private void setupGraphs() {
+        loadGraph.setAnimated(false);
+        loadCurrentGraph.setAnimated(false);
+        batteryLevelGraph.setAnimated(false);
+        battTempGraph.setAnimated(false);
+        pvVoltGraph.setAnimated(false);
+        chargeCurrentGraph.setAnimated(false);
+        chargingGraph.setAnimated(false);
+        
+        loadGraph.setCreateSymbols(false);
+        loadCurrentGraph.setCreateSymbols(false);
+        batteryLevelGraph.setCreateSymbols(false);
+        battTempGraph.setCreateSymbols(false);
+        pvVoltGraph.setCreateSymbols(false);
+        chargeCurrentGraph.setCreateSymbols(false);
+        chargingGraph.setCreateSymbols(false);
+        
         // Setup graphs
         loadGraph.getData().add(loadSeries);
         loadCurrentGraph.getData().add(loadCurrentSeries);

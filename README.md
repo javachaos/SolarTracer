@@ -4,5 +4,7 @@ Simple Java GUI application to log solar data from an MPPT solar charge controll
 ![](https://github.com/javachaos/SolarTracer/blob/master/src/main/resources/solar_tracer.png)
 This software, gathers information from an arduino board using the arduino script found under... SolarTracer/src/main/resources/tracer.ino and aggrigates the data to an SQLite database and updates some visual graphs. It also creates a small embedded webpage on the localhost of the running machine with an up to date datapoint. (Refreshes every second).
 
+See [Wiki](https://github.com/javachaos/SolarTracer/wiki) for more information.
+
 Although I may not be currently aware of any bugs in this application some may still exist, therefore...
 USE THIS SOFTWARE AT YOUR OWN RISK.

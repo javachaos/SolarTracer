@@ -1,6 +1,7 @@
 package SolarTracer.networking;
 
 import java.io.IOException;
+import java.net.BindException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;

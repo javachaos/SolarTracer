@@ -227,6 +227,7 @@ public class GuiController implements EventHandler<WindowEvent>, DataPointListen
         updateFreqList.add(60000);   // 1 min
         updateFreqList.add(300000);  // 5 mins
         updateFreqList.add(600000);  // 10 mins
+        updateFreqList.add(1800000); // 30 mins
         updateFreqList.add(3600000); // 1 hour
         updateFreqList.add(18000000);// 5 hours
         updateFreqComboBox.setItems(updateFreqList);

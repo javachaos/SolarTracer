@@ -8,7 +8,7 @@
   
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <main.class>SolarTracer.main.Main</main.class>
+    <main.class>SolarTracer.main.MainEntry</main.class>
     <app.name>SolarTracer</app.name>
     <project.build.output.dir>${project.basedir}/bin/</project.build.output.dir>
     <staging.dir>${project.build.directory}/staging</staging.dir>
@@ -30,12 +30,22 @@
               <artifactId>javafx-maven-plugin</artifactId>
               <version>0.0.5</version>
               <configuration>
-                  <mainClass>${main.class}}</mainClass>
+                  <stripDebug>true</stripDebug>
+                  <compress>2</compress>
+                  <noHeaderFiles>true</noHeaderFiles>
+                  <noManPages>true</noManPages>
+                  <launcher>${app.name}</launcher>
+                  <jlinkImageName>${app.name}</jlinkImageName>
+                  <jlinkZipName>${app.name}Zip</jlinkZipName>
+                  <mainClass>${main.class}</mainClass>
+                  <options>
+                      <option>--add-modules=javafx.controls</option>
+                  </options>
               </configuration>
-              </plugin>
+          </plugin>
           <plugin>
             <artifactId>maven-resources-plugin</artifactId>
-            <version>2.6</version>
+            <version>3.2.0</version>
             <executions>
               <execution>
                 <id>copy-resources</id>
@@ -45,12 +55,12 @@
                 </goals>
                 <configuration>
                   <outputDirectory>${staging.dir}</outputDirectory>
-                  <resources>          
+                  <resources>
                     <resource>
                       <directory>src/main/resources</directory>
-                      <filtering>true</filtering>
+                      <filtering>false</filtering>
                     </resource>
-                  </resources>              
+                  </resources>
                 </configuration>            
               </execution>
             </executions>
@@ -87,36 +97,10 @@
                 </execution>
               </executions>
             </plugin>
-        <!--    <plugin>
-			    <groupId>com.github.wvengen</groupId>
-			    <artifactId>proguard-maven-plugin</artifactId>
-	            <version>2.3.1</version>
-			    <executions>
-			        <execution>
-			            <phase>package</phase>
-			            <goals><goal>proguard</goal></goals>
-			        </execution>
-			    </executions>
-			    <configuration>
-			        <maxMemory>1024m</maxMemory>
-
-			        <proguardInclude>src/main/resources/proguard.conf</proguardInclude>
-
-			        <exclusions>
-			        </exclusions>
-
-			        <libs>
-			            <lib>${java.home}/lib/rt.jar</lib>
-			            <lib>${java.home}/lib/jce.jar</lib>
-			            <lib>${java.home}/lib/ext/sunjce_provider.jar</lib>
-			            <lib>${java.home}/lib/ext/jfxrt.jar</lib>
-			        </libs>
-			    </configuration>
-			</plugin> -->
             <plugin>
             <groupId>com.akathist.maven.plugins.launch4j</groupId>
             <artifactId>launch4j-maven-plugin</artifactId>
-            <version>1.5.1</version>
+            <version>1.7.25</version>
             <executions>
                 <execution>
                     <id>l4j-clui</id>
@@ -141,7 +125,7 @@
                             <fileVersion>1.0.0.0</fileVersion>
                             <txtFileVersion>${project.version}</txtFileVersion>
                             <fileDescription>${project.name}</fileDescription>
-                            <copyright>2016 Alfred Laderoute</copyright>
+                            <copyright>2020 Alfred Laderoute</copyright>
                             <productVersion>1.0.0.0</productVersion>
                             <txtProductVersion>1.0.0.0</txtProductVersion>
                             <productName>${project.name}</productName>
@@ -166,6 +150,29 @@
           <groupId>org.openjfx</groupId>
           <artifactId>javafx-fxml</artifactId>
           <version>15.0.1</version>
+      </dependency>
+      <dependency>
+          <groupId>org.openjfx</groupId>
+          <artifactId>javafx-base</artifactId>
+          <version>15.0.1</version>
+      </dependency>
+      <dependency>
+          <groupId>org.openjfx</groupId>
+          <artifactId>javafx-graphics </artifactId>
+          <version>15.0.1</version>
+          <classifier>win</classifier>
+      </dependency>
+      <dependency>
+          <groupId>org.openjfx</groupId>
+          <artifactId>javafx-graphics </artifactId>
+          <version>15.0.1</version>
+          <classifier>linux</classifier>
+      </dependency>
+      <dependency>
+          <groupId>org.openjfx</groupId>
+          <artifactId>javafx-graphics </artifactId>
+          <version>15.0.1</version>
+          <classifier>mac</classifier>
       </dependency>
 	<dependency>
 	    <groupId>com.fazecast</groupId>

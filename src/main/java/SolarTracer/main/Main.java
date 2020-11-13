@@ -39,11 +39,11 @@ public class Main extends Application {
 		primaryStage.setTitle("Solar MPPT Tracer");
 		FXMLLoader fxmlLoader = new FXMLLoader();
 		AnchorPane myPane =
-		    (AnchorPane) fxmlLoader.load(getClass().getResource("/commander.fxml").openStream());
-	    guiController = (SolarTracer.gui.GuiController) fxmlLoader.getController();
+				fxmlLoader.load(getClass().getResource("/commander.fxml").openStream());
+	    guiController = fxmlLoader.getController();
 		COORDINATOR.scheduleAtFixedRate(guiController, 0, Constants.GUI_SLEEPTIME, TimeUnit.MILLISECONDS);
 		SolarWebServer server = new SolarWebServer();
-		COORDINATOR.schedule(server, 0, TimeUnit.NANOSECONDS);
+		COORDINATOR.schedule(server, 0, TimeUnit.SECONDS);
 		guiController.setServer(server);
 	    primaryStage.setOnCloseRequest(guiController);
 		Scene myScene = new Scene(myPane);
@@ -58,7 +58,7 @@ public class Main extends Application {
 			LOGGER.debug("Created new database file.");
 		}
 		addHook();
-		launch(args);
+		launch();
 	}
 	
 	/**

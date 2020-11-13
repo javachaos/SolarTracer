@@ -6,6 +6,9 @@ public class FreqListStringConverter extends StringConverter<Integer> {
 
     @Override
     public String toString(Integer integer) {
+    	if (integer == null) {
+    		return "";
+		}
   	  switch (integer) {
   	  case 1000:
   		  return "1 second";

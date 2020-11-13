@@ -29,7 +29,27 @@ public class SerialCommImpl implements SerialPortDataListener, SerialConnection 
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(GuiController.class);
 
-    private SerialPort[] serialPorts = SerialPort.getCommPorts();
+    /**
+     * RS232 Parity field
+     */
+    private static final int PARITY = 0;
+
+    /**
+     * RS232 Data Bits field
+     */
+    private static final int DATA_BITS = 8;
+
+    /**
+     * RS232 Stop Bits field
+     */
+    private static final int STOP_BITS = 1;
+
+    /**
+     * RS232 new write timeout.
+     */
+    private static final int WRITE_TIMEOUT = 1000;
+
+    private final SerialPort[] serialPorts = SerialPort.getCommPorts();
     private SerialPort serialPort;
 
     //input and output streams for sending and receiving data
@@ -41,20 +61,13 @@ public class SerialCommImpl implements SerialPortDataListener, SerialConnection 
     //is connected to a serial port or not
     private boolean bConnected = false;
 
-    //the timeout value for connecting with the port
-    final static int TIMEOUT = 2000;
-
-    //some ascii values for for certain things
-    final static int SPACE_ASCII = 32;
-    final static int DASH_ASCII = 45;
-    
-	private ArrayList<DataPointListener> dataPointListeners;
+    private ArrayList<DataPointListener> dataPointListeners;
     
     /**
      * Serial Communication Constructor.
      */
     public SerialCommImpl() {
-        dataPointListeners = new ArrayList<DataPointListener>();
+        dataPointListeners = new ArrayList<>();
     }
 
     @Override
@@ -105,10 +118,10 @@ public class SerialCommImpl implements SerialPortDataListener, SerialConnection 
     public void connect(String port) {
     	try {
 	    	serialPort = SerialPort.getCommPort(port);
-	    	serialPort.setComPortTimeouts(SerialPort.TIMEOUT_READ_SEMI_BLOCKING, Constants.SERIAL_TIMEOUT, 0);
-	        serialPort.setParity(0);
-	        serialPort.setNumDataBits(8);
-	        serialPort.setNumStopBits(1);
+	    	serialPort.setComPortTimeouts(SerialPort.TIMEOUT_READ_SEMI_BLOCKING, Constants.SERIAL_TIMEOUT, WRITE_TIMEOUT);
+	        serialPort.setParity(PARITY);
+	        serialPort.setNumDataBits(DATA_BITS);
+	        serialPort.setNumStopBits(STOP_BITS);
 	        serialPort.setBaudRate(Constants.BAUD_RATE);
 	    	bConnected = serialPort.openPort();
 	        input = new BufferedReader(new InputStreamReader(serialPort.getInputStream()));

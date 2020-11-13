@@ -46,6 +46,7 @@ public class ShutdownHook extends Thread {
       mainThread.join();
     } catch (final InterruptedException e1) {
         ExceptionUtils.log(getClass(), e1);
+        Thread.currentThread().interrupt();
     }
   }
 }

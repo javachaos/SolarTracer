@@ -131,7 +131,9 @@ public class SerialCommImpl implements SerialPortDataListener, SerialConnection 
 	            LOGGER.info("Serial Disconnected.");
         	}
         } catch (Exception e) {
-            LOGGER.debug("Failed to close " + serialPort.getSystemPortName());
+            if(LOGGER.isDebugEnabled()) {
+                LOGGER.debug("Failed to close " + serialPort.getSystemPortName());
+            }
         }
     }
 

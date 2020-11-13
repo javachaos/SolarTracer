@@ -1,18 +1,11 @@
 package SolarTracer.utils;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import SolarTracer.data.DataPoint;
+
+import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import SolarTracer.data.DataPoint;
 
 /**
  * 
@@ -21,13 +14,7 @@ import SolarTracer.data.DataPoint;
  */
 public final class DatabaseUtils {
 
-
 	/**
-	 * Logger.
-	 */
-	public static final Logger LOGGER = LoggerFactory.getLogger(DatabaseUtils.class);
-	  
-    /**
      * Database connection instance.
      */
     private static volatile Connection conn;
@@ -88,47 +75,69 @@ public final class DatabaseUtils {
      */
     public static synchronized void createTables() {
         getConnection();
+        Statement stat = null;
         try {
-            Statement stat = conn.createStatement();
+			stat = conn.createStatement();
             stat.addBatch("CREATE TABLE IF NOT EXISTS Data (ID INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL,"
             		     + "battery_voltage DOUBLE, pv_voltage DOUBLE, load_current DOUBLE, over_discharge DOUBLE,"
             		     + "battery_max DOUBLE, battery_full BOOLEAN, charging BOOLEAN, battery_temp DOUBLE,"
             		     + "charge_current DOUBLE, load_onoff BOOLEAN, time TIMESTAMP DEFAULT CURRENT_TIMESTAMP)");
             stat.executeBatch();
-            conn.close();
         } catch (SQLException e) {
             ExceptionUtils.log(DatabaseUtils.class, e);
-        }
+        } finally {
+        	closeItem(stat);
+        	closeItem(conn);
+		}
     }
-    
+
+	/**
+	 * Helper method to close an AutoClosable
+	 * @param c the AutoClosable to close
+	 */
+	private static void closeItem(AutoCloseable c) {
+		try {
+			if(c != null) {
+				c.close();
+			}
+		} catch (Exception e) {
+			ExceptionUtils.log(DatabaseUtils.class, e);
+		}
+	}
+
     public static synchronized int getNumRecords() {
     	ResultSet rs = null;
-		Statement s;
+		Statement s = null;
+		int numRecs = -1;
 		try {
 			s = DatabaseUtils.getConnection().createStatement();
 			rs = s.executeQuery("SELECT Count(*) FROM Data");
 			if (rs.next()) {
-				return rs.getInt(1);
-			}			
+				numRecs = rs.getInt(1);
+			}
 		} catch (SQLException e) {
             ExceptionUtils.log(DatabaseUtils.class, e);
+		} finally {
+			closeItem(rs);
+			closeItem(s);
 		}
-		return -1;
+		return numRecs;
     }
-    
+
     public static synchronized ArrayList<String> getData(Date first, Date second) {
     	if (first != null && first.getTime() > 0 && second != null && second.getTime() > 0) {
 	        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
-	        ArrayList<String> returnData = new ArrayList<String>(Constants.DATA_WINDOW_SIZE);
+	        ArrayList<String> returnData = new ArrayList<>(Constants.DATA_WINDOW_SIZE);
 	        StringBuilder sb = new StringBuilder();
 			ResultSet rs = null;
-			Statement s;
+			PreparedStatement prepStat = null;
 			try {
-				s = DatabaseUtils.getConnection().createStatement();
-				rs = s.executeQuery("SELECT * FROM Data WHERE time >= Datetime('"
-				    + dateFormat.format(first)
-				    + "') AND time <= Datetime('"+dateFormat.format(second)+"') ORDER BY ID DESC LIMIT "
-				    + Constants.DATA_WINDOW_SIZE);
+				prepStat = getConnection().prepareStatement("SELECT * FROM Data WHERE time >= " +
+						"Datetime('?') AND time <= Datetime('?') ORDER BY ID DESC LIMIT ?");
+				prepStat.setTimestamp(1, Timestamp.valueOf(dateFormat.format(first)));
+				prepStat.setTimestamp(2, Timestamp.valueOf(dateFormat.format(second)));
+				prepStat.setInt(3, Constants.DATA_WINDOW_SIZE);
+				rs = prepStat.executeQuery();
 				while (rs.next()) {
 			        float battery_voltage = rs.getFloat("battery_voltage");
 			        float pv_voltage      = rs.getFloat("pv_voltage");
@@ -140,23 +149,36 @@ public final class DatabaseUtils {
 			        float battery_temp    = rs.getFloat("battery_temp");
 			        float charge_current  = rs.getFloat("charge_current");
 			        float load_onoff      = rs.getFloat("load_onoff");
-			        Date datetime             = rs.getDate("time");
-			        sb.append(battery_voltage + ":");
-			        sb.append(pv_voltage + ":");
-			        sb.append(load_current + ":");
-			        sb.append(over_discharge + ":");
-			        sb.append(battery_max + ":");
-			        sb.append(full + ":");
-			        sb.append(charging + ":");
-			        sb.append(battery_temp + ":");
-			        sb.append(charge_current + ":");
-			        sb.append(load_onoff + ":");
+			        Date datetime         = rs.getDate("time");
+			        sb.append(battery_voltage);
+					sb.append(":");
+			        sb.append(pv_voltage);
+					sb.append(":");
+			        sb.append(load_current);
+					sb.append(":");
+			        sb.append(over_discharge);
+					sb.append(":");
+			        sb.append(battery_max);
+					sb.append(":");
+			        sb.append(full);
+					sb.append(":");
+			        sb.append(charging);
+					sb.append(":");
+			        sb.append(battery_temp);
+					sb.append(":");
+			        sb.append(charge_current);
+					sb.append(":");
+			        sb.append(load_onoff);
+					sb.append(":");
 			        sb.append(datetime.getTime());
 			        returnData.add(sb.toString());
 			        sb = new StringBuilder();
 				}
 			} catch (SQLException e) {
 	            ExceptionUtils.log(DatabaseUtils.class, e);
+			} finally {
+				closeItem(rs);
+				closeItem(prepStat);
 			}
 			return returnData;
     	}
@@ -164,10 +186,10 @@ public final class DatabaseUtils {
     }
     
     public static synchronized void insertData(DataPoint data) {
-    	if (data != null) {	
+    	if (data != null) {
+			PreparedStatement stat = null;
 	        try {
-	            Statement stat = getConnection().createStatement();
-	            stat.executeUpdate("INSERT INTO Data("
+	            stat = getConnection().prepareStatement("INSERT INTO Data("
 	            		+ "battery_voltage, "
 	            		+ "pv_voltage, "
 	            		+ "load_current, "
@@ -179,24 +201,24 @@ public final class DatabaseUtils {
 	            		+ "charge_current, "
 	            		+ "load_onoff,"
 	            		+ "time"
-	            		+ ")"
-	            		
-	            		+ "VALUES("
-	            		+ data.getBatteryVoltage() + ", "
-	            		+ data.getPvVoltage()      + ", "
-	                    + data.getLoadCurrent()    + ", "
-	                    + data.getLoadCurrent()    + ", "
-	                    + data.getBatteryMax()     + ", "
-	                    + data.getBatteryFull()    + ", "
-	                    + data.getCharging()       + ", "
-	                    + data.getBatteryTemp()    + ", "
-	                    + data.getChargeCurrent()  + ", "
-	                    + data.getLoadOnoff()      + ", "
-	                    + data.getTime()
-	            		+ ")");
+	            		+ ") VALUES(?,?,?,?,?,?,?,?,?,?,?)");
+	            stat.setFloat(1,data.getBatteryVoltage());
+				stat.setFloat(2,data.getPvVoltage());
+				stat.setFloat(3,data.getLoadCurrent());
+				stat.setFloat(4,data.getOverDischarge());
+				stat.setFloat(5,data.getBatteryMax());
+				stat.setFloat(6,data.getBatteryFull());
+				stat.setFloat(7,data.getCharging());
+				stat.setFloat(8,data.getBatteryTemp());
+				stat.setFloat(9,data.getChargeCurrent());
+				stat.setFloat(10,data.getLoadOnoff());
+				stat.setLong(11,data.getTime());
+				stat.executeUpdate();
 	        } catch (SQLException e) {
 	            ExceptionUtils.log(DatabaseUtils.class, e);
-	        }
+	        } finally {
+	        	closeItem(stat);
+			}
     	}
     }
     
@@ -212,6 +234,7 @@ public final class DatabaseUtils {
 	                    Thread.sleep(Constants.SLEEP_TIME);
 	                } catch (InterruptedException e) {
 	                    ExceptionUtils.log(DatabaseUtils.class, e);
+	                    Thread.currentThread().interrupt();
 	                }
 	            }
         	}

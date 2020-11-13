@@ -160,14 +160,10 @@ public class GuiController implements EventHandler<WindowEvent>, DataPointListen
         portList = serial.getPortNames();
         setupFreqList();
         comList.setItems(portList);
-        comList.valueProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, 
-              String oldValue, String newValue) {
-                serial.disconnect();
-                serial.connect(newValue);
-                serial.addDataPointListener(solarServer);
-            }
+        comList.valueProperty().addListener((observable, oldValue, newValue) -> {
+            serial.disconnect();
+            serial.connect(newValue);
+            serial.addDataPointListener(solarServer);
         });
         setupSeries();
         setupGraphs();
@@ -202,19 +198,19 @@ public class GuiController implements EventHandler<WindowEvent>, DataPointListen
 
     private void setupSeries() {
         // Setup series
-        loadSeries = new XYChart.Series<String, Float>();
+        loadSeries = new XYChart.Series<>();
         loadSeries.setName("Load Series");
-        loadCurrentSeries = new XYChart.Series<String, Float>();
+        loadCurrentSeries = new XYChart.Series<>();
         loadCurrentSeries.setName("Load Current Series");
-        battLevelSeries = new XYChart.Series<String, Float>();
+        battLevelSeries = new XYChart.Series<>();
         battLevelSeries.setName("Battery Level Series");
-        battTempSeries = new XYChart.Series<String, Float>();
+        battTempSeries = new XYChart.Series<>();
         battTempSeries.setName("Battery Temp Series");
-        pvVoltSeries = new XYChart.Series<String, Float>();
+        pvVoltSeries = new XYChart.Series<>();
         pvVoltSeries.setName("PV Voltage Series");
-        chargingSeries = new XYChart.Series<String, Float>();
+        chargingSeries = new XYChart.Series<>();
         chargingSeries.setName("Charging Series");
-        chargeCurrentSeries = new XYChart.Series<String, Float>();
+        chargeCurrentSeries = new XYChart.Series<>();
         chargeCurrentSeries.setName("Charge Current Series");
     }
 
@@ -337,7 +333,7 @@ public class GuiController implements EventHandler<WindowEvent>, DataPointListen
 
     /**
      * Parse and store the raw message contain in the string.
-     * @param rawMsg
+     * @param data
      *         parse and store this raw message.
      */
     public void storeData(DataPoint data) {
@@ -406,8 +402,10 @@ public class GuiController implements EventHandler<WindowEvent>, DataPointListen
 	          LOGGER.debug("Updating clock.");
 	          Constants.updateTimeoffset();
 	        }
-            LOGGER.debug("GUI Heartbeat: " + clockUpdateCtr);
-		} catch (Throwable t1) {
+	        if(LOGGER.isDebugEnabled()) {
+                LOGGER.debug("GUI Heartbeat: " + clockUpdateCtr);
+            }
+		} catch (Exception t1) {
 		  ExceptionUtils.log(getClass(), t1);
 		}
 	  }

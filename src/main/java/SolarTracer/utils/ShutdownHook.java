@@ -1,4 +1,4 @@
-package SolarTracer.utils;
+package solartracer.utils;
 
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;

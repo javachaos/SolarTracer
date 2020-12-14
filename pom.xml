@@ -1,14 +1,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>SolarTracer</groupId>
-  <artifactId>SolarTracer</artifactId>
+  <artifactId>solartracer</artifactId>
   <version>0.0.1</version>
   <name>Solar Tracer GUI</name>
   <description>Solar Tracer GUI</description>
   
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <main.class>SolarTracer.main.MainEntry</main.class>
+    <main.class>solartracer.main.MainEntry</main.class>
     <app.name>SolarTracer</app.name>
     <project.build.output.dir>${project.basedir}/bin/</project.build.output.dir>
     <staging.dir>${project.build.directory}/staging</staging.dir>
@@ -21,8 +21,8 @@
             <artifactId>maven-compiler-plugin</artifactId>
             <version>3.8.1</version>
             <configuration>
-              <source>1.8</source>
-              <target>1.8</target>
+              <source>11</source>
+              <target>11</target>
             </configuration>
           </plugin>
           <plugin>

@@ -1,4 +1,4 @@
-package SolarTracer.utils;
+package solartracer.utils;
 
 public class SolarException extends Exception {
 

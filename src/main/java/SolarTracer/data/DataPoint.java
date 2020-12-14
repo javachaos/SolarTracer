@@ -1,224 +1,175 @@
-package SolarTracer.data;
+package solartracer.data;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import SolarTracer.utils.Constants;
-import SolarTracer.utils.DataUtils;
-import SolarTracer.utils.ExceptionUtils;
+import solartracer.utils.Constants;
+import solartracer.utils.DataUtils;
+import solartracer.utils.ExceptionUtils;
 
 /**
  * Helper class to define a datapoint.
- * @author javanerd
  *
+ * @author javanerd
  */
 public class DataPoint {
-	
-	/**
-	 * Timestamp when this datapoint was created.
-	 */
-	private final long timestamp;
-	
-	/**
-	 * Battery Voltage
-	 */
-	private final float battery_voltage;
-	
-	/**
-	 * Photovoltic Voltage
-	 */
-	private final float pv_voltage;
-	
-	/**
-	 * Load Current
-	 */
-	private final float load_current;
-	
-	/**
-	 * Over Discharge
-	 */
-	private final float over_discharge;
-	
-	/**
-	 * Battery Max
-	 */
-	private final float battery_max;
-	
-	/**
-	 * Battery Full
-	 */
-	private final float full;
-	
-	/**
-	 * Battery Charging
-	 */
-	private final float charging;
-	
-	/**
-	 * Battery Temperature
-	 */
-	private final float battery_temp;
-	
-	/**
-	 * Charging Current
-	 */
-	private final float charge_current;
-	
-	/**
-	 * Load on or off
-	 */
-	private final float load_onoff;
 
-	/**
-	 * Create a new DataPoint. With timestamp created upon construction.
-	 * @param data
-	 * 		the data.
-	 */
-	public DataPoint(float[] data) {
-		this(new Date(Constants.getCurrentTimeMillis()).getTime(), data);
-	}
-	
-	/**
-	 * Create a datapoint with auto generated timestamp, created on construction.
-	 * @param data
-	 * 		the data of the string.
-	 */
-	public DataPoint(long timestamp, float[] data) {
-		this.timestamp = timestamp;
-		
-		if (data != null) {
-	        battery_voltage = data[0];
-	        pv_voltage      = data[1];
-	        load_current    = data[2];
-	        over_discharge  = data[3];
-	        battery_max     = data[4];
-	        full            = data[5];
-	        charging        = data[6];
-	        battery_temp    = data[7];
-	        charge_current  = data[8];
-	        load_onoff      = data[9];
-		} else {
-	        battery_voltage = 0f;
-	        pv_voltage      = 0f;
-	        load_current    = 0f;
-	        over_discharge  = 0f;
-	        battery_max     = 0f;
-	        full            = 0f;
-	        charging        = 0f;
-	        battery_temp    = 0f;
-	        charge_current  = 0f;
-	        load_onoff      = 0f;
-		}
-	}
-	
-	/**
-	 * Create a datapoint.
-	 * @param bv
-	 * 		battery voltage (V)
-	 * @param pv
-	 *      photovoltaic voltage (V)
-	 * @param lc
-	 *      load current (A)
-	 * @param od
-	 * 		over discharge (Boolean)
-	 * @param bm
-	 * 		battery max (Boolean)
-	 * @param fl
-	 * 		battery full (Boolean)
-	 * @param ch
-	 *      charging (Boolean)
-	 * @param bt
-	 *      battery temp (*C)
-	 * @param cc
-	 *      charge current (A)
-	 * @param lof
-	 *      load on off (Boolean)
-	 */
-	public DataPoint(long timestamp, float bv, float pv, float lc, float od, float bm, float fl, float ch, float bt, float cc, float lof) {
-        this.timestamp = timestamp;
-        battery_voltage = bv;
-        pv_voltage      = pv;
-        load_current    = lc;
-        over_discharge  = od;
-        battery_max     = bm;
-        full            = fl;
-        charging        = ch;
-        battery_temp    = bt;
-        charge_current  = cc;
-        load_onoff      = lof;
-	}
-	
-	public long getTime() {
-		return timestamp;
-	}
-	
-	/**
-	 * Return the string formatted time ('yyyy-MM-dd HH:mm:ss.SSS')
-	 * @return
-	 * 		the time as a formated time string.
-	 */
-	public String getTimeFormatted() {
-		String time = "";
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
-		try {
-			time = dateFormat.format(new Date(timestamp));
-		} catch (Exception e) {
-            ExceptionUtils.log(DataUtils.class, e);
-		}
-		return time;
-	}
+  /** Timestamp when this datapoint was created. */
+  private final long timestamp;
 
-	public float getBatteryVoltage() {
-		return battery_voltage;
-	}
+  /** Battery Voltage */
+  private final float batteryVoltage;
 
-	public float getPvVoltage() {
-		return pv_voltage;
-	}
+  /** Photovoltic Voltage */
+  private final float pvVoltage;
 
-	public float getLoadCurrent() {
-		return load_current;
-	}
+  /** Load Current */
+  private final float loadCurrent;
 
-	public float getOverDischarge() {
-		return over_discharge;
-	}
+  /** Over Discharge */
+  private final float overDischarge;
 
-	public float getBatteryMax() {
-		return battery_max;
-	}
+  /** Battery Max */
+  private final float batteryMax;
 
-	public float getBatteryFull() {
-		return full;
-	}
+  /** Battery Full */
+  private final float full;
 
-	public float getCharging() {
-		return charging;
-	}
+  /** Battery Charging */
+  private final float charging;
 
-	public float getBatteryTemp() {
-		return battery_temp;
-	}
+  /** Battery Temperature */
+  private final float batteryTemp;
 
-	public float getChargeCurrent() {
-		return charge_current;
-	}
+  /** Charging Current */
+  private final float chargeCurrent;
 
-	public float getLoadOnoff() {
-		return load_onoff;
-	}
-	
-	@Override
-	public String toString() {
-		return battery_voltage + Constants.COLON +
-               pv_voltage      + Constants.COLON +
-               load_current    + Constants.COLON +
-               over_discharge  + Constants.COLON +
-               battery_max     + Constants.COLON +
-               full            + Constants.COLON +
-               charging        + Constants.COLON +
-               battery_temp    + Constants.COLON +
-               charge_current  + Constants.COLON +
-               load_onoff      + Constants.NEWLINE;
-	}
+  /** Load on or off */
+  private final float loadOnOff;
+
+  /**
+   * Create a new DataPoint. With timestamp created upon construction.
+   *
+   * @param data the data.
+   */
+  public DataPoint(float[] data) {
+    this(new Date(Constants.getCurrentTimeMillis()).getTime(), data);
+  }
+
+  /**
+   * Create a new DataPoint
+   *
+   * @param timestamp the timestamp for this DataPoint
+   * @param data the data of the string.
+   */
+  public DataPoint(long timestamp, float... data) {
+    this.timestamp = timestamp;
+
+    if (data != null) {
+      batteryVoltage = data[0];
+      pvVoltage = data[1];
+      loadCurrent = data[2];
+      overDischarge = data[3];
+      batteryMax = data[4];
+      full = data[5];
+      charging = data[6];
+      batteryTemp = data[7];
+      chargeCurrent = data[8];
+      loadOnOff = data[9];
+    } else {
+      batteryVoltage = 0f;
+      pvVoltage = 0f;
+      loadCurrent = 0f;
+      overDischarge = 0f;
+      batteryMax = 0f;
+      full = 0f;
+      charging = 0f;
+      batteryTemp = 0f;
+      chargeCurrent = 0f;
+      loadOnOff = 0f;
+    }
+  }
+
+  public long getTime() {
+    return timestamp;
+  }
+
+  /**
+   * Return the string formatted time ('yyyy-MM-dd HH:mm:ss.SSS')
+   *
+   * @return the time as a formated time string.
+   */
+  public String getTimeFormatted() {
+    String time = "";
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+    try {
+      time = dateFormat.format(new Date(timestamp));
+    } catch (Exception e) {
+      ExceptionUtils.log(DataUtils.class, e);
+    }
+    return time;
+  }
+
+  public float getBatteryVoltage() {
+    return batteryVoltage;
+  }
+
+  public float getPvVoltage() {
+    return pvVoltage;
+  }
+
+  public float getLoadCurrent() {
+    return loadCurrent;
+  }
+
+  public float getOverDischarge() {
+    return overDischarge;
+  }
+
+  public float getBatteryMax() {
+    return batteryMax;
+  }
+
+  public float getBatteryFull() {
+    return full;
+  }
+
+  public float getCharging() {
+    return charging;
+  }
+
+  public float getBatteryTemp() {
+    return batteryTemp;
+  }
+
+  public float getChargeCurrent() {
+    return chargeCurrent;
+  }
+
+  public float getLoadOnoff() {
+    return loadOnOff;
+  }
+
+  @Override
+  public String toString() {
+    return batteryVoltage
+        + Constants.COLON
+        + pvVoltage
+        + Constants.COLON
+        + loadCurrent
+        + Constants.COLON
+        + overDischarge
+        + Constants.COLON
+        + batteryMax
+        + Constants.COLON
+        + full
+        + Constants.COLON
+        + charging
+        + Constants.COLON
+        + batteryTemp
+        + Constants.COLON
+        + chargeCurrent
+        + Constants.COLON
+        + loadOnOff
+        + Constants.NEWLINE;
+  }
 }

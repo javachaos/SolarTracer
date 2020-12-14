@@ -1,7 +1,7 @@
-package SolarTracer.serial;
+package solartracer.serial;
 
-import SolarTracer.data.DataPointListener;
 import javafx.collections.ObservableList;
+import solartracer.data.DataPointListener;
 
 public interface SerialConnection {
 	

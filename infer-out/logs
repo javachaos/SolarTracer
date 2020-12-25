@@ -1,0 +1,257 @@
+[10904][environment] CWD = /Users/fred/dev/SolarTracer
+[10904][environment] No .inferconfig file found
+[10904][environment] Project root = /Users/fred/dev/SolarTracer
+[10904][environment] INFER_ARGS =   @/var/folders/k6/s2gj915n4kxg0f7jx0mdjx7w0000gn/T/args.tmp.5a0f30
+[10904][environment]   ++Contents of '/var/folders/k6/s2gj915n4kxg0f7jx0mdjx7w0000gn/T/args.tmp.5a0f30':
+[10904][environment]     run
+[10904][environment]   
+[10904][environment] command line arguments:   infer run -- mvn clean installActive checkers: biabduction (C/C++/ObjC, Java), fragment retains view (Java), inefficient keyset iterator (Java), liveness (C/C++/ObjC), RacerD (C/C++/ObjC, Java), SIOF (C/C++/ObjC), uninitialized variables (C/C++/ObjC), Starvation analysis (C/C++/ObjC, Java)
+[10904][environment] Infer log identifier is 
+Infer version v0.17.0
+[10904][environment] Copyright 2009 - present Facebook. All Rights Reserved.
+[10904][environment] 
+[10904][   progress] Capturing in maven mode...
+[10904][      debug] Running maven capture:
+[10904][      debug] mvn 'clean' 'install' '-P' 'infer-capture'
+
+[10943][environment] CWD = /Users/fred/dev/SolarTracer
+[10943][environment] No .inferconfig file found
+[10943][environment] Project root = /Users/fred/dev/SolarTracer
+[10943][environment] INFER_ARGS =   @/var/folders/k6/s2gj915n4kxg0f7jx0mdjx7w0000gn/T/args.tmp.6ddd92
+[10943][environment]   ++Contents of '/var/folders/k6/s2gj915n4kxg0f7jx0mdjx7w0000gn/T/args.tmp.6ddd92':
+[10943][environment]     @/var/folders/k6/s2gj915n4kxg0f7jx0mdjx7w0000gn/T/args.tmp.5a0f30
+[10943][environment]     @/private/var/folders/k6/s2gj915n4kxg0f7jx0mdjx7w0000gn/T/org.codehaus.plexus.compiler.javac.JavacCompiler1303308189803554059arguments
+[10943][environment]     ++Contents of '/var/folders/k6/s2gj915n4kxg0f7jx0mdjx7w0000gn/T/args.tmp.5a0f30':
+[10943][environment]       run
+[10943][environment]     ++Contents of '/private/var/folders/k6/s2gj915n4kxg0f7jx0mdjx7w0000gn/T/org.codehaus.plexus.compiler.javac.JavacCompiler1303308189803554059arguments':
+[10943][environment]       "-d" "/Users/fred/dev/SolarTracer/target/classes" "-classpath"
+[10943][environment]       "/Users/fred/dev/SolarTracer/target/classes:/Users/fred/.m2/repository/org/openjfx/javafx-controls/15.0.1/javafx-controls-15.0.1.jar:/Users/fred/.m2/repository/org/openjfx/javafx-controls/15.0.1/javafx-controls-15.0.1-mac.jar:/Users/fred/.m2/repository/org/openjfx/javafx-graphics/15.0.1/javafx-graphics-15.0.1.jar:/Users/fred/.m2/repository/org/openjfx/javafx-fxml/15.0.1/javafx-fxml-15.0.1.jar:/Users/fred/.m2/repository/org/openjfx/javafx-fxml/15.0.1/javafx-fxml-15.0.1-mac.jar:/Users/fred/.m2/repository/org/openjfx/javafx-base/15.0.1/javafx-base-15.0.1.jar:/Users/fred/.m2/repository/org/openjfx/javafx-base/15.0.1/javafx-base-15.0.1-mac.jar:/Users/fred/.m2/repository/org/openjfx/javafx-graphics/15.0.1/javafx-graphics-15.0.1-win.jar:/Users/fred/.m2/repository/org/openjfx/javafx-graphics/15.0.1/javafx-graphics-15.0.1-linux.jar:/Users/fred/.m2/repository/org/openjfx/javafx-graphics/15.0.1/javafx-graphics-15.0.1-mac.jar:/Users/fred/.m2/repository/com/fazecast/jSerialComm/1.3.11/jSerialComm-1.3.11.jar:/Users/fred/.m2/repository/org/xerial/sqlite-jdbc/3.8.11.2/sqlite-jdbc-3.8.11.2.jar:/Users/fred/.m2/repository/ch/qos/logback/logback-classic/1.0.13/logback-classic-1.0.13.jar:/Users/fred/.m2/repository/ch/qos/logback/logback-core/1.0.13/logback-core-1.0.13.jar:/Users/fred/.m2/repository/org/slf4j/slf4j-api/1.7.5/slf4j-api-1.7.5.jar:/Users/fred/.m2/repository/org/eclipse/jetty/jetty-maven-plugin/9.3.6.v20151106/jetty-maven-plugin-9.3.6.v20151106.jar:/Users/fred/.m2/repository/org/apache/maven/maven-plugin-api/3.0.3/maven-plugin-api-3.0.3.jar:/Users/fred/.m2/repository/org/apache/maven/maven-model/3.0.3/maven-model-3.0.3.jar:/Users/fred/.m2/repository/org/sonatype/sisu/sisu-inject-plexus/2.1.1/sisu-inject-plexus-2.1.1.jar:/Users/fred/.m2/repository/org/sonatype/sisu/sisu-inject-bean/2.1.1/sisu-inject-bean-2.1.1.jar:/Users/fred/.m2/repository/org/sonatype/sisu/sisu-guice/2.9.4/sisu-guice-2.9.4-no_aop.jar:/Users/fred/.m2/repository/org/apache/maven/maven-artifact/3.0.3/maven-artifact-3.0.3.jar:/Users/fred/.m2/repository/org/codehaus/plexus/plexus-utils/2.0.6/plexus-utils-2.0.6.jar:/Users/fred/.m2/repository/org/apache/maven/maven-core/3.0.3/maven-core-3.0.3.jar:/Users/fred/.m2/repository/org/apache/maven/maven-settings/3.0.3/maven-settings-3.0.3.jar:/Users/fred/.m2/repository/org/apache/maven/maven-settings-builder/3.0.3/maven-settings-builder-3.0.3.jar:/Users/fred/.m2/repository/org/apache/maven/maven-repository-metadata/3.0.3/maven-repository-metadata-3.0.3.jar:/Users/fred/.m2/repository/org/apache/maven/maven-model-builder/3.0.3/maven-model-builder-3.0.3.jar:/Users/fred/.m2/repository/org/apache/maven/maven-aether-provider/3.0.3/maven-aether-provider-3.0.3.jar:/Users/fred/.m2/repository/org/sonatype/aether/aether-spi/1.11/aether-spi-1.11.jar:/Users/fred/.m2/repository/org/sonatype/aether/aether-impl/1.11/aether-impl-1.11.jar:/Users/fred/.m2/repository/org/sonatype/aether/aether-api/1.11/aether-api-1.11.jar:/Users/fred/.m2/repository/org/sonatype/aether/aether-util/1.11/aether-util-1.11.jar:/Users/fred/.m2/repository/org/codehaus/plexus/plexus-interpolation/1.14/plexus-interpolation-1.14.jar:/Users/fred/.m2/repository/org/codehaus/plexus/plexus-classworlds/2.4/plexus-classworlds-2.4.jar:/Users/fred/.m2/repository/org/codehaus/plexus/plexus-component-annotations/1.5.5/plexus-component-annotations-1.5.5.jar:/Users/fred/.m2/repository/org/sonatype/plexus/plexus-sec-dispatcher/1.3/plexus-sec-dispatcher-1.3.jar:/Users/fred/.m2/repository/org/sonatype/plexus/plexus-cipher/1.4/plexus-cipher-1.4.jar:/Users/fred/.m2/repository/org/apache/maven/plugin-tools/maven-plugin-tools-api/3.4/maven-plugin-tools-api-3.4.jar:/Users/fred/.m2/repository/org/apache/maven/maven-project/2.2.1/maven-project-2.2.1.jar:/Users/fred/.m2/repository/org/apache/maven/maven-profile/2.2.1/maven-profile-2.2.1.jar:/Users/fred/.m2/repository/org/apache/maven/maven-artifact-manager/2.2.1/maven-artifact-manager-2.2.1.jar:/Users/fred/.m2/repository/org/apache/maven/wagon/wagon-provider-api/1.0-beta-6/wagon-provider-api-1.0-beta-6.jar:/Users/fred/.m2/repository/backport-util-concurrent/backport-util-concurrent/3.1/backport-util-concurrent-3.1.jar:/Users/fred/.m2/repository/org/apache/maven/maven-plugin-registry/2.2.1/maven-plugin-registry-2.2.1.jar:/Users/fred/.m2/repository/org/codehaus/plexus/plexus-container-default/1.0-alpha-9-stable-1/plexus-container-default-1.0-alpha-9-stable-1.jar:/Users/fred/.m2/repository/classworlds/classworlds/1.1-alpha-2/classworlds-1.1-alpha-2.jar:/Users/fred/.m2/repository/org/apache/maven/maven-plugin-descriptor/2.2.1/maven-plugin-descriptor-2.2.1.jar:/Users/fred/.m2/repository/org/eclipse/jetty/jetty-util/9.3.6.v20151106/jetty-util-9.3.6.v20151106.jar:/Users/fred/.m2/repository/org/eclipse/jetty/jetty-webapp/9.3.6.v20151106/jetty-webapp-9.3.6.v20151106.jar:/Users/fred/.m2/repository/org/eclipse/jetty/jetty-xml/9.3.6.v20151106/jetty-xml-9.3.6.v20151106.jar:/Users/fred/.m2/repository/org/eclipse/jetty/jetty-servlet/9.3.6.v20151106/jetty-servlet-9.3.6.v20151106.jar:/Users/fred/.m2/repository/org/eclipse/jetty/jetty-quickstart/9.3.6.v20151106/jetty-quickstart-9.3.6.v20151106.jar:/Users/fred/.m2/repository/org/eclipse/jetty/jetty-jaas/9.3.6.v20151106/jetty-jaas-9.3.6.v20151106.jar:/Users/fred/.m2/repository/org/eclipse/jetty/jetty-security/9.3.6.v20151106/jetty-security-9.3.6.v20151106.jar:/Users/fred/.m2/repository/org/eclipse/jetty/jetty-plus/9.3.6.v20151106/jetty-plus-9.3.6.v20151106.jar:/Users/fred/.m2/repository/org/eclipse/jetty/jetty-jndi/9.3.6.v20151106/jetty-jndi-9.3.6.v20151106.jar:/Users/fred/.m2/repository/org/eclipse/jetty/jetty-server/9.3.6.v20151106/jetty-server-9.3.6.v20151106.jar:/Users/fred/.m2/repository/javax/servlet/javax.servlet-api/3.1.0/javax.servlet-api-3.1.0.jar:/Users/fred/.m2/repository/org/eclipse/jetty/jetty-http/9.3.6.v20151106/jetty-http-9.3.6.v20151106.jar:/Users/fred/.m2/repository/org/eclipse/jetty/jetty-io/9.3.6.v20151106/jetty-io-9.3.6.v20151106.jar:/Users/fred/.m2/repository/org/eclipse/jetty/jetty-jmx/9.3.6.v20151106/jetty-jmx-9.3.6.v20151106.jar:/Users/fred/.m2/repository/org/eclipse/jetty/jetty-annotations/9.3.6.v20151106/jetty-annotations-9.3.6.v20151106.jar:/Users/fred/.m2/repository/javax/annotation/javax.annotation-api/1.2/javax.annotation-api-1.2.jar:/Users/fred/.m2/repository/org/ow2/asm/asm/5.0.1/asm-5.0.1.jar:/Users/fred/.m2/repository/org/ow2/asm/asm-commons/5.0.1/asm-commons-5.0.1.jar:/Users/fred/.m2/repository/org/ow2/asm/asm-tree/5.0.1/asm-tree-5.0.1.jar:/Users/fred/.m2/repository/org/eclipse/jetty/websocket/javax-websocket-server-impl/9.3.6.v20151106/javax-websocket-server-impl-9.3.6.v20151106.jar:/Users/fred/.m2/repository/org/eclipse/jetty/websocket/javax-websocket-client-impl/9.3.6.v20151106/javax-websocket-client-impl-9.3.6.v20151106.jar:/Users/fred/.m2/repository/javax/websocket/javax.websocket-api/1.0/javax.websocket-api-1.0.jar:/Users/fred/.m2/repository/org/eclipse/jetty/websocket/websocket-server/9.3.6.v20151106/websocket-server-9.3.6.v20151106.jar:/Users/fred/.m2/repository/org/eclipse/jetty/websocket/websocket-common/9.3.6.v20151106/websocket-common-9.3.6.v20151106.jar:/Users/fred/.m2/repository/org/eclipse/jetty/websocket/websocket-api/9.3.6.v20151106/websocket-api-9.3.6.v20151106.jar:/Users/fred/.m2/repository/org/eclipse/jetty/websocket/websocket-client/9.3.6.v20151106/websocket-client-9.3.6.v20151106.jar:/Users/fred/.m2/repository/org/eclipse/jetty/websocket/websocket-servlet/9.3.6.v20151106/websocket-servlet-9.3.6.v20151106.jar:/Users/fred/.m2/repository/org/eclipse/jetty/apache-jsp/9.3.6.v20151106/apache-jsp-9.3.6.v20151106.jar:/Users/fred/.m2/repository/org/eclipse/jetty/toolchain/jetty-schemas/3.1.M0/jetty-schemas-3.1.M0.jar:/Users/fred/.m2/repository/org/mortbay/jasper/apache-jsp/8.0.27/apache-jsp-8.0.27.jar:/Users/fred/.m2/repository/org/mortbay/jasper/apache-el/8.0.27/apache-el-8.0.27.jar:/Users/fred/.m2/repository/org/eclipse/jdt/core/compiler/ecj/4.4.2/ecj-4.4.2.jar:/Users/fred/.m2/repository/org/eclipse/jetty/apache-jstl/9.3.6.v20151106/apache-jstl-9.3.6.v20151106.jar:/Users/fred/.m2/repository/org/apache/taglibs/taglibs-standard-spec/1.2.5/taglibs-standard-spec-1.2.5.jar:/Users/fred/.m2/repository/org/apache/taglibs/taglibs-standard-impl/1.2.5/taglibs-standard-impl-1.2.5.jar:/Users/fred/.m2/repository/javax/transaction/javax.transaction-api/1.2/javax.transaction-api-1.2.jar:/Users/fred/.m2/repository/commons-net/commons-net/3.3/commons-net-3.3.jar:"
+[10943][environment]       "-sourcepath"
+[10943][environment]       "/Users/fred/dev/SolarTracer/src/main/java:/Users/fred/dev/SolarTracer/target/generated-sources/annotations:"
+[10943][environment]       "/Users/fred/dev/SolarTracer/src/main/java/solartracer/main/Main.java"
+[10943][environment]       "/Users/fred/dev/SolarTracer/src/main/java/solartracer/data/DataPoint.java"
+[10943][environment]       "/Users/fred/dev/SolarTracer/src/main/java/solartracer/utils/DataUtils.java"
+[10943][environment]       "/Users/fred/dev/SolarTracer/src/main/java/solartracer/main/MainEntry.java"
+[10943][environment]       "/Users/fred/dev/SolarTracer/src/main/java/solartracer/utils/StatusUtils.java"
+[10943][environment]       "/Users/fred/dev/SolarTracer/src/main/java/solartracer/data/DataPointListener.java"
+[10943][environment]       "/Users/fred/dev/SolarTracer/src/main/java/solartracer/serial/SerialConnection.java"
+[10943][environment]       "/Users/fred/dev/SolarTracer/src/main/java/solartracer/utils/ShutdownHook.java"
+[10943][environment]       "/Users/fred/dev/SolarTracer/src/main/java/solartracer/utils/SolarException.java"
+[10943][environment]       "/Users/fred/dev/SolarTracer/src/main/java/solartracer/networking/SolarWebServer.java"
+[10943][environment]       "/Users/fred/dev/SolarTracer/src/main/java/solartracer/utils/DatabaseUtils.java"
+[10943][environment]       "/Users/fred/dev/SolarTracer/src/main/java/solartracer/utils/FreqListStringConverter.java"
+[10943][environment]       "/Users/fred/dev/SolarTracer/src/main/java/solartracer/serial/SerialFactory.java"
+[10943][environment]       "/Users/fred/dev/SolarTracer/src/main/java/solartracer/serial/SerialCommImpl.java"
+[10943][environment]       "/Users/fred/dev/SolarTracer/src/main/java/solartracer/utils/Constants.java"
+[10943][environment]       "/Users/fred/dev/SolarTracer/src/main/java/solartracer/gui/GuiController.java"
+[10943][environment]       "/Users/fred/dev/SolarTracer/src/main/java/solartracer/utils/ExceptionUtils.java"
+[10943][environment]       "-s" "/Users/fred/dev/SolarTracer/target/generated-sources/annotations"
+[10943][environment]       "-g" "-nowarn" "-target" "11" "-source" "11" "-encoding" "UTF-8"
+[10943][environment]     
+[10943][environment]   
+[10943][environment] command line arguments:   /usr/local/Cellar/infer/0.17.0/lib/infer/infer/bin/infer
+[10943][environment]                           @/private/var/folders/k6/s2gj915n4kxg0f7jx0mdjx7w0000gn/T/org.codehaus.plexus.compiler.javac.JavacCompiler1303308189803554059arguments
+[10943][environment]   ++Contents of '/private/var/folders/k6/s2gj915n4kxg0f7jx0mdjx7w0000gn/T/org.codehaus.plexus.compiler.javac.JavacCompiler1303308189803554059arguments':
+[10943][environment]     "-d" "/Users/fred/dev/SolarTracer/target/classes" "-classpath"
+[10943][environment]     "/Users/fred/dev/SolarTracer/target/classes:/Users/fred/.m2/repository/org/openjfx/javafx-controls/15.0.1/javafx-controls-15.0.1.jar:/Users/fred/.m2/repository/org/openjfx/javafx-controls/15.0.1/javafx-controls-15.0.1-mac.jar:/Users/fred/.m2/repository/org/openjfx/javafx-graphics/15.0.1/javafx-graphics-15.0.1.jar:/Users/fred/.m2/repository/org/openjfx/javafx-fxml/15.0.1/javafx-fxml-15.0.1.jar:/Users/fred/.m2/repository/org/openjfx/javafx-fxml/15.0.1/javafx-fxml-15.0.1-mac.jar:/Users/fred/.m2/repository/org/openjfx/javafx-base/15.0.1/javafx-base-15.0.1.jar:/Users/fred/.m2/repository/org/openjfx/javafx-base/15.0.1/javafx-base-15.0.1-mac.jar:/Users/fred/.m2/repository/org/openjfx/javafx-graphics/15.0.1/javafx-graphics-15.0.1-win.jar:/Users/fred/.m2/repository/org/openjfx/javafx-graphics/15.0.1/javafx-graphics-15.0.1-linux.jar:/Users/fred/.m2/repository/org/openjfx/javafx-graphics/15.0.1/javafx-graphics-15.0.1-mac.jar:/Users/fred/.m2/repository/com/fazecast/jSerialComm/1.3.11/jSerialComm-1.3.11.jar:/Users/fred/.m2/repository/org/xerial/sqlite-jdbc/3.8.11.2/sqlite-jdbc-3.8.11.2.jar:/Users/fred/.m2/repository/ch/qos/logback/logback-classic/1.0.13/logback-classic-1.0.13.jar:/Users/fred/.m2/repository/ch/qos/logback/logback-core/1.0.13/logback-core-1.0.13.jar:/Users/fred/.m2/repository/org/slf4j/slf4j-api/1.7.5/slf4j-api-1.7.5.jar:/Users/fred/.m2/repository/org/eclipse/jetty/jetty-maven-plugin/9.3.6.v20151106/jetty-maven-plugin-9.3.6.v20151106.jar:/Users/fred/.m2/repository/org/apache/maven/maven-plugin-api/3.0.3/maven-plugin-api-3.0.3.jar:/Users/fred/.m2/repository/org/apache/maven/maven-model/3.0.3/maven-model-3.0.3.jar:/Users/fred/.m2/repository/org/sonatype/sisu/sisu-inject-plexus/2.1.1/sisu-inject-plexus-2.1.1.jar:/Users/fred/.m2/repository/org/sonatype/sisu/sisu-inject-bean/2.1.1/sisu-inject-bean-2.1.1.jar:/Users/fred/.m2/repository/org/sonatype/sisu/sisu-guice/2.9.4/sisu-guice-2.9.4-no_aop.jar:/Users/fred/.m2/repository/org/apache/maven/maven-artifact/3.0.3/maven-artifact-3.0.3.jar:/Users/fred/.m2/repository/org/codehaus/plexus/plexus-utils/2.0.6/plexus-utils-2.0.6.jar:/Users/fred/.m2/repository/org/apache/maven/maven-core/3.0.3/maven-core-3.0.3.jar:/Users/fred/.m2/repository/org/apache/maven/maven-settings/3.0.3/maven-settings-3.0.3.jar:/Users/fred/.m2/repository/org/apache/maven/maven-settings-builder/3.0.3/maven-settings-builder-3.0.3.jar:/Users/fred/.m2/repository/org/apache/maven/maven-repository-metadata/3.0.3/maven-repository-metadata-3.0.3.jar:/Users/fred/.m2/repository/org/apache/maven/maven-model-builder/3.0.3/maven-model-builder-3.0.3.jar:/Users/fred/.m2/repository/org/apache/maven/maven-aether-provider/3.0.3/maven-aether-provider-3.0.3.jar:/Users/fred/.m2/repository/org/sonatype/aether/aether-spi/1.11/aether-spi-1.11.jar:/Users/fred/.m2/repository/org/sonatype/aether/aether-impl/1.11/aether-impl-1.11.jar:/Users/fred/.m2/repository/org/sonatype/aether/aether-api/1.11/aether-api-1.11.jar:/Users/fred/.m2/repository/org/sonatype/aether/aether-util/1.11/aether-util-1.11.jar:/Users/fred/.m2/repository/org/codehaus/plexus/plexus-interpolation/1.14/plexus-interpolation-1.14.jar:/Users/fred/.m2/repository/org/codehaus/plexus/plexus-classworlds/2.4/plexus-classworlds-2.4.jar:/Users/fred/.m2/repository/org/codehaus/plexus/plexus-component-annotations/1.5.5/plexus-component-annotations-1.5.5.jar:/Users/fred/.m2/repository/org/sonatype/plexus/plexus-sec-dispatcher/1.3/plexus-sec-dispatcher-1.3.jar:/Users/fred/.m2/repository/org/sonatype/plexus/plexus-cipher/1.4/plexus-cipher-1.4.jar:/Users/fred/.m2/repository/org/apache/maven/plugin-tools/maven-plugin-tools-api/3.4/maven-plugin-tools-api-3.4.jar:/Users/fred/.m2/repository/org/apache/maven/maven-project/2.2.1/maven-project-2.2.1.jar:/Users/fred/.m2/repository/org/apache/maven/maven-profile/2.2.1/maven-profile-2.2.1.jar:/Users/fred/.m2/repository/org/apache/maven/maven-artifact-manager/2.2.1/maven-artifact-manager-2.2.1.jar:/Users/fred/.m2/repository/org/apache/maven/wagon/wagon-provider-api/1.0-beta-6/wagon-provider-api-1.0-beta-6.jar:/Users/fred/.m2/repository/backport-util-concurrent/backport-util-concurrent/3.1/backport-util-concurrent-3.1.jar:/Users/fred/.m2/repository/org/apache/maven/maven-plugin-registry/2.2.1/maven-plugin-registry-2.2.1.jar:/Users/fred/.m2/repository/org/codehaus/plexus/plexus-container-default/1.0-alpha-9-stable-1/plexus-container-default-1.0-alpha-9-stable-1.jar:/Users/fred/.m2/repository/classworlds/classworlds/1.1-alpha-2/classworlds-1.1-alpha-2.jar:/Users/fred/.m2/repository/org/apache/maven/maven-plugin-descriptor/2.2.1/maven-plugin-descriptor-2.2.1.jar:/Users/fred/.m2/repository/org/eclipse/jetty/jetty-util/9.3.6.v20151106/jetty-util-9.3.6.v20151106.jar:/Users/fred/.m2/repository/org/eclipse/jetty/jetty-webapp/9.3.6.v20151106/jetty-webapp-9.3.6.v20151106.jar:/Users/fred/.m2/repository/org/eclipse/jetty/jetty-xml/9.3.6.v20151106/jetty-xml-9.3.6.v20151106.jar:/Users/fred/.m2/repository/org/eclipse/jetty/jetty-servlet/9.3.6.v20151106/jetty-servlet-9.3.6.v20151106.jar:/Users/fred/.m2/repository/org/eclipse/jetty/jetty-quickstart/9.3.6.v20151106/jetty-quickstart-9.3.6.v20151106.jar:/Users/fred/.m2/repository/org/eclipse/jetty/jetty-jaas/9.3.6.v20151106/jetty-jaas-9.3.6.v20151106.jar:/Users/fred/.m2/repository/org/eclipse/jetty/jetty-security/9.3.6.v20151106/jetty-security-9.3.6.v20151106.jar:/Users/fred/.m2/repository/org/eclipse/jetty/jetty-plus/9.3.6.v20151106/jetty-plus-9.3.6.v20151106.jar:/Users/fred/.m2/repository/org/eclipse/jetty/jetty-jndi/9.3.6.v20151106/jetty-jndi-9.3.6.v20151106.jar:/Users/fred/.m2/repository/org/eclipse/jetty/jetty-server/9.3.6.v20151106/jetty-server-9.3.6.v20151106.jar:/Users/fred/.m2/repository/javax/servlet/javax.servlet-api/3.1.0/javax.servlet-api-3.1.0.jar:/Users/fred/.m2/repository/org/eclipse/jetty/jetty-http/9.3.6.v20151106/jetty-http-9.3.6.v20151106.jar:/Users/fred/.m2/repository/org/eclipse/jetty/jetty-io/9.3.6.v20151106/jetty-io-9.3.6.v20151106.jar:/Users/fred/.m2/repository/org/eclipse/jetty/jetty-jmx/9.3.6.v20151106/jetty-jmx-9.3.6.v20151106.jar:/Users/fred/.m2/repository/org/eclipse/jetty/jetty-annotations/9.3.6.v20151106/jetty-annotations-9.3.6.v20151106.jar:/Users/fred/.m2/repository/javax/annotation/javax.annotation-api/1.2/javax.annotation-api-1.2.jar:/Users/fred/.m2/repository/org/ow2/asm/asm/5.0.1/asm-5.0.1.jar:/Users/fred/.m2/repository/org/ow2/asm/asm-commons/5.0.1/asm-commons-5.0.1.jar:/Users/fred/.m2/repository/org/ow2/asm/asm-tree/5.0.1/asm-tree-5.0.1.jar:/Users/fred/.m2/repository/org/eclipse/jetty/websocket/javax-websocket-server-impl/9.3.6.v20151106/javax-websocket-server-impl-9.3.6.v20151106.jar:/Users/fred/.m2/repository/org/eclipse/jetty/websocket/javax-websocket-client-impl/9.3.6.v20151106/javax-websocket-client-impl-9.3.6.v20151106.jar:/Users/fred/.m2/repository/javax/websocket/javax.websocket-api/1.0/javax.websocket-api-1.0.jar:/Users/fred/.m2/repository/org/eclipse/jetty/websocket/websocket-server/9.3.6.v20151106/websocket-server-9.3.6.v20151106.jar:/Users/fred/.m2/repository/org/eclipse/jetty/websocket/websocket-common/9.3.6.v20151106/websocket-common-9.3.6.v20151106.jar:/Users/fred/.m2/repository/org/eclipse/jetty/websocket/websocket-api/9.3.6.v20151106/websocket-api-9.3.6.v20151106.jar:/Users/fred/.m2/repository/org/eclipse/jetty/websocket/websocket-client/9.3.6.v20151106/websocket-client-9.3.6.v20151106.jar:/Users/fred/.m2/repository/org/eclipse/jetty/websocket/websocket-servlet/9.3.6.v20151106/websocket-servlet-9.3.6.v20151106.jar:/Users/fred/.m2/repository/org/eclipse/jetty/apache-jsp/9.3.6.v20151106/apache-jsp-9.3.6.v20151106.jar:/Users/fred/.m2/repository/org/eclipse/jetty/toolchain/jetty-schemas/3.1.M0/jetty-schemas-3.1.M0.jar:/Users/fred/.m2/repository/org/mortbay/jasper/apache-jsp/8.0.27/apache-jsp-8.0.27.jar:/Users/fred/.m2/repository/org/mortbay/jasper/apache-el/8.0.27/apache-el-8.0.27.jar:/Users/fred/.m2/repository/org/eclipse/jdt/core/compiler/ecj/4.4.2/ecj-4.4.2.jar:/Users/fred/.m2/repository/org/eclipse/jetty/apache-jstl/9.3.6.v20151106/apache-jstl-9.3.6.v20151106.jar:/Users/fred/.m2/repository/org/apache/taglibs/taglibs-standard-spec/1.2.5/taglibs-standard-spec-1.2.5.jar:/Users/fred/.m2/repository/org/apache/taglibs/taglibs-standard-impl/1.2.5/taglibs-standard-impl-1.2.5.jar:/Users/fred/.m2/repository/javax/transaction/javax.transaction-api/1.2/javax.transaction-api-1.2.jar:/Users/fred/.m2/repository/commons-net/commons-net/3.3/commons-net-3.3.jar:"
+[10943][environment]     "-sourcepath"
+[10943][environment]     "/Users/fred/dev/SolarTracer/src/main/java:/Users/fred/dev/SolarTracer/target/generated-sources/annotations:"
+[10943][environment]     "/Users/fred/dev/SolarTracer/src/main/java/solartracer/main/Main.java"
+[10943][environment]     "/Users/fred/dev/SolarTracer/src/main/java/solartracer/data/DataPoint.java"
+[10943][environment]     "/Users/fred/dev/SolarTracer/src/main/java/solartracer/utils/DataUtils.java"
+[10943][environment]     "/Users/fred/dev/SolarTracer/src/main/java/solartracer/main/MainEntry.java"
+[10943][environment]     "/Users/fred/dev/SolarTracer/src/main/java/solartracer/utils/StatusUtils.java"
+[10943][environment]     "/Users/fred/dev/SolarTracer/src/main/java/solartracer/data/DataPointListener.java"
+[10943][environment]     "/Users/fred/dev/SolarTracer/src/main/java/solartracer/serial/SerialConnection.java"
+[10943][environment]     "/Users/fred/dev/SolarTracer/src/main/java/solartracer/utils/ShutdownHook.java"
+[10943][environment]     "/Users/fred/dev/SolarTracer/src/main/java/solartracer/utils/SolarException.java"
+[10943][environment]     "/Users/fred/dev/SolarTracer/src/main/java/solartracer/networking/SolarWebServer.java"
+[10943][environment]     "/Users/fred/dev/SolarTracer/src/main/java/solartracer/utils/DatabaseUtils.java"
+[10943][environment]     "/Users/fred/dev/SolarTracer/src/main/java/solartracer/utils/FreqListStringConverter.java"
+[10943][environment]     "/Users/fred/dev/SolarTracer/src/main/java/solartracer/serial/SerialFactory.java"
+[10943][environment]     "/Users/fred/dev/SolarTracer/src/main/java/solartracer/serial/SerialCommImpl.java"
+[10943][environment]     "/Users/fred/dev/SolarTracer/src/main/java/solartracer/utils/Constants.java"
+[10943][environment]     "/Users/fred/dev/SolarTracer/src/main/java/solartracer/gui/GuiController.java"
+[10943][environment]     "/Users/fred/dev/SolarTracer/src/main/java/solartracer/utils/ExceptionUtils.java"
+[10943][environment]     "-s" "/Users/fred/dev/SolarTracer/target/generated-sources/annotations"
+[10943][environment]     "-g" "-nowarn" "-target" "11" "-source" "11" "-encoding" "UTF-8"
+[10943][environment]   
+[10943][environment] Active checkers: biabduction (C/C++/ObjC, Java), fragment retains view (Java), inefficient keyset iterator (Java), liveness (C/C++/ObjC), RacerD (C/C++/ObjC, Java), SIOF (C/C++/ObjC), uninitialized variables (C/C++/ObjC), Starvation analysis (C/C++/ObjC, Java)
+[10943][      debug] Current working directory: '/Users/fred/dev/SolarTracer'
+[10943][      debug] Trying to execute: javac '-J-Duser.language=en' '@/private/var/folders/k6/s2gj915n4kxg0f7jx0mdjx7w0000gn/T/org.codehaus.plexus.compiler.javac.JavacCompiler1303308189803554059arguments' '@/var/folders/k6/s2gj915n4kxg0f7jx0mdjx7w0000gn/T/args_.tmp.95b927' 2>'/var/folders/k6/s2gj915n4kxg0f7jx0mdjx7w0000gn/T/javac.tmp.5def20.out'
+[10943][      debug] *** Success. Logs:
+[10943][      debug] Translating 17 source files (17 classes)
+[10943][      debug] Tenv.store: global tenv has size 3458072 bytes.
+[10943][      debug] Tenv.store: canonicalized tenv has size 1391968 bytes.
+[10943][      debug] done capturing all files
+[10943][environment] Infer log identifier is 
+[10904][   progress] Found 17 source files to analyze in /Users/fred/dev/SolarTracer/infer-out
+[10904][environment] Parallel jobs: 16
+[10991][   progress] src/main/java/solartracer/serial/SerialCommImpl.java starting
+[10990][   progress] src/main/java/solartracer/networking/SolarWebServer.java starting
+[10994][   progress] src/main/java/solartracer/main/Main.java starting
+[10992][   progress] src/main/java/solartracer/utils/Constants.java starting
+[10993][   progress] src/main/java/solartracer/main/MainEntry.java starting
+[11003][   progress] src/main/java/solartracer/utils/ExceptionUtils.java starting
+[11002][   progress] src/main/java/solartracer/serial/SerialFactory.java starting
+[10996][   progress] src/main/java/solartracer/data/DataPoint.java starting
+[10998][   progress] src/main/java/solartracer/utils/FreqListStringConverter.java starting
+[10995][   progress] src/main/java/solartracer/utils/DatabaseUtils.java starting
+[10997][   progress] src/main/java/solartracer/utils/StatusUtils.java starting
+[11004][   progress] src/main/java/solartracer/utils/SolarException.java starting
+[10999][   progress] src/main/java/solartracer/gui/GuiController.java starting
+[11000][   progress] src/main/java/solartracer/data/DataPointListener.java starting
+[11001][   progress] src/main/java/solartracer/serial/SerialConnection.java starting
+[11005][   progress] src/main/java/solartracer/utils/ShutdownHook.java starting
+[11001][   progress] src/main/java/solartracer/serial/SerialConnection.java DONE
+[11001][   progress] src/main/java/solartracer/utils/DataUtils.java starting
+[11000][   progress] src/main/java/solartracer/data/DataPointListener.java DONE
+[11004][   progress] src/main/java/solartracer/utils/SolarException.java DONE
+[11005][   progress] src/main/java/solartracer/utils/ShutdownHook.java DONE
+[11002][   progress] src/main/java/solartracer/serial/SerialFactory.java DONE
+[10997][   progress] src/main/java/solartracer/utils/StatusUtils.java DONE
+[10992][   progress] src/main/java/solartracer/utils/Constants.java DONE
+[10996][   progress] src/main/java/solartracer/data/DataPoint.java DONE
+[11001][   progress] src/main/java/solartracer/utils/DataUtils.java DONE
+[10991][      debug] 
+[10991][      debug] typ_get_recursive_flds: unexpected sizeof(t=) unknown struct type: class java.io.Reader
+[10991][      debug] 
+[10991][      debug] typ_get_recursive_flds: unexpected sizeof(t=) unknown struct type: class java.io.Reader
+[10991][      debug] 
+[10991][      debug] typ_get_recursive_flds: unexpected sizeof(t=) unknown struct type: class java.io.Reader
+[10991][      debug] 
+[10991][      debug] typ_get_recursive_flds: unexpected sizeof(t=) unknown struct type: class java.io.Reader
+[10991][      debug] 
+[10991][      debug] typ_get_recursive_flds: unexpected sizeof(t=) unknown struct type: class java.io.Reader
+[10991][      debug] 
+[10991][      debug] typ_get_recursive_flds: unexpected sizeof(t=) unknown struct type: class java.io.Reader
+[10991][      debug] 
+[10991][      debug] typ_get_recursive_flds: unexpected sizeof(t=) unknown struct type: class java.io.Reader
+[10991][      debug] 
+[10991][      debug] typ_get_recursive_flds: unexpected sizeof(t=) unknown struct type: class java.io.Reader
+[10991][      debug] 
+[10991][      debug] typ_get_recursive_flds: unexpected sizeof(t=) unknown struct type: class java.io.Reader
+[10991][      debug] 
+[10991][      debug] typ_get_recursive_flds: unexpected sizeof(t=) unknown struct type: class java.io.Reader
+[10991][      debug] 
+[10991][      debug] typ_get_recursive_flds: unexpected sizeof(t=) unknown struct type: class java.io.Reader
+[10991][      debug] 
+[10991][      debug] typ_get_recursive_flds: unexpected sizeof(t=) unknown struct type: class java.io.Reader
+[10991][      debug] 
+[10991][      debug] typ_get_recursive_flds: unexpected sizeof(t=) unknown struct type: class java.io.Reader
+[10991][      debug] 
+[10991][      debug] typ_get_recursive_flds: unexpected sizeof(t=) unknown struct type: class java.io.Reader
+[10991][      debug] 
+[10991][      debug] typ_get_recursive_flds: unexpected sizeof(t=) unknown struct type: class java.io.Reader
+[10991][      debug] 
+[10991][      debug] typ_get_recursive_flds: unexpected sizeof(t=) unknown struct type: class java.io.Reader
+[10991][      debug] 
+[10991][      debug] typ_get_recursive_flds: unexpected sizeof(t=) unknown struct type: class java.io.Reader
+[10991][      debug] 
+[10991][      debug] typ_get_recursive_flds: unexpected sizeof(t=) unknown struct type: class java.io.Reader
+[10991][      debug] 
+[10991][      debug] typ_get_recursive_flds: unexpected sizeof(t=) unknown struct type: class java.io.Reader
+[10991][      debug] 
+[10991][      debug] typ_get_recursive_flds: unexpected sizeof(t=) unknown struct type: class java.io.Reader
+[10991][      debug] 
+[10991][      debug] typ_get_recursive_flds: unexpected sizeof(t=) unknown struct type: class java.io.Reader
+[10991][      debug] 
+[10991][      debug] typ_get_recursive_flds: unexpected sizeof(t=) unknown struct type: class java.io.Reader
+[10991][      debug] 
+[10991][      debug] typ_get_recursive_flds: unexpected sizeof(t=) unknown struct type: class java.io.Reader
+[10991][      debug] 
+[10991][      debug] typ_get_recursive_flds: unexpected sizeof(t=) unknown struct type: class java.io.Reader
+[10991][      debug] 
+[10991][      debug] typ_get_recursive_flds: unexpected sizeof(t=) unknown struct type: class java.io.Reader
+[10991][      debug] 
+[10991][      debug] typ_get_recursive_flds: unexpected sizeof(t=) unknown struct type: class java.io.Reader
+[10991][      debug] 
+[10991][      debug] typ_get_recursive_flds: unexpected sizeof(t=) unknown struct type: class java.io.Reader
+[10991][      debug] 
+[10991][      debug] typ_get_recursive_flds: unexpected sizeof(t=) unknown struct type: class java.io.Reader
+[10991][      debug] 
+[10991][      debug] typ_get_recursive_flds: unexpected sizeof(t=) unknown struct type: class java.io.Reader
+[10991][      debug] 
+[10991][      debug] typ_get_recursive_flds: unexpected sizeof(t=) unknown struct type: class java.io.Reader
+[10991][      debug] 
+[10991][      debug] typ_get_recursive_flds: unexpected sizeof(t=) unknown struct type: class java.io.Reader
+[10991][      debug] 
+[10991][      debug] typ_get_recursive_flds: unexpected sizeof(t=) unknown struct type: class java.io.Reader
+[10991][      debug] 
+[10991][      debug] typ_get_recursive_flds: unexpected sizeof(t=) unknown struct type: class java.io.Reader
+[10991][      debug] 
+[10991][      debug] typ_get_recursive_flds: unexpected sizeof(t=) unknown struct type: class java.io.Reader
+[10991][      debug] 
+[10991][      debug] typ_get_recursive_flds: unexpected sizeof(t=) unknown struct type: class java.io.Reader
+[10991][      debug] 
+[10991][      debug] typ_get_recursive_flds: unexpected sizeof(t=) unknown struct type: class java.io.Reader
+[10991][      debug] 
+[10991][      debug] typ_get_recursive_flds: unexpected sizeof(t=) unknown struct type: class java.io.Reader
+[10991][      debug] 
+[10991][      debug] typ_get_recursive_flds: unexpected sizeof(t=) unknown struct type: class java.io.Reader
+[10991][      debug] 
+[10991][      debug] typ_get_recursive_flds: unexpected sizeof(t=) unknown struct type: class java.io.Reader
+[10991][      debug] 
+[10991][      debug] typ_get_recursive_flds: unexpected sizeof(t=) unknown struct type: class java.io.Reader
+[10990][   progress] src/main/java/solartracer/networking/SolarWebServer.java DONE
+[10991][      debug] 
+[10991][      debug] typ_get_recursive_flds: unexpected sizeof(t=) unknown struct type: class java.io.Reader
+[10991][      debug] 
+[10991][      debug] typ_get_recursive_flds: unexpected sizeof(t=) unknown struct type: class java.io.Reader
+[10991][      debug] 
+[10991][      debug] typ_get_recursive_flds: unexpected sizeof(t=) unknown struct type: class java.io.Reader
+[10991][      debug] 
+[10991][      debug] typ_get_recursive_flds: unexpected sizeof(t=) unknown struct type: class java.io.Reader
+[10991][      debug] 
+[10991][      debug] typ_get_recursive_flds: unexpected sizeof(t=) unknown struct type: class java.io.Reader
+[10991][      debug] 
+[10991][      debug] typ_get_recursive_flds: unexpected sizeof(t=) unknown struct type: class java.io.Reader
+[10991][      debug] 
+[10991][      debug] typ_get_recursive_flds: unexpected sizeof(t=) unknown struct type: class java.io.Reader
+[10991][      debug] 
+[10991][      debug] typ_get_recursive_flds: unexpected sizeof(t=) unknown struct type: class java.io.Reader
+[10991][      debug] 
+[10991][      debug] typ_get_recursive_flds: unexpected sizeof(t=) unknown struct type: class java.io.Reader
+[10991][      debug] 
+[10991][      debug] typ_get_recursive_flds: unexpected sizeof(t=) unknown struct type: class java.io.Reader
+[10991][      debug] 
+[10991][      debug] typ_get_recursive_flds: unexpected sizeof(t=) unknown struct type: class java.io.Reader
+[10991][      debug] 
+[10991][      debug] typ_get_recursive_flds: unexpected sizeof(t=) unknown struct type: class java.io.Reader
+[10991][      debug] 
+[10991][      debug] typ_get_recursive_flds: unexpected sizeof(t=) unknown struct type: class java.io.Reader
+[10991][      debug] 
+[10991][      debug] typ_get_recursive_flds: unexpected sizeof(t=) unknown struct type: class java.io.Reader
+[10991][      debug] 
+[10991][      debug] typ_get_recursive_flds: unexpected sizeof(t=) unknown struct type: class java.io.Reader
+[10991][      debug] 
+[10991][      debug] typ_get_recursive_flds: unexpected sizeof(t=) unknown struct type: class java.io.Reader
+[10991][      debug] 
+[10991][      debug] typ_get_recursive_flds: unexpected sizeof(t=) unknown struct type: class java.io.Reader
+[10991][      debug] 
+[10991][      debug] typ_get_recursive_flds: unexpected sizeof(t=) unknown struct type: class java.io.Reader
+[10991][      debug] 
+[10991][      debug] typ_get_recursive_flds: unexpected sizeof(t=) unknown struct type: class java.io.Reader
+[10991][      debug] 
+[10991][      debug] typ_get_recursive_flds: unexpected sizeof(t=) unknown struct type: class java.io.Reader
+[10993][   progress] src/main/java/solartracer/main/MainEntry.java DONE
+[10998][   progress] src/main/java/solartracer/utils/FreqListStringConverter.java DONE
+[10994][   progress] src/main/java/solartracer/main/Main.java DONE
+[10991][   progress] src/main/java/solartracer/serial/SerialCommImpl.java DONE
+[11003][   progress] src/main/java/solartracer/utils/ExceptionUtils.java DONE
+[10995][   progress] src/main/java/solartracer/utils/DatabaseUtils.java DONE
+[10999][   progress] src/main/java/solartracer/gui/GuiController.java DONE
+[10904][   progress] 
+[10904][   progress] Analysis finished in 18.611ss
+[10904][      debug] collected stats:
+[10904][      debug] Backend stats:
+[10904][      debug]   summary_file_try_load= 10742
+[10904][      debug]   summary_read_from_disk= 60
+[10904][      debug]   summary_cache_hits= 3910 (41%)
+[10904][      debug]   summary_cache_misses= 5401
+[10904][      debug]   summary_has_model_queries= 0
+[10904][      debug]   ondemand_procs_analyzed= 132
+[10904][      debug]   ondemand_local_cache_hits= 3325 (86%)
+[10904][      debug]   ondemand_local_cache_misses= 516
+[10904][      debug]   
+[10904][      debug] 

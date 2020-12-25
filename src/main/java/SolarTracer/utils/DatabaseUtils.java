@@ -217,7 +217,7 @@ public final class DatabaseUtils {
   }
 
   /** Shutdown and lock the database file. */
-  public static void shutdown() {
+  public static synchronized void shutdown() {
     try {
       if (conn != null) {
         conn.close();

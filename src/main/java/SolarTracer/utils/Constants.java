@@ -36,7 +36,7 @@ public class Constants {
       long returnTime = timeInfo.getMessage().getTransmitTimeStamp().getTime();
       return new Date(returnTime);
     }
-    return null;
+    return new Date();
   }
 
   public static void updateTimeoffset() {
@@ -47,7 +47,7 @@ public class Constants {
   }
 
   /** Offset from true NTP time from the system time. */
-  private static long timeOffset = time().getTime() - System.currentTimeMillis();
+  private static long timeOffset = (time() == null) ? 0 : -1L * time().getTime() + System.currentTimeMillis();
 
   /** Sleep time. Used to delay the state monitor. */
   public static final long SLEEP_TIME = 200;

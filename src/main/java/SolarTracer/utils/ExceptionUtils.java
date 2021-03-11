@@ -29,7 +29,7 @@ public class ExceptionUtils {
   /**
    * Show an alert dialog.
    *
-   * @param ex
+   * @param ex a throwable
    */
   private static void showAlert(Throwable ex) {
 
@@ -62,7 +62,7 @@ public class ExceptionUtils {
   /**
    * Show an alert dialog.
    *
-   * @param ex
+   * @param msg the message to show as an alert
    */
   public static void showAlert(String msg) {
     Platform.runLater(() -> showAlert(new SolarException(msg)));

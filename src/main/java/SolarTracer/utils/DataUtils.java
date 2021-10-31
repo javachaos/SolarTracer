@@ -15,7 +15,7 @@ public class DataUtils {
    *
    * @param dataPoint the datapoint, Expected datastring format:
    *     "batt_voltage:pv_voltage:load_current:over_discharge:batt_max:batt_full:charging:batt_temp:charge_current:load_onoff:timestamp"
-   *     example: "0.0:1:1:12.0:1:1:23.0:1.5:1"
+   *     example: "0.0:1:1:12.0:1:1:23.0:1.5:1:1635692864"
    * @return a DataPoint.
    */
   public static final DataPoint parseDataPoint(String dataPoint) {

@@ -24,7 +24,7 @@ import org.slf4j.LoggerFactory;
 import solartracer.data.DataPoint;
 import solartracer.data.DataPointListener;
 import solartracer.main.Main;
-import solartracer.networking.SolarWebServer;
+//import solartracer.networking.SolarWebServer;
 import solartracer.serial.SerialConnection;
 import solartracer.serial.SerialFactory;
 import solartracer.utils.Constants;
@@ -94,7 +94,7 @@ public class GuiController implements EventHandler<WindowEvent>, DataPointListen
   private int clockUpdateCtr;
 
   private boolean isRunning = true;
-  private SolarWebServer solarServer;
+  //private SolarWebServer solarServer;
   private SerialConnection serial;
 
   /** GuiController Ctor. */
@@ -122,7 +122,7 @@ public class GuiController implements EventHandler<WindowEvent>, DataPointListen
             (observable, oldValue, newValue) -> {
               serial.disconnect();
               serial.connect(newValue);
-              serial.addDataPointListener(solarServer);
+              //serial.addDataPointListener(solarServer);
             });
     setupSeries();
     setupGraphs();
@@ -309,9 +309,9 @@ public class GuiController implements EventHandler<WindowEvent>, DataPointListen
       if (serial != null) {
         serial.disconnect();
       }
-      if (solarServer != null) {
-        solarServer.shutdown();
-      }
+//      if (solarServer != null) {
+//        solarServer.shutdown();
+//      }
       DatabaseUtils.shutdown();
     } finally {
       Main.COORDINATOR.shutdown();
@@ -408,14 +408,14 @@ public class GuiController implements EventHandler<WindowEvent>, DataPointListen
     }
   }
 
-  /**
-   * Set the server.
-   *
-   * @param solarServer
-   */
-  public void setServer(SolarWebServer solarServer) {
-    this.solarServer = solarServer;
-  }
+//  /**
+//   * Set the server.
+//   *
+//   * @param solarServer
+//   */
+//  public void setServer(SolarWebServer solarServer) {
+//    this.solarServer = solarServer;
+//  }
 
   @Override
   public void dataPointReceived(DataPoint dataPoint) {

@@ -10,7 +10,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="SolarTracer" target="1.8" />
+      <module name="SolarTracer" target="17" />
     </bytecodeTargetLevel>
   </component>
 </project>

@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import solartracer.gui.GuiController;
-import solartracer.networking.SolarWebServer;
+//import solartracer.networking.SolarWebServer;
 import solartracer.utils.Constants;
 import solartracer.utils.DatabaseUtils;
 import solartracer.utils.ShutdownHook;
@@ -36,9 +36,9 @@ public class Main extends Application {
     GuiController guiController = fxmlLoader.getController();
     COORDINATOR.scheduleAtFixedRate(
         guiController, 0, Constants.GUI_SLEEPTIME, TimeUnit.MILLISECONDS);
-    SolarWebServer server = new SolarWebServer();
-    COORDINATOR.schedule(server, 0, TimeUnit.SECONDS);
-    guiController.setServer(server);
+    //SolarWebServer server = new SolarWebServer();
+    //COORDINATOR.schedule(server, 0, TimeUnit.SECONDS);
+    //guiController.setServer(server);
     primaryStage.setOnCloseRequest(guiController);
     Scene myScene = new Scene(myPane);
     myScene.setRoot(myPane);
@@ -47,6 +47,7 @@ public class Main extends Application {
   }
 
   public static void main(String[] args) {
+    LOGGER.debug("Application startup.");
     if (!DatabaseUtils.databaseExists()) {
       DatabaseUtils.createTables();
       LOGGER.debug("Created new database file.");

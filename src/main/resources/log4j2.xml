@@ -30,7 +30,15 @@
     </Console>
   </Appenders>
   <Loggers>
-    <Root level="error">
+    <Logger name="solartracer.error" level="error" additivity="false">
+      <AppenderRef ref="RollingFile"/>
+      <AppenderRef ref="STDOUT"/>
+    </Logger>
+    <Logger name="solartracer" level="debug" additivity="false">
+      <AppenderRef ref="RollingFile"/>
+      <AppenderRef ref="STDOUT"/>
+    </Logger>
+    <Root level="info">
       <AppenderRef ref="RollingFile"/>
       <AppenderRef ref="STDOUT"/>
     </Root>

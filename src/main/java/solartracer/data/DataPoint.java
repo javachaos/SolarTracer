@@ -89,6 +89,11 @@ public class DataPoint {
     }
   }
 
+  /**
+   * Get the time for this datapoint typically when this datapoint was created.
+   * 
+   * @return the timestamp for this datapoint
+   */
   public long getTime() {
     return timestamp;
   }
@@ -109,42 +114,90 @@ public class DataPoint {
     return time;
   }
 
+  /**
+   * Get the battery voltage (volts)
+   * @return the battery voltage
+   */
   public float getBatteryVoltage() {
     return batteryVoltage;
   }
 
+  /**
+   * Get the PV Voltage (photovoltaic voltage) for this datapoint (volts)
+   * @return the PV Voltage
+   */
   public float getPvVoltage() {
     return pvVoltage;
   }
 
+  /**
+   * Get the Load current (amps).
+   * 
+   * @return the load current
+   */
   public float getLoadCurrent() {
     return loadCurrent;
   }
 
+  /**
+   * Get the over discharge value (boolean, 1 or 0).
+   * 
+   * @return 1 if there as an over discharge 0 if not
+   */
   public float getOverDischarge() {
     return overDischarge;
   }
 
+  /**
+   * Max battery voltage.
+   * 
+   * @return max battery voltage
+   */
   public float getBatteryMax() {
     return batteryMax;
   }
 
+  /**
+   * If the battery is full return 1 else return 0.
+   * 
+   * @return 1 if the battery is full else 0
+   */
   public float getBatteryFull() {
     return full;
   }
 
+  /**
+   * Return 1 of the battery is charging, 0 if not.
+   * 
+   * @return 1 of the battery is charging 0 if not
+   */
   public float getCharging() {
     return charging;
   }
 
+  /**
+   * Temp of the battery in degrees celcius
+   * 
+   * @return the battery temperature in degrees celcius
+   */
   public float getBatteryTemp() {
     return batteryTemp;
   }
 
+  /**
+   * Get the charge current in amps
+   * 
+   * @return the charge current
+   */
   public float getChargeCurrent() {
     return chargeCurrent;
   }
 
+  /**
+   * Get if there is a load connected or not (boolean).
+   * 
+   * @return 1 if there is a load 0 if not
+   */
   public float getLoadOnoff() {
     return loadOnOff;
   }

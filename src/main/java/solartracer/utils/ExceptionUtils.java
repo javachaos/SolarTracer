@@ -12,8 +12,19 @@ import javafx.scene.layout.Priority;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Exception utils to help handle exception logging.
+ * 
+ * @author fred
+ *
+ */
 public class ExceptionUtils {
+	
+  /**
+   * Private constructor.
+   */
   private ExceptionUtils() {}
+  
   /**
    * Log the error and set the Application state to ERROR state.
    *

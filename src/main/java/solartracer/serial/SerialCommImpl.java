@@ -9,6 +9,8 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.slf4j.Logger;
@@ -48,7 +50,10 @@ public class SerialCommImpl implements SerialPortDataListener, SerialConnection 
   // is connected to a serial port or not
   private boolean bConnected = false;
 
-  private ArrayList<DataPointListener> dataPointListeners;
+  /**
+   * List of data point listeners.
+   */
+  private List<DataPointListener> dataPointListeners;
 
   /** Serial Communication Constructor. */
   public SerialCommImpl() {

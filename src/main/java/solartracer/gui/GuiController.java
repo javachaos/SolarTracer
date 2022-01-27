@@ -33,6 +33,12 @@ import solartracer.utils.ExceptionUtils;
 import solartracer.utils.FreqListStringConverter;
 import solartracer.utils.StatusUtils;
 
+/**
+ * GUI Controller class
+ * 
+ * @author fred
+ *
+ */
 public class GuiController implements EventHandler<WindowEvent>, DataPointListener, Runnable {
 
   /** Logger. */
@@ -41,6 +47,9 @@ public class GuiController implements EventHandler<WindowEvent>, DataPointListen
   /** The update sleep time of the arduino device. */
   private int arduinoSleepTime = 1000;
 
+  /**
+   * FXML components
+   */
   @FXML private CategoryAxis chargingAxis;
   @FXML private Label battMaxLabel;
   @FXML private LineChart<String, Float> loadGraph;
@@ -80,7 +89,9 @@ public class GuiController implements EventHandler<WindowEvent>, DataPointListen
   @FXML private ToggleButton loadOff;
   private ToggleGroup toggleGroup;
 
-  // Graph series
+  /**
+   *  Graph series
+   */
   private Series<String, Float> loadSeries;
   private Series<String, Float> loadCurrentSeries;
   private Series<String, Float> battLevelSeries;
@@ -90,11 +101,23 @@ public class GuiController implements EventHandler<WindowEvent>, DataPointListen
   private Series<String, Float> chargeCurrentSeries;
   private ObservableList<Integer> updateFreqList;
 
+  /**
+   * Port list
+   */
   ObservableList<String> portList;
+  
+  /**
+   * Clock counter
+   */
   private int clockUpdateCtr;
 
   private boolean isRunning = true;
+  
   //private SolarWebServer solarServer;
+  
+  /**
+   * Serial connection
+   */
   private SerialConnection serial;
 
   /** GuiController Ctor. */
@@ -128,6 +151,9 @@ public class GuiController implements EventHandler<WindowEvent>, DataPointListen
     setupGraphs();
   }
 
+  /**
+   * Setup graphs.
+   */
   private void setupGraphs() {
     loadGraph.setAnimated(false);
     loadCurrentGraph.setAnimated(false);
@@ -155,6 +181,9 @@ public class GuiController implements EventHandler<WindowEvent>, DataPointListen
     chargingGraph.getData().add(chargingSeries);
   }
 
+  /**
+   * Setup chart series 
+   */
   private void setupSeries() {
     // Setup series
     loadSeries = new XYChart.Series<>();
@@ -173,6 +202,9 @@ public class GuiController implements EventHandler<WindowEvent>, DataPointListen
     chargeCurrentSeries.setName("Charge Current Series");
   }
 
+  /**
+   * Initialize frequency list combo box.
+   */
   private void setupFreqList() {
     updateFreqList = FXCollections.observableArrayList();
     updateFreqList.add(1000); // 1 second
@@ -205,6 +237,9 @@ public class GuiController implements EventHandler<WindowEvent>, DataPointListen
                 });
   }
 
+  /**
+   * Setup the toggle button.
+   */
   private void setupToggle() {
     toggleGroup = new ToggleGroup();
     loadOn.setToggleGroup(toggleGroup);
@@ -217,7 +252,7 @@ public class GuiController implements EventHandler<WindowEvent>, DataPointListen
             (ChangeListener<Toggle>)
                 (ov, toggle, newToggle) -> {
                   if (newToggle == null) {
-                    log("Toggle is Null.");
+                    LOGGER.debug("Toggle is Null.");
                   } else {
                     sendData((String) newToggle.getUserData());
                   }
@@ -384,10 +419,6 @@ public class GuiController implements EventHandler<WindowEvent>, DataPointListen
             chargeCurrentSeries.getData().remove(0); // Remove the first element.
           }
         });
-  }
-
-  private void log(String s) {
-    LOGGER.debug(s);
   }
 
   @Override

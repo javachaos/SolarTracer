@@ -2,6 +2,12 @@ package solartracer.utils;
 
 import javafx.util.StringConverter;
 
+/**
+ * Frequency list String converter. 
+ * 
+ * @author fred
+ *
+ */
 public class FreqListStringConverter extends StringConverter<Integer> {
 
     @Override

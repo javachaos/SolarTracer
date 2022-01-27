@@ -4,9 +4,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import solartracer.data.DataPoint;
 
+/**
+ * Utility class to manipulate data.
+ * 
+ * @author fred
+ *
+ */
 public class DataUtils {
 
+  /**
+   * Private constructor
+   */
   private DataUtils() {}
+  
   /** Logger. */
   public static final Logger LOGGER = LoggerFactory.getLogger(DataUtils.class);
 
@@ -18,8 +28,8 @@ public class DataUtils {
    *     example: "0.0:1:1:12.0:1:1:23.0:1.5:1:1635692864"
    * @return a DataPoint.
    */
-  public static final DataPoint parseDataPoint(String dataPoint) {
-    String[] d = dataPoint.split(":");
+  public static final DataPoint parseDataPoint(final String dataPoint) {
+    String[] d = dataPoint.split(Constants.COLON);
     if (d.length == Constants.DEFAULT_DATA_LENGTH) {
       float[] returnArr = new float[Constants.DEFAULT_DATA_LENGTH - 1];
       for (int i = 0; i < returnArr.length; i++) {

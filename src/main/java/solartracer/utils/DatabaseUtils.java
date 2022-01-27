@@ -1,24 +1,41 @@
 package solartracer.utils;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+
 import solartracer.data.DataPoint;
 
-/** @author fred */
+/**
+ *  @author fred
+ */
 public final class DatabaseUtils {
 
-  /** Database connection instance. */
+  /**
+   * Database connection instance.
+   */
   private static Connection conn;
 
-  /** True if the database driver is loaded. */
+  /**
+   * True if the database driver is loaded.
+   */
   private static boolean isLoaded = false;
 
-  /** Private default ctor. */
+  /**
+   * Private default ctor.
+   */
   private DatabaseUtils() {}
 
-  /** Loads driver. */
+  /** 
+   * Loads driver.
+   */
   private static synchronized void loadDriver() {
 
     try {
@@ -54,18 +71,16 @@ public final class DatabaseUtils {
     return conn;
   }
 
-  /** Create database tables. */
+  /** 
+   * Create database tables.
+   */
   public static synchronized void createTables() {
     getConnection();
     Statement stat = null;
     try {
       stat = conn.createStatement();
       stat.addBatch(
-          "CREATE TABLE IF NOT EXISTS Data (ID INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT"
-              + " NULL,battery_voltage DOUBLE, pv_voltage DOUBLE, load_current DOUBLE,"
-              + " over_discharge DOUBLE,battery_max DOUBLE, battery_full BOOLEAN, charging"
-              + " BOOLEAN, battery_temp DOUBLE,charge_current DOUBLE, load_onoff BOOLEAN, time"
-              + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP)");
+          Constants.DATABASE_CREATE_STMT);
       stat.executeBatch();
     } catch (SQLException e) {
       ExceptionUtils.log(DatabaseUtils.class, e);
@@ -80,7 +95,7 @@ public final class DatabaseUtils {
    *
    * @param c the AutoClosable to close
    */
-  private static void closeItem(AutoCloseable c) {
+  private static void closeItem(final AutoCloseable c) {
     try {
       if (c != null) {
         c.close();
@@ -90,6 +105,11 @@ public final class DatabaseUtils {
     }
   }
 
+  /**
+   * Get the number of data points stored in the database.
+   * 
+   * @return the total number of data points currently in the database
+   */
   public static synchronized int getNumRecords() {
     ResultSet rs = null;
     Statement s = null;
@@ -112,7 +132,15 @@ public final class DatabaseUtils {
     return numRecs;
   }
 
-  public static synchronized ArrayList<String> getData(Date first, Date second) {
+  /**
+   * Get a list of data points between the first and second date arguments.
+   * 
+   * @param first the first date
+   * @param second the second date
+   * 
+   * @return a list of data points between the two dates
+   */
+  public static synchronized ArrayList<String> getData(final Date first,final Date second) {
     if (first != null && first.getTime() > 0 && second != null && second.getTime() > 0) {
       SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
       ArrayList<String> returnData = new ArrayList<>(Constants.DATA_WINDOW_SIZE);
@@ -142,25 +170,25 @@ public final class DatabaseUtils {
           float loadOnOff = rs.getFloat("load_onoff");
           Date datetime = rs.getDate("time");
           sb.append(batteryVoltage);
-          sb.append(":");
+          sb.append(Constants.COLON);
           sb.append(pvVoltage);
-          sb.append(":");
+          sb.append(Constants.COLON);
           sb.append(loadCurrent);
-          sb.append(":");
+          sb.append(Constants.COLON);
           sb.append(overDischarge);
-          sb.append(":");
+          sb.append(Constants.COLON);
           sb.append(batteryMax);
-          sb.append(":");
+          sb.append(Constants.COLON);
           sb.append(full);
-          sb.append(":");
+          sb.append(Constants.COLON);
           sb.append(charging);
-          sb.append(":");
+          sb.append(Constants.COLON);
           sb.append(batteryTemp);
-          sb.append(":");
+          sb.append(Constants.COLON);
           sb.append(chargeCurrent);
-          sb.append(":");
+          sb.append(Constants.COLON);
           sb.append(loadOnOff);
-          sb.append(":");
+          sb.append(Constants.COLON);
           sb.append(datetime.getTime());
           returnData.add(sb.toString());
           sb = new StringBuilder();
@@ -176,7 +204,12 @@ public final class DatabaseUtils {
     return new ArrayList<>();
   }
 
-  public static synchronized void insertData(DataPoint data) {
+  /**
+   * Insert a data point into the database.
+   * 
+   * @param data the data point to be added
+   */
+  public static synchronized void insertData(final DataPoint data) {
     if (data != null) {
       PreparedStatement stat = null;
       try {

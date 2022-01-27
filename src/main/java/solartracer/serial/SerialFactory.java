@@ -1,9 +1,15 @@
 package solartracer.serial;
 
-/** Defines a serial creation factory. */
+/**
+ * Defines a serial creation factory.
+ */
 public class SerialFactory {
 
+  /**
+   * private Serial factory constructor 
+   */
   private SerialFactory() {}
+
   /**
    * Create a new Serial Instance.
    *

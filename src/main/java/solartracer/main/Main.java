@@ -18,13 +18,23 @@ import solartracer.utils.Constants;
 import solartracer.utils.DatabaseUtils;
 import solartracer.utils.ShutdownHook;
 
+/**
+ * Main application class.
+ * 
+ * @author fred
+ *
+ */
 public class Main extends Application {
 
-  /** Thread coordinator. */
+  /** 
+   * Thread coordinator.
+   */
   public static final ScheduledExecutorService COORDINATOR =
       Executors.newScheduledThreadPool(Constants.NUM_THREADS);
 
-  /** Logger. */
+  /** 
+   * Logger.
+   */
   public static final Logger LOGGER = LoggerFactory.getLogger(Main.class);
 
   @Override
@@ -46,7 +56,12 @@ public class Main extends Application {
     primaryStage.show();
   }
 
-  public static void main(String[] args) {
+  /**
+   * Main program execution start. 
+   * 
+   * @param args unused
+   */
+  public static void main(final String[] args) {
     LOGGER.debug("Application startup.");
     if (!DatabaseUtils.databaseExists()) {
       DatabaseUtils.createTables();
@@ -56,7 +71,9 @@ public class Main extends Application {
     launch();
   }
 
-  /** Shutdown hook. */
+  /**
+   *  Shutdown hook.
+   */
   private static void addHook() {
     Runtime.getRuntime().addShutdownHook(new ShutdownHook(COORDINATOR, Thread.currentThread()));
   }

@@ -3,6 +3,12 @@ package solartracer.serial;
 import javafx.collections.ObservableList;
 import solartracer.data.DataPointListener;
 
+/**
+ * Serial connection interface. 
+ * 
+ * @author fred
+ *
+ */
 public interface SerialConnection {
 	
 	/**

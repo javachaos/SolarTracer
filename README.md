@@ -10,6 +10,5 @@ This software, gathers information from an arduino board using the arduino scrip
 
 See [Wiki](https://github.com/javachaos/SolarTracer/wiki) for more information.
 
-DOWNLOAD: [Here](https://github.com/javachaos/SolarTracer/blob/master/bin/SolarTracer.exe?raw=true)
 
 

@@ -71,3 +71,5 @@ dependency-reduced-pom.xml
 buildNumber.properties
 .mvn/timing.properties
 
+/logs/solar.log
+/solar_data.db

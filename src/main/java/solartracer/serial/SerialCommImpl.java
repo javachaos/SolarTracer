@@ -37,7 +37,6 @@ public class SerialCommImpl implements SerialPortDataListener, SerialConnection 
   /** RS232 new write timeout. */
   private static final int WRITE_TIMEOUT = 1000;
 
-  private final SerialPort[] serialPorts = SerialPort.getCommPorts();
   private SerialPort serialPort;
 
   // input and output streams for sending and receiving data
@@ -52,7 +51,7 @@ public class SerialCommImpl implements SerialPortDataListener, SerialConnection 
   /**
    * List of data point listeners.
    */
-  private List<DataPointListener> dataPointListeners;
+  private final List<DataPointListener> dataPointListeners;
 
   /** Serial Communication Constructor. */
   public SerialCommImpl() {
@@ -76,12 +75,12 @@ public class SerialCommImpl implements SerialPortDataListener, SerialConnection 
   /**
    * Update all listeners with data.
    *
-   * @param data
+   * @param data the data
    */
   private void updateListeners(String data) {
     String info =
         data + ":" + new Date(Constants.getCurrentTimeMillis()).getTime(); // Add Timestamp.
-    dataPointListeners.parallelStream()
+    dataPointListeners
         .forEach(l -> l.dataPointReceived(DataUtils.parseDataPoint(info)));
   }
 
@@ -99,7 +98,7 @@ public class SerialCommImpl implements SerialPortDataListener, SerialConnection 
   @Override
   public ObservableList<String> getPortNames() {
     ObservableList<String> portNames = FXCollections.observableArrayList();
-    for (SerialPort s : serialPorts) {
+    for (SerialPort s : SerialPort.getCommPorts()) {
       portNames.add(s.getSystemPortName());
     }
     return portNames;

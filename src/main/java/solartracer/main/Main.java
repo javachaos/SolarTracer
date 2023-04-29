@@ -39,7 +39,7 @@ public class Main extends Application {
   @Override
   public void start(Stage primaryStage) throws IOException {
     primaryStage.setTitle("Solar MPPT Tracer");
-    URL fxmlLocation = getClass().getResource("/commander.fxml");
+    URL fxmlLocation = getClass().getResource("/solar_tracer_ui.fxml");
     FXMLLoader fxmlLoader = new FXMLLoader(fxmlLocation, null);
     AnchorPane myPane = fxmlLoader.load();
     GuiController guiController = fxmlLoader.getController();

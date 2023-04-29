@@ -28,7 +28,7 @@ public class DataUtils {
    *     example: "0.0:1:1:12.0:1:1:23.0:1.5:1:1635692864"
    * @return a DataPoint.
    */
-  public static final DataPoint parseDataPoint(final String dataPoint) {
+  public static DataPoint parseDataPoint(final String dataPoint) {
     String[] d = dataPoint.split(Constants.COLON);
     if (d.length == Constants.DEFAULT_DATA_LENGTH) {
       float[] returnArr = new float[Constants.DEFAULT_DATA_LENGTH - 1];

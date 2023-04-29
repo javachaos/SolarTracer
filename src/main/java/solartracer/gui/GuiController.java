@@ -1,6 +1,7 @@
 package solartracer.gui;
 
 import java.nio.ByteBuffer;
+
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -11,6 +12,7 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.chart.XYChart.Series;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
@@ -84,6 +86,7 @@ public class GuiController implements EventHandler<WindowEvent>, DataPointListen
   @FXML private Tab chargeCurrentTab;
   @FXML private ToggleButton loadOn;
   @FXML private ToggleButton loadOff;
+  @FXML private Button refreshComs;
 
 
   /**
@@ -121,8 +124,7 @@ public class GuiController implements EventHandler<WindowEvent>, DataPointListen
 
   @FXML
   void initialize(GuiController guiController) {
-    serial = SerialFactory.getSerial();
-    serial.addDataPointListener(guiController);
+    initComms();
     sanityCheck();
     setupToggle();
     batteryLevelNumAxis.setAutoRanging(false);
@@ -130,18 +132,25 @@ public class GuiController implements EventHandler<WindowEvent>, DataPointListen
     batteryLevelNumAxis.setLowerBound(11.0);
     batteryLevelNumAxis.setTickUnit(0.5);
     batteryLevelNumAxis.setTickMarkVisible(true);
-    portList = serial.getPortNames();
     setupFreqList();
-    comList.setItems(portList);
-    comList
-        .valueProperty()
-        .addListener(
-            (observable, oldValue, newValue) -> {
-              serial.disconnect();
-              serial.connect(newValue);
-            });
     setupSeries();
     setupGraphs();
+  }
+
+  @FXML
+  private void initComms() {
+    serial = SerialFactory.getSerial();
+    serial.addDataPointListener(this);
+    portList = serial.getPortNames();
+    comList.setItems(portList);
+    LOGGER.debug("Searching for comm ports, found: {}", portList);
+    comList
+            .valueProperty()
+            .addListener(
+                    (observable, oldValue, newValue) -> {
+                      serial.disconnect();
+                      serial.connect(newValue);
+                    });
   }
 
   /**
@@ -269,51 +278,51 @@ public class GuiController implements EventHandler<WindowEvent>, DataPointListen
   /** Check all fxml objects. */
   private void sanityCheck() {
     assert loadGraph != null
-        : "fx:id=\"loadGraph\" was not injected: check your FXML file 'commander.fxml'.";
+        : "fx:id=\"loadGraph\" was not injected: check your FXML file 'solar_tracer_ui.fxml'.";
     assert loadCurrentTab != null
-        : "fx:id=\"loadCurrentTab\" was not injected: check your FXML file 'commander.fxml'.";
+        : "fx:id=\"loadCurrentTab\" was not injected: check your FXML file 'solar_tracer_ui.fxml'.";
     assert loadLabel != null
-        : "fx:id=\"loadLabel\" was not injected: check your FXML file 'commander.fxml'.";
+        : "fx:id=\"loadLabel\" was not injected: check your FXML file 'solar_tracer_ui.fxml'.";
     assert pvVoltageTab != null
-        : "fx:id=\"pvVoltageTab\" was not injected: check your FXML file 'commander.fxml'.";
+        : "fx:id=\"pvVoltageTab\" was not injected: check your FXML file 'solar_tracer_ui.fxml'.";
     assert chargeCurrentLabel != null
-        : "fx:id=\"chargeCurrentLabel\" was not injected: check your FXML file 'commander.fxml'.";
+        : "fx:id=\"chargeCurrentLabel\" was not injected: check your FXML file 'solar_tracer_ui.fxml'.";
     assert pvVoltGraph != null
-        : "fx:id=\"pvVoltGraph\" was not injected: check your FXML file 'commander.fxml'.";
+        : "fx:id=\"pvVoltGraph\" was not injected: check your FXML file 'solar_tracer_ui.fxml'.";
     assert loadTab != null
-        : "fx:id=\"loadTab\" was not injected: check your FXML file 'commander.fxml'.";
+        : "fx:id=\"loadTab\" was not injected: check your FXML file 'solar_tracer_ui.fxml'.";
     assert batteryLevelGraph != null
-        : "fx:id=\"batteryLevelGraph\" was not injected: check your FXML file 'commander.fxml'.";
+        : "fx:id=\"batteryLevelGraph\" was not injected: check your FXML file 'solar_tracer_ui.fxml'.";
     assert battTempTab != null
-        : "fx:id=\"battTempTab\" was not injected: check your FXML file 'commander.fxml'.";
+        : "fx:id=\"battTempTab\" was not injected: check your FXML file 'solar_tracer_ui.fxml'.";
     assert chargingLabel != null
-        : "fx:id=\"chargingLabel\" was not injected: check your FXML file 'commander.fxml'.";
+        : "fx:id=\"chargingLabel\" was not injected: check your FXML file 'solar_tracer_ui.fxml'.";
     assert batteryLevelTab != null
-        : "fx:id=\"batteryLevelTab\" was not injected: check your FXML file 'commander.fxml'.";
+        : "fx:id=\"batteryLevelTab\" was not injected: check your FXML file 'solar_tracer_ui.fxml'.";
     assert loadCurrentLabel != null
-        : "fx:id=\"loadCurrentLabel\" was not injected: check your FXML file 'commander.fxml'.";
+        : "fx:id=\"loadCurrentLabel\" was not injected: check your FXML file 'solar_tracer_ui.fxml'.";
     assert comList != null
-        : "fx:id=\"comList\" was not injected: check your FXML file 'commander.fxml'.";
+        : "fx:id=\"comList\" was not injected: check your FXML file 'solar_tracer_ui.fxml'.";
     assert chargingTab != null
-        : "fx:id=\"chargingTab\" was not injected: check your FXML file 'commander.fxml'.";
+        : "fx:id=\"chargingTab\" was not injected: check your FXML file 'solar_tracer_ui.fxml'.";
     assert battLevelLabel != null
-        : "fx:id=\"battLevelLabel\" was not injected: check your FXML file 'commander.fxml'.";
+        : "fx:id=\"battLevelLabel\" was not injected: check your FXML file 'solar_tracer_ui.fxml'.";
     assert battFullLabel != null
-        : "fx:id=\"battFullLabel\" was not injected: check your FXML file 'commander.fxml'.";
+        : "fx:id=\"battFullLabel\" was not injected: check your FXML file 'solar_tracer_ui.fxml'.";
     assert battTempLabel != null
-        : "fx:id=\"battTempLabel\" was not injected: check your FXML file 'commander.fxml'.";
+        : "fx:id=\"battTempLabel\" was not injected: check your FXML file 'solar_tracer_ui.fxml'.";
     assert loadCurrentGraph != null
-        : "fx:id=\"loadCurrentGraph\" was not injected: check your FXML file 'commander.fxml'.";
+        : "fx:id=\"loadCurrentGraph\" was not injected: check your FXML file 'solar_tracer_ui.fxml'.";
     assert chargeCurrentGraph != null
-        : "fx:id=\"chargeCurrentGraph\" was not injected: check your FXML file 'commander.fxml'.";
+        : "fx:id=\"chargeCurrentGraph\" was not injected: check your FXML file 'solar_tracer_ui.fxml'.";
     assert battTempGraph != null
-        : "fx:id=\"battTempGraph\" was not injected: check your FXML file 'commander.fxml'.";
+        : "fx:id=\"battTempGraph\" was not injected: check your FXML file 'solar_tracer_ui.fxml'.";
     assert chargingGraph != null
-        : "fx:id=\"chargingGraph\" was not injected: check your FXML file 'commander.fxml'.";
+        : "fx:id=\"chargingGraph\" was not injected: check your FXML file 'solar_tracer_ui.fxml'.";
     assert pvVoltLabel != null
-        : "fx:id=\"pvVoltLabel\" was not injected: check your FXML file 'commander.fxml'.";
+        : "fx:id=\"pvVoltLabel\" was not injected: check your FXML file 'solar_tracer_ui.fxml'.";
     assert chargeCurrentTab != null
-        : "fx:id=\"chargeCurrentTab\" was not injected: check your FXML file 'commander.fxml'.";
+        : "fx:id=\"chargeCurrentTab\" was not injected: check your FXML file 'solar_tracer_ui.fxml'.";
   }
 
   /**

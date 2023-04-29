@@ -19,7 +19,9 @@ import org.apache.commons.net.ntp.TimeInfo;
  */
 public class Constants {
 
-  /** 
+    public static final String DATA_REGEX = "";
+
+    /**
    * Private ctor.
    */
   private Constants() {}
@@ -41,7 +43,7 @@ public class Constants {
    * 
    * @return the current Date
    */
-  private static final Date time() {
+  private static Date time() {
     TimeInfo timeInfo = null;
     try {
       NTPUDPClient timeClient = new NTPUDPClient();
@@ -62,9 +64,7 @@ public class Constants {
    */
   public static void updateTimeoffset() {
     Date t = time();
-    if (t != null) {
-      timeOffset = t.getTime() - System.currentTimeMillis();
-    }
+    timeOffset = t.getTime() - System.currentTimeMillis();
   }
 
   /**

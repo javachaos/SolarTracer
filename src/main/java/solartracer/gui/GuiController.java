@@ -2,7 +2,6 @@ package solartracer.gui;
 
 import java.nio.ByteBuffer;
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -15,7 +14,6 @@ import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
-import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.stage.WindowEvent;
@@ -24,7 +22,6 @@ import org.slf4j.LoggerFactory;
 import solartracer.data.DataPoint;
 import solartracer.data.DataPointListener;
 import solartracer.main.Main;
-//import solartracer.networking.SolarWebServer;
 import solartracer.serial.SerialConnection;
 import solartracer.serial.SerialFactory;
 import solartracer.utils.Constants;
@@ -87,7 +84,7 @@ public class GuiController implements EventHandler<WindowEvent>, DataPointListen
   @FXML private Tab chargeCurrentTab;
   @FXML private ToggleButton loadOn;
   @FXML private ToggleButton loadOff;
-  private ToggleGroup toggleGroup;
+
 
   /**
    *  Graph series
@@ -99,7 +96,6 @@ public class GuiController implements EventHandler<WindowEvent>, DataPointListen
   private Series<String, Float> pvVoltSeries;
   private Series<String, Float> chargingSeries;
   private Series<String, Float> chargeCurrentSeries;
-  private ObservableList<Integer> updateFreqList;
 
   /**
    * Port list
@@ -113,14 +109,12 @@ public class GuiController implements EventHandler<WindowEvent>, DataPointListen
 
   private boolean isRunning = true;
   
-  //private SolarWebServer solarServer;
-  
   /**
    * Serial connection
    */
   private SerialConnection serial;
 
-  /** GuiController Ctor. */
+  /** GuiController constructor. */
   public GuiController() {
     // Unused
   }
@@ -145,7 +139,6 @@ public class GuiController implements EventHandler<WindowEvent>, DataPointListen
             (observable, oldValue, newValue) -> {
               serial.disconnect();
               serial.connect(newValue);
-              //serial.addDataPointListener(solarServer);
             });
     setupSeries();
     setupGraphs();
@@ -206,7 +199,7 @@ public class GuiController implements EventHandler<WindowEvent>, DataPointListen
    * Initialize frequency list combo box.
    */
   private void setupFreqList() {
-    updateFreqList = FXCollections.observableArrayList();
+    ObservableList<Integer> updateFreqList = FXCollections.observableArrayList();
     updateFreqList.add(1000); // 1 second
     updateFreqList.add(2000); // 2 seconds
     updateFreqList.add(3000); // 3 seconds
@@ -226,7 +219,6 @@ public class GuiController implements EventHandler<WindowEvent>, DataPointListen
     updateFreqComboBox
         .valueProperty()
         .addListener(
-            (ChangeListener<Integer>)
                 (observable, oldValue, newValue) -> {
                   arduinoSleepTime = newValue;
                   append(updateFreqLabel, (newValue / 1000) + " seconds.");
@@ -241,6 +233,7 @@ public class GuiController implements EventHandler<WindowEvent>, DataPointListen
    * Setup the toggle button.
    */
   private void setupToggle() {
+    ToggleGroup toggleGroup;
     toggleGroup = new ToggleGroup();
     loadOn.setToggleGroup(toggleGroup);
     loadOff.setToggleGroup(toggleGroup);
@@ -249,7 +242,6 @@ public class GuiController implements EventHandler<WindowEvent>, DataPointListen
     toggleGroup
         .selectedToggleProperty()
         .addListener(
-            (ChangeListener<Toggle>)
                 (ov, toggle, newToggle) -> {
                   if (newToggle == null) {
                     LOGGER.debug("Toggle is Null.");
@@ -261,14 +253,17 @@ public class GuiController implements EventHandler<WindowEvent>, DataPointListen
 
   /**
    * Send data over serial. Appends Newline.
+   * This method does not check userData, as it is
+   * a bytearray encoded string. Care must be taken therefor
+   * to ensure this method is called correctly.
    *
-   * @param userData
+   * @param userData the user data string
    */
   protected void sendData(String userData) {
-    if (serial != null && serial.isConnected()) {
-      serial.writeData(userData + Constants.NEWLINE);
-      StatusUtils.showGeneralInfo("Sent data: " + userData);
-    }
+      if (serial != null && serial.isConnected()) {
+        serial.writeData(userData + Constants.NEWLINE);
+        StatusUtils.showGeneralInfo("Sent data: " + userData);
+      }
   }
 
   /** Check all fxml objects. */
@@ -344,9 +339,6 @@ public class GuiController implements EventHandler<WindowEvent>, DataPointListen
       if (serial != null) {
         serial.disconnect();
       }
-//      if (solarServer != null) {
-//        solarServer.shutdown();
-//      }
       DatabaseUtils.shutdown();
     } finally {
       Main.COORDINATOR.shutdown();
@@ -367,21 +359,21 @@ public class GuiController implements EventHandler<WindowEvent>, DataPointListen
   /**
    * Update graphs.
    *
-   * @param d
+   * @param d the datapoint
    */
   private void updateGraphs(DataPoint d) {
     Platform.runLater(
         () -> {
-          append(loadLabel, d.getLoadOnoff() + "");
-          append(loadCurrentLabel, d.getLoadCurrent() + "");
-          append(battLevelLabel, d.getBatteryVoltage() + "");
-          append(battFullLabel, d.getBatteryFull() + "");
-          append(battTempLabel, d.getBatteryTemp() + "");
-          append(pvVoltLabel, d.getPvVoltage() + "");
-          append(chargingLabel, d.getCharging() + "");
-          append(chargeCurrentLabel, d.getChargeCurrent() + "");
-          append(battMaxLabel, d.getBatteryMax() + "");
-          append(overChargeLabel, d.getOverDischarge() + "");
+          append(loadLabel, String.valueOf(d.getLoadOnoff()));
+          append(loadCurrentLabel, String.valueOf(d.getLoadCurrent()));
+          append(battLevelLabel, String.valueOf(d.getBatteryVoltage()));
+          append(battFullLabel, String.valueOf(d.getBatteryFull()));
+          append(battTempLabel, String.valueOf(d.getBatteryTemp()));
+          append(pvVoltLabel, String.valueOf(d.getPvVoltage()));
+          append(chargingLabel, String.valueOf(d.getCharging()));
+          append(chargeCurrentLabel, String.valueOf(d.getChargeCurrent()));
+          append(battMaxLabel, String.valueOf(d.getBatteryMax()));
+          append(overChargeLabel, String.valueOf(d.getOverDischarge()));
           loadSeries.getData().add(new XYChart.Data<>(d.getTimeFormatted(), d.getLoadOnoff()));
           if (loadSeries.getData().size() >= Constants.DATA_WINDOW_SIZE) {
             loadSeries.getData().remove(0); // Remove the first element.
@@ -438,15 +430,6 @@ public class GuiController implements EventHandler<WindowEvent>, DataPointListen
       }
     }
   }
-
-//  /**
-//   * Set the server.
-//   *
-//   * @param solarServer
-//   */
-//  public void setServer(SolarWebServer solarServer) {
-//    this.solarServer = solarServer;
-//  }
 
   @Override
   public void dataPointReceived(DataPoint dataPoint) {

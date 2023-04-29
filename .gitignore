@@ -1,5 +1,6 @@
 .metadata
 tmp/
+/bin/
 *.tmp
 *.bak
 *.swp
@@ -11,7 +12,7 @@ local.properties
 .idea/
 # Eclipse Core
 .project
-
+SolarTracer.iml
 # External tool builders
 .externalToolBuilders/
 

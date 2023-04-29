@@ -10,8 +10,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import solartracer.gui.GuiController;
 import solartracer.utils.Constants;
 import solartracer.utils.DatabaseUtils;
@@ -34,7 +34,7 @@ public class Main extends Application {
   /** 
    * Logger.
    */
-  public static final Logger LOGGER = LoggerFactory.getLogger(Main.class);
+  public static final Logger LOGGER = LogManager.getLogger(Main.class);
 
   @Override
   public void start(Stage primaryStage) throws IOException {

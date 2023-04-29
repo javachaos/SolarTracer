@@ -9,8 +9,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Exception utils to help handle exception logging.
@@ -32,7 +32,7 @@ public class ExceptionUtils {
    * @param ex the exception thrown.
    */
   public static void log(final Class<?> clazz, final Throwable ex) {
-    Logger logger = LoggerFactory.getLogger(clazz);
+    Logger logger = LogManager.getLogger(clazz);
     logger.error(ex.getMessage());
     Platform.runLater(() -> showAlert(ex));
   }

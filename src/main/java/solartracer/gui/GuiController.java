@@ -17,8 +17,8 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.stage.WindowEvent;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import solartracer.data.DataPoint;
 import solartracer.data.DataPointListener;
 import solartracer.main.Main;
@@ -39,7 +39,7 @@ import solartracer.utils.StatusUtils;
 public class GuiController implements EventHandler<WindowEvent>, DataPointListener, Runnable {
 
   /** Logger. */
-  public static final Logger LOGGER = LoggerFactory.getLogger(GuiController.class);
+  public static final Logger LOGGER = LogManager.getLogger(GuiController.class);
 
   /** The update sleep time of the arduino device. */
   private int arduinoSleepTime = 1000;

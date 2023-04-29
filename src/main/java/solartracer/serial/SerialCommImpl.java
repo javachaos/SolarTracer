@@ -13,10 +13,9 @@ import java.util.List;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import solartracer.data.DataPointListener;
-import solartracer.gui.GuiController;
 import solartracer.utils.Constants;
 import solartracer.utils.DataUtils;
 import solartracer.utils.ExceptionUtils;
@@ -24,7 +23,7 @@ import solartracer.utils.ExceptionUtils;
 public class SerialCommImpl implements SerialPortDataListener, SerialConnection {
 
   /** Logger. */
-  private static final Logger LOGGER = LoggerFactory.getLogger(GuiController.class);
+  private static final Logger LOGGER = LogManager.getLogger(SerialCommImpl.class);
 
   /** RS232 Parity field */
   private static final int PARITY = 0;

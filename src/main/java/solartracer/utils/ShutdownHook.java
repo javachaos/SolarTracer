@@ -3,8 +3,8 @@ package solartracer.utils;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Shutdown hook.
@@ -17,7 +17,7 @@ public class ShutdownHook extends Thread {
   /**
    * Logger.
    */
-  public static final Logger LOGGER = LoggerFactory.getLogger(ShutdownHook.class);
+  public static final Logger LOGGER = LogManager.getLogger(ShutdownHook.class);
 
   /**
    * Main thread reference.

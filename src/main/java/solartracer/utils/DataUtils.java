@@ -1,7 +1,7 @@
 package solartracer.utils;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import solartracer.data.DataPoint;
 
 /**
@@ -18,7 +18,7 @@ public class DataUtils {
   private DataUtils() {}
   
   /** Logger. */
-  public static final Logger LOGGER = LoggerFactory.getLogger(DataUtils.class);
+  public static final Logger LOGGER = LogManager.getLogger(DataUtils.class);
 
   /**
    * Parse the datastring into a DataPoint.

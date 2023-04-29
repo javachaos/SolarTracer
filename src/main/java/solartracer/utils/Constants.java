@@ -2,14 +2,15 @@ package solartracer.utils;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.time.Clock;
 import java.time.Duration;
 import java.util.Date;
-import org.apache.commons.net.ntp.NTPUDPClient;
-import org.apache.commons.net.ntp.TimeInfo;
+import java.util.logging.Logger;
 
 /**
  * Constants class.
@@ -25,7 +26,7 @@ public class Constants {
    */
   public static final int DATA_THRESHOLD = 4096;
 
-    /**
+  /**
    * Private ctor.
    */
   private Constants() {}
@@ -33,7 +34,7 @@ public class Constants {
   /**
    * Time server URL as a string.
    */
-  public static final String TIME_SERVER = "time.nist.gov";
+  public static final String TIME_SERVER = "0.ca.pool.ntp.org";
 
   /**
    * Calculate the current Date using NTP to get an accurate value.
@@ -41,17 +42,19 @@ public class Constants {
    * @return the current Date
    */
   private static Date time() {
-    TimeInfo timeInfo = null;
-    try {
-      NTPUDPClient timeClient = new NTPUDPClient();
-      InetAddress inetAddress = InetAddress.getByName(TIME_SERVER);
-      timeInfo = timeClient.getTime(inetAddress);
+    try (DatagramSocket socket = new DatagramSocket()) {
+        InetAddress address = InetAddress.getByName(TIME_SERVER);
+        byte[] buf = new NtpMessage().toByteArray();
+        DatagramPacket packet = new DatagramPacket(buf, buf.length, address, 123);
+        socket.send(packet);
+
+        // Get response
+        socket.receive(packet);
+        NtpMessage recvMsg = new NtpMessage(packet.getData());
+        Logger.getAnonymousLogger().info(() -> "Timestamp received: " + recvMsg);
+        return new Date((long) recvMsg.receiveTimestamp);
     } catch (IOException e) {
-      ExceptionUtils.log(Constants.class, e);
-    }
-    if (timeInfo != null) {
-      long returnTime = timeInfo.getMessage().getTransmitTimeStamp().getTime();
-      return new Date(returnTime);
+        ExceptionUtils.log(Constants.class, e);
     }
     return new Date();
   }

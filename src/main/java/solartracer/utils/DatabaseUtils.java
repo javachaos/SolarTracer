@@ -3,13 +3,10 @@ package solartracer.utils;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.List;
 
 import solartracer.data.DataPoint;
 
@@ -27,6 +24,8 @@ public final class DatabaseUtils {
    * True if the database driver is loaded.
    */
   private static boolean isLoaded = false;
+
+  private static final List<DataPoint> dataPointList = new ArrayList<>();
 
   /**
    * Private default ctor.
@@ -105,103 +104,13 @@ public final class DatabaseUtils {
     }
   }
 
-  /**
-   * Get the number of data points stored in the database.
-   * 
-   * @return the total number of data points currently in the database
-   */
-  public static synchronized int getNumRecords() {
-    ResultSet rs = null;
-    Statement s = null;
-    int numRecs = -1;
-    try {
-      Connection c = DatabaseUtils.getConnection();
-      if (c != null) {
-        s = c.createStatement();
-        rs = s.executeQuery("SELECT Count(*) FROM Data");
-        if (rs.next()) {
-          numRecs = rs.getInt(1);
-        }
+  public static synchronized void insertData(final DataPoint data) {
+      if (dataPointList.size() > Constants.DATA_THRESHOLD) {
+        dataPointList.forEach(DatabaseUtils::writeToDb);
+        dataPointList.clear();
+      } else {
+        dataPointList.add(data);
       }
-    } catch (SQLException e) {
-      ExceptionUtils.log(DatabaseUtils.class, e);
-    } finally {
-      closeItem(rs);
-      closeItem(s);
-    }
-    return numRecs;
-  }
-
-  /**
-   * Get a list of data points between the first and second date arguments.
-   * 
-   * @param first the first date
-   * @param second the second date
-   * 
-   * @return a list of data points between the two dates
-   */
-  public static synchronized ArrayList<String> getData(final Date first,final Date second) {
-    if (first != null && first.getTime() > 0 && second != null && second.getTime() > 0) {
-      SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
-      ArrayList<String> returnData = new ArrayList<>(Constants.DATA_WINDOW_SIZE);
-      StringBuilder sb = new StringBuilder();
-      ResultSet rs = null;
-      PreparedStatement prepStat = null;
-      try {
-        prepStat =
-            getConnection()
-                .prepareStatement(
-                    "SELECT * FROM Data WHERE time >= "
-                        + "Datetime('?') AND time <= Datetime('?') ORDER BY ID DESC LIMIT ?");
-        prepStat.setTimestamp(1, Timestamp.valueOf(dateFormat.format(first)));
-        prepStat.setTimestamp(2, Timestamp.valueOf(dateFormat.format(second)));
-        prepStat.setInt(3, Constants.DATA_WINDOW_SIZE);
-        rs = prepStat.executeQuery();
-        while (rs.next()) {
-          float batteryVoltage = rs.getFloat("battery_voltage");
-          float pvVoltage = rs.getFloat("pv_voltage");
-          float loadCurrent = rs.getFloat("load_current");
-          float overDischarge = rs.getFloat("over_discharge");
-          float batteryMax = rs.getFloat("battery_max");
-          float full = rs.getFloat("full");
-          float charging = rs.getFloat("charging");
-          float batteryTemp = rs.getFloat("battery_temp");
-          float chargeCurrent = rs.getFloat("charge_current");
-          float loadOnOff = rs.getFloat("load_onoff");
-          Date datetime = rs.getDate("time");
-          sb.append(batteryVoltage);
-          sb.append(Constants.COLON);
-          sb.append(pvVoltage);
-          sb.append(Constants.COLON);
-          sb.append(loadCurrent);
-          sb.append(Constants.COLON);
-          sb.append(overDischarge);
-          sb.append(Constants.COLON);
-          sb.append(batteryMax);
-          sb.append(Constants.COLON);
-          sb.append(full);
-          sb.append(Constants.COLON);
-          sb.append(charging);
-          sb.append(Constants.COLON);
-          sb.append(batteryTemp);
-          sb.append(Constants.COLON);
-          sb.append(chargeCurrent);
-          sb.append(Constants.COLON);
-          sb.append(loadOnOff);
-          sb.append(Constants.COLON);
-          sb.append(datetime.getTime());
-          returnData.add(sb.toString());
-          sb = new StringBuilder();
-        }
-      } catch (SQLException e) {
-        ExceptionUtils.log(DatabaseUtils.class, e);
-      } finally {
-        closeItem(rs);
-        closeItem(prepStat);
-      }
-      return returnData;
-    }
-    return new ArrayList<>();
   }
 
   /**
@@ -209,7 +118,9 @@ public final class DatabaseUtils {
    * 
    * @param data the data point to be added
    */
-  public static synchronized void insertData(final DataPoint data) {
+  private static synchronized void writeToDb(final DataPoint data) {
+
+
     if (data != null) {
       PreparedStatement stat = null;
       try {

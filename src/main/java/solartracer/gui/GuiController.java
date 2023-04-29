@@ -422,9 +422,6 @@ public class GuiController implements EventHandler<WindowEvent>, DataPointListen
           LOGGER.debug("Updating clock.");
           Constants.updateTimeoffset();
         }
-        if (LOGGER.isDebugEnabled()) {
-          LOGGER.debug("GUI Heartbeat: {}", clockUpdateCtr);
-        }
       } catch (Exception t1) {
         ExceptionUtils.log(getClass(), t1);
       }

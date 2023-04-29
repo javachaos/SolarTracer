@@ -19,19 +19,16 @@ import org.apache.commons.net.ntp.TimeInfo;
  */
 public class Constants {
 
-    public static final String DATA_REGEX = "";
+  /**
+   * Number of data points to collect in memory before writing to database (disk).
+   * Each datapoint is roughly ~44 bytes.
+   */
+  public static final int DATA_THRESHOLD = 4096;
 
     /**
    * Private ctor.
    */
   private Constants() {}
-
-  /**
-   * Init the constants. 
-   */
-  public static void init() {
-    new Constants();
-  }
 
   /**
    * Time server URL as a string.
@@ -70,7 +67,12 @@ public class Constants {
   /**
    * Offset from true NTP time from the system time.
    */
-  private static long timeOffset = (time() == null) ? 0 : -1L * time().getTime() + System.currentTimeMillis();
+  private static long timeOffset;
+
+  static {
+    time();
+    timeOffset = -1L * time().getTime() + System.currentTimeMillis();
+  }
 
   /**
    * Sleep time. Used to delay the state monitor.
@@ -124,21 +126,6 @@ public class Constants {
   public static final long GUI_SLEEPTIME = 1000;
 
   /**
-   * Number of network IO threads.
-   */
-  public static final int NUM_NIO_THREADS = 1;
-
-  /**
-   * Application PORT.
-   */
-  public static final int PORT = 8080;
-
-  /**
-   * Close command.
-   */
-  public static final String CLOSE_CMD = "CLOSE";
-
-  /**
    * Charset used for all files in the program.
    */
   public static final Charset CHARSET = StandardCharsets.UTF_8;
@@ -147,21 +134,6 @@ public class Constants {
    * System independant newline character.
    */
   public static final String NEWLINE = System.lineSeparator();
-
-  /**
-   * Newline character in ASCII format 0x0a.
-   */
-  public static final int NEWLINE_ASCII = 10;
-
-  /**
-   * Network buffer size.
-   */
-  public static final int NETWORK_BUFFER_SIZE = 100;
-  
-  /**
-   * Serial buffer size.
-   */
-  public static final int SERIAL_BUFFER_SIZE = 256;
 
   /**
    * Colon character.
@@ -187,13 +159,6 @@ public class Constants {
         + " over_discharge DOUBLE,battery_max DOUBLE, battery_full BOOLEAN, charging"
         + " BOOLEAN, battery_temp DOUBLE,charge_current DOUBLE, load_onoff BOOLEAN, time"
         + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP)";
-
-  /**
-   * Statically init this class.
-   */
-  static {
-    init();
-  }
 
   /**
    * Get the current time in milliseconds.

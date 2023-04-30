@@ -16,6 +16,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.stage.WindowEvent;
@@ -87,6 +88,8 @@ public class GuiController implements EventHandler<WindowEvent>, DataPointListen
   @FXML private ToggleButton loadOn;
   @FXML private ToggleButton loadOff;
   @FXML private Button refreshComs;
+  @FXML private Button hideGraphBtn;
+  @FXML private TabPane graphPane;
 
 
   /**
@@ -123,7 +126,7 @@ public class GuiController implements EventHandler<WindowEvent>, DataPointListen
   }
 
   @FXML
-  void initialize(GuiController guiController) {
+  void initialize() {
     initComms();
     sanityCheck();
     setupToggle();
@@ -135,6 +138,7 @@ public class GuiController implements EventHandler<WindowEvent>, DataPointListen
     setupFreqList();
     setupSeries();
     setupGraphs();
+    hideGraphBtn.setOnAction(e -> graphPane.setVisible(!graphPane.isVisible()));
   }
 
   @FXML

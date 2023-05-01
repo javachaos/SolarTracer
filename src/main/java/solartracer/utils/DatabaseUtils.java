@@ -46,9 +46,9 @@ public final class DatabaseUtils {
   }
 
   /**
-   * Returns a connection to the embedded derby database.
+   * Returns a connection to the embedded sqlite database.
    *
-   * @return a connection to the embedded derby database.
+   * @return a connection to the embedded sqlite database.
    */
   public static synchronized Connection getConnection() {
 
@@ -65,7 +65,7 @@ public final class DatabaseUtils {
       ExceptionUtils.log(DatabaseUtils.class, ex);
     }
     if (conn == null) {
-      throw new NullPointerException();
+      throw new SolarException("Database connection was null.");
     }
     return conn;
   }
@@ -75,16 +75,13 @@ public final class DatabaseUtils {
    */
   public static synchronized void createTables() {
     getConnection();
-    Statement stat = null;
-    try {
-      stat = conn.createStatement();
+    try(Statement stat = conn.createStatement()) {
       stat.addBatch(
           Constants.DATABASE_CREATE_STMT);
       stat.executeBatch();
     } catch (SQLException e) {
       ExceptionUtils.log(DatabaseUtils.class, e);
     } finally {
-      closeItem(stat);
       closeItem(conn);
     }
   }
@@ -104,10 +101,21 @@ public final class DatabaseUtils {
     }
   }
 
-  public static synchronized void insertData(final DataPoint data) {
+  /**
+   * Inserts a datapoint into a temporary list which will
+   * be written to the database after the size of the list
+   * reaches a minimum threshold.
+   * This is done in order to limit excessive HD disk head parking
+   * on older spinning disk drives and increase the lifespan of the
+   * disks.
+   *
+   * @param data the data point
+   */
+  public static void insertData(final DataPoint data) {
       if (dataPointList.size() > Constants.DATA_THRESHOLD) {
         dataPointList.forEach(DatabaseUtils::writeToDb);
         dataPointList.clear();
+        dataPointList.add(data);
       } else {
         dataPointList.add(data);
       }
@@ -119,27 +127,9 @@ public final class DatabaseUtils {
    * @param data the data point to be added
    */
   private static synchronized void writeToDb(final DataPoint data) {
-
-
     if (data != null) {
-      PreparedStatement stat = null;
-      try {
-        stat =
-            getConnection()
-                .prepareStatement(
-                    "INSERT INTO Data("
-                        + "battery_voltage, "
-                        + "pv_voltage, "
-                        + "load_current, "
-                        + "over_discharge,"
-                        + "battery_max, "
-                        + "battery_full, "
-                        + "charging, "
-                        + "battery_temp, "
-                        + "charge_current, "
-                        + "load_onoff,"
-                        + "time"
-                        + ") VALUES(?,?,?,?,?,?,?,?,?,?,?)");
+      try (PreparedStatement stat = getConnection()
+              .prepareStatement(Constants.DB_INSERT_STMT)) {
         stat.setFloat(1, data.getBatteryVoltage());
         stat.setFloat(2, data.getPvVoltage());
         stat.setFloat(3, data.getLoadCurrent());
@@ -154,8 +144,6 @@ public final class DatabaseUtils {
         stat.executeUpdate();
       } catch (SQLException e) {
         ExceptionUtils.log(DatabaseUtils.class, e);
-      } finally {
-        closeItem(stat);
       }
     }
   }

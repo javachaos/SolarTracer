@@ -130,6 +130,38 @@
                   </execution>
               </executions>
           </plugin>
+          <plugin>
+              <groupId>org.openjfx</groupId>
+              <artifactId>javafx-maven-plugin</artifactId>
+              <version>${javafx.maven.version}</version>
+              <executions>
+                  <execution>
+                      <!-- Default configuration for running with: mvn clean javafx:run -->
+                      <id>default-cli</id>
+                      <configuration>
+                          <mainClass>
+                              ${main.class}
+                          </mainClass>
+                          <launcher>${app.name}</launcher>
+                          <jlinkZipName>${app.name}</jlinkZipName>
+                          <jlinkImageName>${app.name}</jlinkImageName>
+                          <noManPages>true</noManPages>
+                          <stripDebug>true</stripDebug>
+                          <noHeaderFiles>true</noHeaderFiles>
+                      </configuration>
+                  </execution>
+                  <execution>
+                      <id>debug</id>
+                      <configuration>
+                          <mainClass>${main.class}</mainClass>
+                          <options>
+                              <option>-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=127.0.0.1:8000
+                              </option>
+                          </options>
+                      </configuration>
+                  </execution>
+              </executions>
+          </plugin>
       </plugins>
   </build>
   <pluginRepositories>

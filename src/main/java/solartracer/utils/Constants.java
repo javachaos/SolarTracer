@@ -61,7 +61,30 @@ public class Constants {
    */
   public static final String TIME_FORMAT = "yyyy-MM-dd HH:mm:ss.SSS";
 
-    /**
+  /**
+   * Database insert prepared statement.
+   */
+  public static final String DB_INSERT_STMT =
+          "INSERT INTO Data("
+                  + "battery_voltage, "
+                  + "pv_voltage, "
+                  + "load_current, "
+                  + "over_discharge,"
+                  + "battery_max, "
+                  + "battery_full, "
+                  + "charging, "
+                  + "battery_temp, "
+                  + "charge_current, "
+                  + "load_onoff,"
+                  + "time"
+                  + ") VALUES(?,?,?,?,?,?,?,?,?,?,?)";
+
+  /**
+   * The NTP port number.
+   */
+  private static final int NTP_PORT = 123;
+
+  /**
    * Private ctor.
    */
   private Constants() {}
@@ -80,7 +103,7 @@ public class Constants {
     try (DatagramSocket socket = new DatagramSocket()) {
         InetAddress address = InetAddress.getByName(TIME_SERVER);
         byte[] buf = new NtpMessage().toByteArray();
-        DatagramPacket packet = new DatagramPacket(buf, buf.length, address, 123);
+        DatagramPacket packet = new DatagramPacket(buf, buf.length, address, NTP_PORT);
         socket.send(packet);
 
         // Get response
@@ -113,7 +136,7 @@ public class Constants {
   }
 
   /**
-   * Sleep time. Used to delay the state monitor.
+   * Sleep time to wait for database to shut down before checking if it has shut down.
    */
   public static final long SLEEP_TIME = 200;
 

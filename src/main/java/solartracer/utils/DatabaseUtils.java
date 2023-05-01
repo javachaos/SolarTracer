@@ -115,10 +115,8 @@ public final class DatabaseUtils {
       if (dataPointList.size() > Constants.DATA_THRESHOLD) {
         dataPointList.forEach(DatabaseUtils::writeToDb);
         dataPointList.clear();
-        dataPointList.add(data);
-      } else {
-        dataPointList.add(data);
       }
+      dataPointList.add(data);
   }
 
   /**

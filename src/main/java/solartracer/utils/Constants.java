@@ -114,9 +114,9 @@ public class Constants {
   public static final long UPDATE_CLOCK_FREQUENCY = 300;
 
   /**
-   * Time to wait before termination in millis. 
+   * Time to wait before termination in millis. (10s)
    */
-  public static final long TERMINATION_TIMEOUT = 1000;
+  public static final long TERMINATION_TIMEOUT = 10000;
 
   /** 
    * Number of threads available. 
@@ -134,9 +134,10 @@ public class Constants {
   public static final Charset CHARSET = StandardCharsets.UTF_8;
 
   /**
-   * System independant newline character.
+   * System newline character.
+   * MUST BE '\n' not System.lineSeparator()!
    */
-  public static final String NEWLINE = System.lineSeparator();
+  public static final char NEWLINE = '\n';
 
   /**
    * Colon character.

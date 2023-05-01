@@ -42,11 +42,19 @@ public class ShutdownHook extends Thread {
   @Override
   public final void run() {
     try {
-      ses.awaitTermination(Constants.TERMINATION_TIMEOUT, TimeUnit.MILLISECONDS);
-      mainThread.join();
+      if (!ses.awaitTermination(Constants.TERMINATION_TIMEOUT, TimeUnit.MILLISECONDS)) {
+        LOGGER.error("Application exit requested, but not all tasks are complete.");
+        ses.shutdownNow();
+      } else {
+        LOGGER.debug("Scheduled executor service shut down successfully.");
+      }
+      if (mainThread.isAlive()) {
+        mainThread.join();
+      }
     } catch (final InterruptedException e1) {
-        ExceptionUtils.log(getClass(), e1);
-        Thread.currentThread().interrupt();
+      LOGGER.error("Interrupted while waiting for application exit.");
+      ExceptionUtils.log(getClass(), e1);
+      Thread.currentThread().interrupt();
     }
   }
 }

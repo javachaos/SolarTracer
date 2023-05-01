@@ -90,6 +90,7 @@ public class GuiController implements EventHandler<WindowEvent>, DataPointListen
   @FXML private Button refreshComs;
   @FXML private Button hideGraphBtn;
   @FXML private TabPane graphPane;
+  @FXML private ToggleGroup toggleGroup;
 
 
   /**
@@ -246,7 +247,6 @@ public class GuiController implements EventHandler<WindowEvent>, DataPointListen
    * Setup the toggle button.
    */
   private void setupToggle() {
-    ToggleGroup toggleGroup;
     toggleGroup = new ToggleGroup();
     loadOn.setToggleGroup(toggleGroup);
     loadOff.setToggleGroup(toggleGroup);

@@ -1,6 +1,7 @@
 .metadata
 tmp/
 /bin/
+/logs/
 *.tmp
 *.bak
 *.swp

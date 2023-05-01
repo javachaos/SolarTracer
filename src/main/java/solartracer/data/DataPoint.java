@@ -99,13 +99,11 @@ public class DataPoint {
   /**
    * Return the string formatted time ('yyyy-MM-dd HH:mm:ss.SSS')
    *
-   * @return the time as a formated time string.
+   * @return the time as a formatted time string.
    */
   public String getTimeFormatted() {
-    String time = "";
-    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
-    time = dateFormat.format(new Date(timestamp));
-    return time;
+    SimpleDateFormat dateFormat = new SimpleDateFormat(Constants.TIME_FORMAT);
+    return dateFormat.format(new Date(timestamp));
   }
 
   /**

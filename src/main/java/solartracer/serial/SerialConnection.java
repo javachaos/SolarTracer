@@ -18,8 +18,7 @@ public interface SerialConnection {
 	 *     the data to be provided to the caller.
 	 */
 	void addDataPointListener(DataPointListener dl) throws SolarException;
-	
-	
+
 	/**
 	 * Remove the data receive listener dl.
 	 * @param dl
@@ -27,6 +26,7 @@ public interface SerialConnection {
 	 * @return
 	 * 		the success of the operation as a boolean.
 	 */
+	@SuppressWarnings("unused")
 	boolean removeDataPointListener(DataPointListener dl) throws SolarException;
 	
 
@@ -43,24 +43,24 @@ public interface SerialConnection {
 	 * @param port
 	 * 		the port to connect to.
 	 */
-	public void connect(String port);
+	void connect(String port);
 
 	/**
 	 * Disconnect the currently connected serial port.
 	 */
-	public void disconnect();
+	void disconnect();
 	
 	/**
 	 * Return true if the connection is still alive.
 	 * @return
 	 * 		true if the connection is still alive.
 	 */
-	public boolean isConnected();
+	boolean isConnected();
     
     /**
      * Get the set of Port names.
-     * @return
+     * @return an observable list of port names
      */
-    public ObservableList<String> getPortNames();
+    ObservableList<String> getPortNames();
 
 }

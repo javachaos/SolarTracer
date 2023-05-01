@@ -56,6 +56,11 @@ public class Constants {
    */
   public static final double ALERT_TEXT_FONT_SIZE = 12;
 
+  /**
+   * Time format string.
+   */
+  public static final String TIME_FORMAT = "yyyy-MM-dd HH:mm:ss.SSS";
+
     /**
    * Private ctor.
    */

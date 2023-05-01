@@ -340,7 +340,12 @@ public class GuiController implements EventHandler<WindowEvent>, DataPointListen
 
   @Override
   public void handle(WindowEvent event) {
-    shutdown();
+    if (event.getEventType() == WindowEvent.WINDOW_CLOSE_REQUEST) {
+      LOGGER.debug("Window close event received.");
+      shutdown();
+    } else {
+      LOGGER.error("Unexpected window event.");
+    }
   }
 
   /** Shutdown the GUI. */
@@ -356,16 +361,6 @@ public class GuiController implements EventHandler<WindowEvent>, DataPointListen
       Main.COORDINATOR.shutdown();
       Platform.exit();
     }
-  }
-
-  /**
-   * Parse and store the raw message contain in the string.
-   *
-   * @param data parse and store this raw message.
-   */
-  public void storeData(DataPoint data) {
-    DatabaseUtils.insertData(data);
-    updateGraphs(data);
   }
 
   /**
@@ -436,6 +431,7 @@ public class GuiController implements EventHandler<WindowEvent>, DataPointListen
 
   @Override
   public void dataPointReceived(DataPoint dataPoint) {
-    storeData(dataPoint);
+    DatabaseUtils.insertData(dataPoint);
+    updateGraphs(dataPoint);
   }
 }

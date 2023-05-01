@@ -132,9 +132,9 @@ public class GuiController implements EventHandler<WindowEvent>, DataPointListen
     sanityCheck();
     setupToggle();
     batteryLevelNumAxis.setAutoRanging(false);
-    batteryLevelNumAxis.setUpperBound(16.0);
-    batteryLevelNumAxis.setLowerBound(11.0);
-    batteryLevelNumAxis.setTickUnit(0.5);
+    batteryLevelNumAxis.setUpperBound(Constants.BATT_LEVEL_UPPER_BOUND);
+    batteryLevelNumAxis.setLowerBound(Constants.BATT_LEVEL_LOWER_BOUND);
+    batteryLevelNumAxis.setTickUnit(Constants.BATT_LEVEL_TICK_UNIT);
     batteryLevelNumAxis.setTickMarkVisible(true);
     setupFreqList();
     setupSeries();
@@ -235,10 +235,10 @@ public class GuiController implements EventHandler<WindowEvent>, DataPointListen
         .addListener(
                 (observable, oldValue, newValue) -> {
                   arduinoSleepTime = newValue;
-                  append(updateFreqLabel, (newValue / 1000) + " seconds.");
+                  append(updateFreqLabel, (newValue / Constants.MS_PER_SEC) + " seconds.");
                   sendData(
                       new String(
-                          ByteBuffer.allocate(4).putInt(arduinoSleepTime).array(),
+                          ByteBuffer.allocate(Constants.BYTES_PER_INT).putInt(arduinoSleepTime).array(),
                           Constants.CHARSET));
                 });
   }

@@ -27,6 +27,36 @@ public class Constants {
   public static final int DATA_THRESHOLD = 4096;
 
   /**
+   * Upper bound for battery voltage level.
+   */
+  public static final double BATT_LEVEL_UPPER_BOUND = 16.0;
+
+  /**
+   * Lower bound for battery voltage level.
+   */
+  public static final double BATT_LEVEL_LOWER_BOUND = 11.0;
+
+  /**
+   * Battery level tick unit.
+   */
+  public static final double BATT_LEVEL_TICK_UNIT = 0.5;
+
+  /**
+   * Number of bytes in an int.
+   */
+  public static final int BYTES_PER_INT = 4;
+
+  /**
+   * Number of milliseconds per second.
+   */
+  public static final Integer MS_PER_SEC = 1000;
+
+  /**
+   * Font size for alert texts.
+   */
+  public static final double ALERT_TEXT_FONT_SIZE = 12;
+
+    /**
    * Private ctor.
    */
   private Constants() {}

@@ -9,6 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
+import javafx.scene.text.Font;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -55,6 +56,7 @@ public class ExceptionUtils {
     String exceptionText = sw.toString();
     Label label = new Label("Exception stacktrace:");
     TextArea textArea = new TextArea(exceptionText);
+    textArea.setFont(Font.font("System", Constants.ALERT_TEXT_FONT_SIZE));
     textArea.setEditable(false);
     textArea.setWrapText(true);
     textArea.setMaxWidth(Double.MAX_VALUE);
@@ -68,14 +70,5 @@ public class ExceptionUtils {
     // Set expandable Exception into the dialog pane.
     alert.getDialogPane().setExpandableContent(expContent);
     alert.show();
-  }
-
-  /**
-   * Show an alert dialog.
-   *
-   * @param msg the message to show as an alert
-   */
-  public static void showAlert(String msg) {
-    Platform.runLater(() -> showAlert(new SolarException(msg)));
   }
 }

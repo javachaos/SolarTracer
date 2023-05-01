@@ -43,8 +43,4 @@ public class StatusUtils {
   public static void showGeneralInfo(String info) {
     showInfo("General Info", "", info);
   }
-
-  public static void showErrorInfo(String info) {
-    showInfo("Error", "", info);
-  }
 }

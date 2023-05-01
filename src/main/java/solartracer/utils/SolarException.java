@@ -8,7 +8,7 @@ import java.io.Serial;
  * @author fred
  *
  */
-public class SolarException extends Exception {
+public class SolarException extends RuntimeException {
 
 	/**
 	 * Serial version ID.

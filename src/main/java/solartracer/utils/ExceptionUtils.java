@@ -38,6 +38,12 @@ public class ExceptionUtils {
     Platform.runLater(() -> showAlert(ex));
   }
 
+  public static void logSilent(final Class<?> clazz, final Throwable ex, final String prefixMsg) {
+    Logger logger = LogManager.getLogger(clazz);
+    String log = prefixMsg + ex.getMessage();
+    logger.error(log);
+  }
+
   /**
    * Show an alert dialog.
    *

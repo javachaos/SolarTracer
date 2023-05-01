@@ -2,6 +2,7 @@ package solartracer.serial;
 
 import javafx.collections.ObservableList;
 import solartracer.data.DataPointListener;
+import solartracer.utils.SolarException;
 
 /**
  * Serial connection interface. 
@@ -16,7 +17,7 @@ public interface SerialConnection {
 	 * @param dl
 	 *     the data to be provided to the caller.
 	 */
-	void addDataPointListener(DataPointListener dl);
+	void addDataPointListener(DataPointListener dl) throws SolarException;
 	
 	
 	/**
@@ -26,7 +27,7 @@ public interface SerialConnection {
 	 * @return
 	 * 		the success of the operation as a boolean.
 	 */
-	boolean removeDataPointListener(DataPointListener dl);
+	boolean removeDataPointListener(DataPointListener dl) throws SolarException;
 	
 
 	/**

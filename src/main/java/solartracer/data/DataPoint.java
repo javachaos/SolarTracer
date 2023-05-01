@@ -3,8 +3,6 @@ package solartracer.data;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import solartracer.utils.Constants;
-import solartracer.utils.DataUtils;
-import solartracer.utils.ExceptionUtils;
 
 /**
  * Helper class to define a datapoint.
@@ -106,11 +104,7 @@ public class DataPoint {
   public String getTimeFormatted() {
     String time = "";
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
-    try {
-      time = dateFormat.format(new Date(timestamp));
-    } catch (Exception e) {
-      ExceptionUtils.log(DataUtils.class, e);
-    }
+    time = dateFormat.format(new Date(timestamp));
     return time;
   }
 

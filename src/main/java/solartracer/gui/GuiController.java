@@ -29,7 +29,6 @@ import solartracer.serial.SerialConnection;
 import solartracer.serial.SerialFactory;
 import solartracer.utils.Constants;
 import solartracer.utils.DatabaseUtils;
-import solartracer.utils.ExceptionUtils;
 import solartracer.utils.FreqListStringConverter;
 import solartracer.utils.StatusUtils;
 
@@ -428,16 +427,10 @@ public class GuiController implements EventHandler<WindowEvent>, DataPointListen
 
   @Override
   public void run() {
-    if (isRunning) {
-      try {
-        if (clockUpdateCtr++ >= Constants.UPDATE_CLOCK_FREQUENCY) {
-          clockUpdateCtr = 0;
-          LOGGER.debug("Updating clock.");
-          Constants.updateTimeoffset();
-        }
-      } catch (Exception t1) {
-        ExceptionUtils.log(getClass(), t1);
-      }
+    if (isRunning && clockUpdateCtr++ >= Constants.UPDATE_CLOCK_FREQUENCY) {
+      clockUpdateCtr = 0;
+      LOGGER.debug("Updating clock.");
+      Constants.updateTimeoffset();
     }
   }
 

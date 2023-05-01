@@ -5,6 +5,7 @@ import com.fazecast.jSerialComm.SerialPortDataListener;
 import com.fazecast.jSerialComm.SerialPortEvent;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ import solartracer.data.DataPointListener;
 import solartracer.utils.Constants;
 import solartracer.utils.DataUtils;
 import solartracer.utils.ExceptionUtils;
+import solartracer.utils.SolarException;
 
 public class SerialCommImpl implements SerialPortDataListener, SerialConnection {
 
@@ -63,8 +65,8 @@ public class SerialCommImpl implements SerialPortDataListener, SerialConnection 
     if (ev.getEventType() == SerialPort.LISTENING_EVENT_DATA_AVAILABLE) {
       try {
         updateListeners(input.readLine());
-      } catch (Exception e) {
-        LOGGER.error("Failed to read data. ({}).", e.getMessage());
+      } catch (IOException e) {
+        ExceptionUtils.logSilent(getClass(), e, "Failed to read data: ");
       }
     }
     if (ev.getEventType() == SerialPort.LISTENING_EVENT_DATA_WRITTEN) {
@@ -89,7 +91,7 @@ public class SerialCommImpl implements SerialPortDataListener, SerialConnection 
     try {
       output.write(data);
       output.flush();
-    } catch (Exception e) {
+    } catch (IOException e) {
       LOGGER.error("Failed to write data.");
       ExceptionUtils.log(getClass(), e);
     }
@@ -106,7 +108,6 @@ public class SerialCommImpl implements SerialPortDataListener, SerialConnection 
 
   @Override
   public void connect(String port) {
-    try {
       serialPort = SerialPort.getCommPort(port);
       serialPort.setComPortTimeouts(
           SerialPort.TIMEOUT_READ_SEMI_BLOCKING, Constants.SERIAL_TIMEOUT, WRITE_TIMEOUT);
@@ -118,10 +119,6 @@ public class SerialCommImpl implements SerialPortDataListener, SerialConnection 
       input = new BufferedReader(new InputStreamReader(serialPort.getInputStream()));
       output = new BufferedWriter(new OutputStreamWriter(serialPort.getOutputStream()));
       serialPort.addDataListener(this);
-    } catch (Exception e) {
-      LOGGER.error("Failed to connect.");
-      ExceptionUtils.log(getClass(), e);
-    }
   }
 
   @Override
@@ -134,7 +131,7 @@ public class SerialCommImpl implements SerialPortDataListener, SerialConnection 
         output.close();
         LOGGER.info("Serial Disconnected.");
       }
-    } catch (Exception e) {
+    } catch (IOException e) {
       if (LOGGER.isDebugEnabled()) {
         LOGGER.debug("Failed to close {}", serialPort.getSystemPortName());
       }
@@ -152,18 +149,18 @@ public class SerialCommImpl implements SerialPortDataListener, SerialConnection 
   }
 
   @Override
-  public void addDataPointListener(DataPointListener dl) {
+  public void addDataPointListener(DataPointListener dl) throws SolarException {
     if (dl == null) {
-      throw new NullPointerException("DataPointListener cannot be null.");
+      throw new SolarException("DataPointListener cannot be null.");
     } else {
       dataPointListeners.add(dl);
     }
   }
 
   @Override
-  public boolean removeDataPointListener(DataPointListener dl) {
+  public boolean removeDataPointListener(DataPointListener dl) throws SolarException {
     if (dl == null) {
-      throw new NullPointerException("DataPointListener cannot be null.");
+      throw new SolarException("DataPointListener cannot be null.");
     } else {
       return dataPointListeners.remove(dl);
     }

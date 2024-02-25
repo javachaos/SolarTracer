@@ -1,6 +1,10 @@
 package solartracer.gui;
 
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -12,25 +16,21 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.chart.XYChart.Series;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
-import javafx.scene.control.ToggleButton;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
+import javafx.scene.shape.Circle;
 import javafx.stage.WindowEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import solartracer.data.DataPoint;
 import solartracer.data.DataPointListener;
-import solartracer.main.Main;
+import solartracer.net.MQTTClient;
+import solartracer.net.MQTTServer;
 import solartracer.serial.SerialConnection;
 import solartracer.serial.SerialFactory;
-import solartracer.utils.Constants;
-import solartracer.utils.DatabaseUtils;
-import solartracer.utils.FreqListStringConverter;
-import solartracer.utils.StatusUtils;
+import solartracer.serial.ShutdownListener;
+import solartracer.utils.*;
+
+import static solartracer.main.Main.COORDINATOR;
 
 /**
  * GUI Controller class
@@ -38,10 +38,11 @@ import solartracer.utils.StatusUtils;
  * @author fred
  *
  */
-public class GuiController implements EventHandler<WindowEvent>, DataPointListener, Runnable {
+public class GuiController implements EventHandler<WindowEvent>, DataPointListener, ShutdownListener {
 
   /** Logger. */
   public static final Logger LOGGER = LogManager.getLogger(GuiController.class);
+  private static final int MAX_LINES = 25;
 
   /** The update sleep time of the arduino device. */
   private int arduinoSleepTime = 1000;
@@ -90,6 +91,14 @@ public class GuiController implements EventHandler<WindowEvent>, DataPointListen
   @FXML private Button hideGraphBtn;
   @FXML private TabPane graphPane;
   @FXML private ToggleGroup toggleGroup;
+  @FXML private Button ipconnect;
+  @FXML private TextField ipAddress;
+  @FXML private Button startserver;
+  @FXML private Button stopserver;
+  @FXML private Circle statusCircle;
+  @FXML private TextArea loggingTextArea;
+  @FXML private Tab logTab;
+  @FXML private ScrollPane logScrollPane;
 
 
   /**
@@ -107,28 +116,55 @@ public class GuiController implements EventHandler<WindowEvent>, DataPointListen
    * Port list
    */
   ObservableList<String> portList;
-  
-  /**
-   * Clock counter
-   */
-  private int clockUpdateCtr;
+  List<ShutdownListener> shutdownListeners;
 
-  private boolean isRunning = true;
-  
   /**
    * Serial connection
    */
   private SerialConnection serial;
+  private MQTTServer mqttServer;
+  private MQTTClient mqttClient;
+
+  private SQLiteDatabase database;
 
   /** GuiController constructor. */
   public GuiController() {
-    // Unused
+      // Unused
   }
 
   @FXML
   void initialize() {
+    LOGGER.debug("Application startup.");
+    database = new SQLiteDatabase();
+    if (!database.databaseExists()) {
+      database.createTables();
+      LOGGER.debug("Created new database file.");
+    }
     initComms();
     sanityCheck();
+    Pattern newline = Pattern.compile(System.lineSeparator());
+    loggingTextArea.setTextFormatter(new TextFormatter<>(change ->  {
+      String newText = change.getControlNewText();
+      // count lines in proposed new text:
+      Matcher matcher = newline.matcher(newText);
+      int lines = 1 ;
+      while (matcher.find()) lines++;
+      // if there aren't too many lines just return the changed unmodified:
+      if (lines <= MAX_LINES) return change ;
+
+      // drop first (lines - 50) lines and replace all text
+      // (there's no other way AFAIK to drop text at the beginning
+      // and replace it at the end):
+      int linesToDrop = lines - MAX_LINES ;
+      int index = 0 ;
+      for (int i = 0 ; i < linesToDrop ; i++) {
+        index = newText.indexOf(System.lineSeparator(), index);
+      }
+      change.setRange(0, change.getControlText().length());
+      change.setText(newText.substring(index+1));
+      return change;
+    }));
+    LogManager.getContext().putObject("textArea", loggingTextArea);
     setupToggle();
     batteryLevelNumAxis.setAutoRanging(false);
     batteryLevelNumAxis.setUpperBound(Constants.BATT_LEVEL_UPPER_BOUND);
@@ -139,6 +175,15 @@ public class GuiController implements EventHandler<WindowEvent>, DataPointListen
     setupSeries();
     setupGraphs();
     hideGraphBtn.setOnAction(e -> graphPane.setVisible(!graphPane.isVisible()));
+    mqttServer = new MQTTServer(this);
+    mqttClient = new MQTTClient(this);
+    serial.addDataPointListener(mqttServer);
+    shutdownListeners = new ArrayList<>();
+    shutdownListeners.add(this);
+    shutdownListeners.add(mqttClient);
+    shutdownListeners.add(mqttServer);
+    shutdownListeners.add(serial);
+    shutdownListeners.add(database);
   }
 
   @FXML
@@ -212,6 +257,23 @@ public class GuiController implements EventHandler<WindowEvent>, DataPointListen
    * Initialize frequency list combo box.
    */
   private void setupFreqList() {
+    ObservableList<Integer> updateFreqList = getFreqList();
+    updateFreqComboBox.setItems(updateFreqList);
+    updateFreqComboBox.setConverter(new FreqListStringConverter());
+    updateFreqComboBox
+        .valueProperty()
+        .addListener(
+                (observable, oldValue, newValue) -> {
+                  arduinoSleepTime = newValue;
+                  append(updateFreqLabel, (newValue / Constants.MS_PER_SEC) + " seconds.");
+                  sendData(
+                      new String(
+                          ByteBuffer.allocate(Constants.BYTES_PER_INT).putInt(arduinoSleepTime).array(),
+                          Constants.CHARSET));
+                });
+  }
+
+  private static ObservableList<Integer> getFreqList() {
     ObservableList<Integer> updateFreqList = FXCollections.observableArrayList();
     updateFreqList.add(1000); // 1 second
     updateFreqList.add(2000); // 2 seconds
@@ -227,19 +289,7 @@ public class GuiController implements EventHandler<WindowEvent>, DataPointListen
     updateFreqList.add(1800000); // 30 mins
     updateFreqList.add(3600000); // 1 hour
     updateFreqList.add(18000000); // 5 hours
-    updateFreqComboBox.setItems(updateFreqList);
-    updateFreqComboBox.setConverter(new FreqListStringConverter());
-    updateFreqComboBox
-        .valueProperty()
-        .addListener(
-                (observable, oldValue, newValue) -> {
-                  arduinoSleepTime = newValue;
-                  append(updateFreqLabel, (newValue / Constants.MS_PER_SEC) + " seconds.");
-                  sendData(
-                      new String(
-                          ByteBuffer.allocate(Constants.BYTES_PER_INT).putInt(arduinoSleepTime).array(),
-                          Constants.CHARSET));
-                });
+    return updateFreqList;
   }
 
   /**
@@ -326,6 +376,7 @@ public class GuiController implements EventHandler<WindowEvent>, DataPointListen
         : "fx:id=\"pvVoltLabel\" was not injected: check your FXML file 'solar_tracer_ui.fxml'.";
     assert chargeCurrentTab != null
         : "fx:id=\"chargeCurrentTab\" was not injected: check your FXML file 'solar_tracer_ui.fxml'.";
+    assert loggingTextArea != null;
   }
 
   /**
@@ -342,7 +393,11 @@ public class GuiController implements EventHandler<WindowEvent>, DataPointListen
   public void handle(WindowEvent event) {
     if (event.getEventType() == WindowEvent.WINDOW_CLOSE_REQUEST) {
       LOGGER.debug("Window close event received.");
-      shutdown();
+      shutdownListeners.forEach(
+              s -> {
+                LOGGER.debug("Shutting down {}.", s.getClass().getName());
+                s.shutdown();
+              });
     } else {
       LOGGER.error("Unexpected window event.");
     }
@@ -350,17 +405,8 @@ public class GuiController implements EventHandler<WindowEvent>, DataPointListen
 
   /** Shutdown the GUI. */
   public void shutdown() {
-    try {
-      LOGGER.debug("Shutting down...");
-      isRunning = false;
-      if (serial != null) {
-        serial.disconnect();
-      }
-      DatabaseUtils.shutdown();
-    } finally {
-      Main.COORDINATOR.shutdown();
+      COORDINATOR.shutdown();
       Platform.exit();
-    }
   }
 
   /**
@@ -421,17 +467,31 @@ public class GuiController implements EventHandler<WindowEvent>, DataPointListen
   }
 
   @Override
-  public void run() {
-    if (isRunning && clockUpdateCtr++ >= Constants.UPDATE_CLOCK_FREQUENCY) {
-      clockUpdateCtr = 0;
-      LOGGER.debug("Updating clock.");
-      Constants.updateTimeoffset();
-    }
-  }
-
-  @Override
   public void dataPointReceived(DataPoint dataPoint) {
-    DatabaseUtils.insertData(dataPoint);
+    database.insertData(dataPoint);
     updateGraphs(dataPoint);
   }
+
+  @FXML
+  public void connect() {
+    if (serial != null) {
+      serial.disconnect();//prevent infinite recursion
+    }
+    mqttClient.connect(ipAddress.getText());
+  }
+
+  @FXML
+  public void startServer() {
+    mqttServer.connect();
+  }
+
+  @FXML
+  public void stopServer() {
+    mqttServer.shutdown();
+  }
+
+  public Circle getCircle() {
+    return statusCircle;
+  }
+
 }

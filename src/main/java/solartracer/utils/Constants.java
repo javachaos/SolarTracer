@@ -78,6 +78,25 @@ public class Constants {
                   + "load_onoff,"
                   + "time"
                   + ") VALUES(?,?,?,?,?,?,?,?,?,?,?)";
+    public static final String IP_ADDRESS_REGEX = "^((25[0-5]|(2[0-4]|1\\d|[1-9]|)\\d)\\.?\\b){4}$";
+    public static final int PORT = 1883;
+    public static final String LOCALHOST = "localhost";
+
+    //TODO create key generation utility for perfect forward secrecy.
+    public static final String KEY_PATH = "./generated/intermediate.key.pem";
+    public static final String CERT_PATH = "./generated/intermediate.cert.pem";
+    public static final String CLIENT_CERT_PATH = "./generated/intermediate.client.cert.pem";
+    public static final boolean TRAIN = false;
+
+  /**
+   * MQTT topic.
+   */
+  public static final String TOPIC = "solartracer";
+
+  /**
+   * MQTT QoS.
+   */
+  public static final int MQTT_QOS = 0;
 
   /**
    * The NTP port number.
@@ -94,46 +113,51 @@ public class Constants {
    */
   public static final String TIME_SERVER = "0.ca.pool.ntp.org";
 
-  /**
-   * Calculate the current Date using NTP to get an accurate value.
-   * 
-   * @return the current Date
-   */
-  private static Date time() {
-    try (DatagramSocket socket = new DatagramSocket()) {
-        InetAddress address = InetAddress.getByName(TIME_SERVER);
-        byte[] buf = new NtpMessage().toByteArray();
-        DatagramPacket packet = new DatagramPacket(buf, buf.length, address, NTP_PORT);
-        socket.send(packet);
+//  /**
+//   * Time server URL as a string.
+//   */
+//  public static final String TIME_SERVER = "time.windows.com";
 
-        // Get response
-        socket.receive(packet);
-        NtpMessage recvMsg = new NtpMessage(packet.getData());
-        Logger.getAnonymousLogger().info(() -> "Timestamp received: " + recvMsg);
-        return new Date((long) recvMsg.receiveTimestamp);
-    } catch (IOException e) {
-        ExceptionUtils.log(Constants.class, e);
-    }
-    return new Date();
-  }
+//  /**
+//   * Calculate the current Date using NTP to get an accurate value.
+//   *
+//   * @return the current Date
+//   */
+//  private static Date time() {
+//    try (DatagramSocket socket = new DatagramSocket()) {
+//        InetAddress address = InetAddress.getByName(TIME_SERVER);
+//        byte[] buf = new NtpMessage().toByteArray();
+//        DatagramPacket packet = new DatagramPacket(buf, buf.length, address, NTP_PORT);
+//        socket.send(packet);
+//
+//        // Get response
+//        socket.receive(packet);
+//        NtpMessage recvMsg = new NtpMessage(packet.getData());
+//        Logger.getAnonymousLogger().info(() -> "Timestamp received: " + recvMsg);
+//        return new Date((long) recvMsg.receiveTimestamp);
+//    } catch (IOException e) {
+//        ExceptionUtils.log(Constants.class, e);
+//    }
+//    return new Date();
+//  }
 
-  /**
-   * Update the current time offset with time from NTP
-   */
-  public static void updateTimeoffset() {
-    Date t = time();
-    timeOffset = t.getTime() - System.currentTimeMillis();
-  }
-
-  /**
-   * Offset from true NTP time from the system time.
-   */
-  private static long timeOffset;
-
-  static {
-    time();
-    timeOffset = -1L * time().getTime() + System.currentTimeMillis();
-  }
+//  /**
+//   * Update the current time offset with time from NTP
+//   */
+//  public static void updateTimeoffset() {
+//    Date t = time();
+//    timeOffset = t.getTime() - System.currentTimeMillis();
+//  }
+//
+//  /**
+//   * Offset from true NTP time from the system time.
+//   */
+//  private static long timeOffset;
+//
+//  static {
+//    time();
+//    timeOffset = -1L * time().getTime() + System.currentTimeMillis();
+//  }
 
   /**
    * Sleep time to wait for database to shut down before checking if it has shut down.
@@ -222,12 +246,12 @@ public class Constants {
         + " BOOLEAN, battery_temp DOUBLE,charge_current DOUBLE, load_onoff BOOLEAN, time"
         + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP)";
 
-  /**
-   * Get the current time in milliseconds.
-   * 
-   * @return the current time in milliseconds
-   */
-  public static long getCurrentTimeMillis() {
-    return Clock.offset(Clock.systemDefaultZone(), Duration.ofMillis(timeOffset)).millis();
-  }
+//  /**
+//   * Get the current time in milliseconds.
+//   *
+//   * @return the current time in milliseconds
+//   */
+//  public static long getCurrentTimeMillis() {
+//    return Clock.offset(Clock.systemDefaultZone(), Duration.ofMillis(timeOffset)).millis();
+//  }
 }

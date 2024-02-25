@@ -2,6 +2,7 @@ package solartracer.serial;
 
 import javafx.collections.ObservableList;
 import solartracer.data.DataPointListener;
+import solartracer.gui.GuiController;
 import solartracer.utils.SolarException;
 
 /**
@@ -10,7 +11,7 @@ import solartracer.utils.SolarException;
  * @author fred
  *
  */
-public interface SerialConnection {
+public interface SerialConnection extends ShutdownListener{
 	
 	/**
 	 * Receive data from this connection.

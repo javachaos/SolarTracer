@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -12,9 +12,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import solartracer.anomalydetection.AnomilyDetector;
 import solartracer.gui.GuiController;
 import solartracer.utils.Constants;
-import solartracer.utils.DatabaseUtils;
 import solartracer.utils.ShutdownHook;
 
 /**
@@ -38,18 +38,21 @@ public class Main extends Application {
 
   @Override
   public void start(Stage primaryStage) throws IOException {
+    if (Constants.TRAIN) {
+      AnomilyDetector anomilyDetector = new AnomilyDetector(true);
+      anomilyDetector.train();
+    }
     primaryStage.setTitle("Solar MPPT Tracer");
     URL fxmlLocation = getClass().getResource("/solar_tracer_ui.fxml");
     FXMLLoader fxmlLoader = new FXMLLoader(fxmlLocation, null);
     AnchorPane myPane = fxmlLoader.load();
     GuiController guiController = fxmlLoader.getController();
-    COORDINATOR.scheduleAtFixedRate(
-        guiController, 0, Constants.GUI_SLEEPTIME, TimeUnit.MILLISECONDS);
     primaryStage.setOnCloseRequest(guiController);
     Scene myScene = new Scene(myPane);
     myScene.setRoot(myPane);
     primaryStage.setScene(myScene);
     primaryStage.show();
+
   }
 
   /**
@@ -58,11 +61,6 @@ public class Main extends Application {
    * @param args unused
    */
   public static void main(final String[] args) {
-    LOGGER.debug("Application startup.");
-    if (!DatabaseUtils.databaseExists()) {
-      DatabaseUtils.createTables();
-      LOGGER.debug("Created new database file.");
-    }
     addHook();
     launch();
   }

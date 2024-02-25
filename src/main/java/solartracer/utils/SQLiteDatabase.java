@@ -9,11 +9,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import solartracer.data.DataPoint;
+import solartracer.serial.ShutdownListener;
 
 /**
  *  @author fred
  */
-public final class DatabaseUtils {
+public final class SQLiteDatabase implements ShutdownListener {
 
   /**
    * Database connection instance.
@@ -30,18 +31,20 @@ public final class DatabaseUtils {
   /**
    * Private default ctor.
    */
-  private DatabaseUtils() {}
+  public SQLiteDatabase() {
+    //unused
+  }
 
   /** 
    * Loads driver.
    */
-  private static synchronized void loadDriver() {
+  private synchronized void loadDriver() {
 
     try {
       Class.forName(Constants.DRIVER);
       isLoaded = true;
     } catch (ClassNotFoundException cnfe) {
-      ExceptionUtils.log(DatabaseUtils.class, cnfe);
+      ExceptionUtils.log(SQLiteDatabase.class, cnfe);
     }
   }
 
@@ -50,7 +53,7 @@ public final class DatabaseUtils {
    *
    * @return a connection to the embedded sqlite database.
    */
-  public static synchronized Connection getConnection() {
+  public synchronized Connection getConnection() {
 
     if (!isLoaded) {
       loadDriver();
@@ -62,7 +65,7 @@ public final class DatabaseUtils {
             DriverManager.getConnection("jdbc:sqlite:" + Constants.DATABASE_FILE.getAbsolutePath());
       }
     } catch (SQLException ex) {
-      ExceptionUtils.log(DatabaseUtils.class, ex);
+      ExceptionUtils.log(SQLiteDatabase.class, ex);
     }
     if (conn == null) {
       throw new SolarException("Database connection was null.");
@@ -73,14 +76,14 @@ public final class DatabaseUtils {
   /** 
    * Create database tables.
    */
-  public static synchronized void createTables() {
+  public synchronized void createTables() {
     getConnection();
     try(Statement stat = conn.createStatement()) {
       stat.addBatch(
           Constants.DATABASE_CREATE_STMT);
       stat.executeBatch();
     } catch (SQLException e) {
-      ExceptionUtils.log(DatabaseUtils.class, e);
+      ExceptionUtils.log(SQLiteDatabase.class, e);
     } finally {
       closeItem(conn);
     }
@@ -91,13 +94,13 @@ public final class DatabaseUtils {
    *
    * @param c the AutoClosable to close
    */
-  private static void closeItem(final AutoCloseable c) {
+  private void closeItem(final AutoCloseable c) {
     try {
       if (c != null) {
         c.close();
       }
     } catch (Exception e) {
-      ExceptionUtils.log(DatabaseUtils.class, e);
+      ExceptionUtils.log(SQLiteDatabase.class, e);
     }
   }
 
@@ -111,9 +114,9 @@ public final class DatabaseUtils {
    *
    * @param data the data point
    */
-  public static void insertData(final DataPoint data) {
+  public void insertData(final DataPoint data) {
       if (dataPointList.size() > Constants.DATA_THRESHOLD) {
-        dataPointList.forEach(DatabaseUtils::writeToDb);
+        dataPointList.forEach(this::writeToDb);
         dataPointList.clear();
       }
       dataPointList.add(data);
@@ -124,7 +127,7 @@ public final class DatabaseUtils {
    * 
    * @param data the data point to be added
    */
-  private static synchronized void writeToDb(final DataPoint data) {
+  private synchronized void writeToDb(final DataPoint data) {
     if (data != null) {
       try (PreparedStatement stat = getConnection()
               .prepareStatement(Constants.DB_INSERT_STMT)) {
@@ -141,13 +144,13 @@ public final class DatabaseUtils {
         stat.setLong(11, data.getTime());
         stat.executeUpdate();
       } catch (SQLException e) {
-        ExceptionUtils.log(DatabaseUtils.class, e);
+        ExceptionUtils.log(SQLiteDatabase.class, e);
       }
     }
   }
 
   /** Shutdown and lock the database file. */
-  public static synchronized void shutdown() {
+  public synchronized void shutdown() {
     try {
       if (conn != null) {
         conn.close();
@@ -156,17 +159,17 @@ public final class DatabaseUtils {
         }
       }
     } catch (SQLException e) {
-      ExceptionUtils.log(DatabaseUtils.class, e);
+      ExceptionUtils.log(SQLiteDatabase.class, e);
     } finally {
       conn = null;
     }
   }
 
-  private static void waitForShutdown() {
+  private void waitForShutdown() {
     try {
       Thread.sleep(Constants.SLEEP_TIME);
     } catch (InterruptedException e) {
-      ExceptionUtils.log(DatabaseUtils.class, e);
+      ExceptionUtils.log(SQLiteDatabase.class, e);
       Thread.currentThread().interrupt();
     }
   }
@@ -176,7 +179,7 @@ public final class DatabaseUtils {
    *
    * @return true if the database exists.
    */
-  public static boolean databaseExists() {
+  public boolean databaseExists() {
     return Constants.DATABASE_FILE.exists();
   }
 }

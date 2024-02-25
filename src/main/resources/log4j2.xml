@@ -12,7 +12,7 @@
  ******************************************************************************/
  -->
 
-<Configuration status="warn" name="solartracer" packages="">
+<Configuration status="warn" name="solartracer" packages="solartracer.utils">
   <Appenders>
     <RollingFile name="RollingFile" fileName="logs/solar.log"
                  filePattern="logs/$${date:yyyy-MM}/solar-%d{MM-dd-yyyy}-%i.log.gz">
@@ -25,6 +25,7 @@
       </Policies>
       <DefaultRolloverStrategy max="20"/>
     </RollingFile>
+    <TextAreaAppender name="textAreaAppender" />
     <Console name="STDOUT" target="SYSTEM_OUT">
       <PatternLayout pattern="%d %p %c{1.} [%t] %m%n"/>
     </Console>
@@ -32,14 +33,17 @@
   <Loggers>
     <Logger name="solartracer.error" level="error" additivity="false">
       <AppenderRef ref="RollingFile"/>
+      <AppenderRef ref="textAreaAppender" />
       <AppenderRef ref="STDOUT"/>
     </Logger>
     <Logger name="solartracer" level="debug" additivity="false">
       <AppenderRef ref="RollingFile"/>
+      <AppenderRef ref="textAreaAppender" />
       <AppenderRef ref="STDOUT"/>
     </Logger>
     <Root level="info">
       <AppenderRef ref="RollingFile"/>
+      <AppenderRef ref="textAreaAppender" />
       <AppenderRef ref="STDOUT"/>
     </Root>
   </Loggers>

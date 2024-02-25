@@ -4,12 +4,16 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import solartracer.utils.Constants;
 
+import static solartracer.utils.Constants.COLON;
+
 /**
  * Helper class to define a datapoint.
  *
- * @author javanerd
+ * @author javachaos
  */
-public class DataPoint {
+public class DataPoint implements Comparable<DataPoint> {
+
+  private static final String DATAPOINT_REGEX = "(([+-]?(\\d*[.])?\\d+):){9}(\\d{1,19})";
 
   /** Timestamp when this datapoint was created. */
   private final long timestamp;
@@ -50,7 +54,7 @@ public class DataPoint {
    * @param data the data.
    */
   public DataPoint(float[] data) {
-    this(new Date(Constants.getCurrentTimeMillis()).getTime(), data);
+    this(new Date().getTime(), data);
   }
 
   /**
@@ -85,6 +89,25 @@ public class DataPoint {
       chargeCurrent = 0f;
       loadOnOff = 0f;
     }
+  }
+
+  public static DataPoint fromString(String dataStr) {
+    if (!dataStr.matches(DATAPOINT_REGEX)) {
+      throw new RuntimeException("Invalid data string.");
+    }
+    String[] data = dataStr.split(COLON);
+    return new DataPoint(Long.parseLong(data[10]),
+    Float.parseFloat(data[0]),
+    Float.parseFloat(data[1]),
+    Float.parseFloat(data[2]),
+    Float.parseFloat(data[3]),
+    Float.parseFloat(data[4]),
+    Float.parseFloat(data[5]),
+    Float.parseFloat(data[6]),
+    Float.parseFloat(data[7]),
+    Float.parseFloat(data[8]),
+    Float.parseFloat(data[9]));
+
   }
 
   /**
@@ -197,24 +220,36 @@ public class DataPoint {
   @Override
   public String toString() {
     return batteryVoltage
-        + Constants.COLON
+        + COLON
         + pvVoltage
-        + Constants.COLON
+        + COLON
         + loadCurrent
-        + Constants.COLON
+        + COLON
         + overDischarge
-        + Constants.COLON
+        + COLON
         + batteryMax
-        + Constants.COLON
+        + COLON
         + full
-        + Constants.COLON
+        + COLON
         + charging
-        + Constants.COLON
+        + COLON
         + batteryTemp
-        + Constants.COLON
+        + COLON
         + chargeCurrent
-        + Constants.COLON
+        + COLON
         + loadOnOff
+        + COLON
+        + timestamp
         + Constants.NEWLINE;
+  }
+
+  /**
+   * Compare two DataPoints.
+   *
+   * @param o the object to be compared.
+   */
+  @Override
+  public int compareTo(DataPoint o) {
+    return Long.compare(timestamp, o.timestamp);
   }
 }

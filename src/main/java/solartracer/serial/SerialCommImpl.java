@@ -11,16 +11,22 @@ import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.TimeUnit;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import solartracer.anomalydetection.AnomilyDetector;
 import solartracer.data.DataPointListener;
 import solartracer.utils.Constants;
 import solartracer.utils.DataUtils;
 import solartracer.utils.ExceptionUtils;
 import solartracer.utils.SolarException;
+
+import static solartracer.main.Main.COORDINATOR;
 
 public class SerialCommImpl implements SerialPortDataListener, SerialConnection {
 
@@ -39,6 +45,8 @@ public class SerialCommImpl implements SerialPortDataListener, SerialConnection 
   /** RS232 new write timeout. */
   private static final int WRITE_TIMEOUT = 1000;
 
+  private Queue<String> dataQueue = new ConcurrentLinkedQueue<>();
+
   private SerialPort serialPort;
 
   // input and output streams for sending and receiving data
@@ -55,22 +63,32 @@ public class SerialCommImpl implements SerialPortDataListener, SerialConnection 
    */
   private final List<DataPointListener> dataPointListeners;
 
+  private AnomilyDetector anomilyDetector;
+
   /** Serial Communication Constructor. */
   public SerialCommImpl() {
     dataPointListeners = new ArrayList<>();
+    anomilyDetector = new AnomilyDetector(false);
   }
 
   @Override
   public void serialEvent(SerialPortEvent ev) {
     if (ev.getEventType() == SerialPort.LISTENING_EVENT_DATA_AVAILABLE) {
       try {
-        updateListeners(input.readLine());
+        dataQueue.add(input.readLine());
+        //updateListeners(input.readLine());
       } catch (IOException e) {
-        ExceptionUtils.logSilent(getClass(), e, "Failed to read data: ");
+        ExceptionUtils.logSilent(getClass(), e, "ERROR: ");
       }
     }
     if (ev.getEventType() == SerialPort.LISTENING_EVENT_DATA_WRITTEN) {
       LOGGER.debug("All bytes were successfully transmitted!");
+    }
+  }
+
+  public void pollDataPoints() {
+    while (!dataQueue.isEmpty()) {
+      updateListeners(dataQueue.poll());
     }
   }
 
@@ -80,10 +98,16 @@ public class SerialCommImpl implements SerialPortDataListener, SerialConnection 
    * @param data the data
    */
   private void updateListeners(String data) {
-    String info =
-        data + ":" + new Date(Constants.getCurrentTimeMillis()).getTime(); // Add Timestamp.
-    dataPointListeners
-        .forEach(l -> l.dataPointReceived(DataUtils.parseDataPoint(info)));
+    if (validate(data)) {
+      String info =
+              data + ":" + new Date().getTime(); // Add Timestamp.
+      dataPointListeners
+              .forEach(l -> l.dataPointReceived(DataUtils.parseDataPoint(info)));
+    }
+  }
+
+  private boolean validate(String data) {
+    return anomilyDetector.inference(data);
   }
 
   @Override
@@ -110,7 +134,7 @@ public class SerialCommImpl implements SerialPortDataListener, SerialConnection 
   public void connect(String port) {
       serialPort = SerialPort.getCommPort(port);
       serialPort.setComPortTimeouts(
-          SerialPort.TIMEOUT_READ_SEMI_BLOCKING, Constants.SERIAL_TIMEOUT, WRITE_TIMEOUT);
+          SerialPort.TIMEOUT_SCANNER, Constants.SERIAL_TIMEOUT, WRITE_TIMEOUT);
       serialPort.setParity(PARITY);
       serialPort.setNumDataBits(DATA_BITS);
       serialPort.setNumStopBits(STOP_BITS);
@@ -119,6 +143,7 @@ public class SerialCommImpl implements SerialPortDataListener, SerialConnection 
       input = new BufferedReader(new InputStreamReader(serialPort.getInputStream()));
       output = new BufferedWriter(new OutputStreamWriter(serialPort.getOutputStream()));
       serialPort.addDataListener(this);
+      COORDINATOR.scheduleAtFixedRate(this::pollDataPoints, 1, 1, TimeUnit.SECONDS);
   }
 
   @Override
@@ -164,5 +189,10 @@ public class SerialCommImpl implements SerialPortDataListener, SerialConnection 
     } else {
       return dataPointListeners.remove(dl);
     }
+  }
+
+  @Override
+  public void shutdown() {
+    disconnect();
   }
 }

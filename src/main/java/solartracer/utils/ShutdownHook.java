@@ -1,7 +1,9 @@
 package solartracer.utils;
 
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -27,14 +29,14 @@ public class ShutdownHook extends Thread {
   /**
    * Executor service.
    */
-  private final ScheduledExecutorService ses;
+  private final ExecutorService ses;
 
   /**
    * Constructs a new shutdown hook.
    *
    * @param main the main thread.
    */
-  public ShutdownHook(final ScheduledExecutorService ses, final Thread main) {
+  public ShutdownHook(final ExecutorService ses, final Thread main) {
     mainThread = main;
     this.ses = ses;
   }

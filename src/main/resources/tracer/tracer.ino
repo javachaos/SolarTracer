@@ -17,6 +17,10 @@ char sep = ':';
 String inputString = "";        // a string to hold incoming data
 boolean stringComplete = false; // whether the string is complete
 
+const byte buff_size = 8;
+char recv[buff_size];
+boolean newInput = false;
+
 void setup()
 {
   Serial.begin(57600);
@@ -197,40 +201,37 @@ void loop()
 {
   printAllData();
   Serial.println();
-
-  if (Serial.available())
-  { // There is data available.
-    // get the new byte:
-    char inChar = (char)Serial.read();
-    // if the incoming character is a newline, set a flag
-    // so the main loop can do something about it:
-    if (inChar != '\n')
-    {
-      // add it to the inputString:
-      inputString += inChar;
-    }
-    else if (inChar == '\n')
-    {
-      stringComplete = true;
-    }
-  }
-  if (stringComplete)
-  {
-    if (inputString == "LON")
-    {
+  recvInput();
+  if (newInput == true) {
+    String inputStr = String(receivedChars);
+    if (inputStr == "LON") {
       manualControlCmd(true);
     }
-    else if (inputString == "LOFF")
-    {
+    if (inputStr == "LOFF") {
       manualControlCmd(false);
     }
-    else
-    {
-      updateSleepTime(inputString);
-    }
-    // clear the string:
-    inputString = "";
-    stringComplete = false;
+    newInput = false;
   }
   delay(speed);
+}
+
+void recvInput() {
+    static byte i = 0;
+    char c;
+    
+    while (Serial.available() > 0 && newInput == false) {
+        c = Serial.read();
+        if (c != '\n') {
+            recv[i] = c;
+            i++;
+            if (i >= buff_size) {
+                i = buff_size - 1;
+            }
+        }
+        else {
+            recv[i] = '\0';
+            i = 0;
+            newInput = true;
+        }
+    }
 }

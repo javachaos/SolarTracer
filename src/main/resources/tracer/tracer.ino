@@ -203,7 +203,7 @@ void loop()
   Serial.println();
   recvInput();
   if (newInput == true) {
-    String inputStr = String(receivedChars);
+    String inputStr = String(recv);
     if (inputStr == "LON") {
       manualControlCmd(true);
     }

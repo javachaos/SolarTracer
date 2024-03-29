@@ -14,9 +14,6 @@ uint8_t start[12] = {0xAA, 0x55, 0xAA, 0x55, 0xAA, 0x55,
 uint8_t input[4];
 char sep = ':';
 
-String inputString = "";        // a string to hold incoming data
-boolean stringComplete = false; // whether the string is complete
-
 const byte buff_size = 8;
 char recv[buff_size];
 boolean newInput = false;
@@ -28,8 +25,6 @@ void setup()
   {
     ; // wait for serial port to connect. Needed for native USB port only
   }
-  // reserve 10 bytes for the inputString:
-  inputString.reserve(10);
   mppt_serial.begin(9600);
 }
 
@@ -77,27 +72,6 @@ float to_float(uint8_t *buffer, int offset)
 {
   unsigned short full = buffer[offset + 1] << 8 | buffer[offset];
   return full / 100.0;
-}
-
-// Read sleep time from client application.
-void updateSleepTime(String sleepSpeed)
-{
-  if (sleepSpeed.length() != 5)
-  { //4bytes plus 1 newline
-    return;
-  }
-
-  const char *s = sleepSpeed.c_str();
-  for (int j = 0; j <= 3; j++)
-  {
-    input[j] = s[j];
-  }
-
-  speed = ((uint32_t)input[0] << 24) | ((uint32_t)input[1] << 16) | ((uint32_t)input[2] << 8) | (uint32_t)input[3];
-  if (speed > 86400000 || speed < 1000)
-  { // 1 day in milliseconds or 1 second.
-    speed = 1000;
-  }
 }
 
 void manualControlCmd(bool load_onoff)

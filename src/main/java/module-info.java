@@ -1,8 +1,8 @@
 module solartracer {
-    requires javafx.graphics;
+    requires transitive javafx.graphics;
     requires javafx.controls;
     requires javafx.fxml;
-    requires org.apache.logging.log4j;
+    requires transitive org.apache.logging.log4j;
     requires org.apache.logging.log4j.core;
     requires java.logging;
     requires com.fazecast.jSerialComm;

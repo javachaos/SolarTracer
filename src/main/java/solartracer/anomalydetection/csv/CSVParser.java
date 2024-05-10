@@ -1,10 +1,11 @@
 package solartracer.anomalydetection.csv;
 
-import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
-
 import static solartracer.utils.MathUtils.getNormalized;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 
 public class CSVParser {
 

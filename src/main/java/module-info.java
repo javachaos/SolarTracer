@@ -7,10 +7,8 @@ module solartracer {
     requires java.logging;
     requires com.fazecast.jSerialComm;
     requires java.sql;
-    requires io.vertx.core;
-    requires io.vertx.mqtt;
     requires org.xerial.sqlitejdbc;
-    requires io.netty.codec.mqtt;
 
     opens solartracer.gui to javafx.fxml;
+    exports solartracer.main to javafx.graphics;
 }

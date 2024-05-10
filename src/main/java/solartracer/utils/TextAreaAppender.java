@@ -27,8 +27,6 @@ public class TextAreaAppender extends AbstractAppender {
     private final ReadWriteLock rwLock = new ReentrantReadWriteLock();
     private final Lock readLock = rwLock.readLock();
 
-    private TextArea textArea;
-
     protected TextAreaAppender(String name, Filter filter,
                                boolean ignoreExceptions) {
         super(name, filter,

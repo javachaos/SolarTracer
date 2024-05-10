@@ -76,16 +76,6 @@
                 </HBox>
                 <Button fx:id="refreshComs" onAction="#initComms" text="Reload Ports" />
                 <Button fx:id="hideGraphBtn" mnemonicParsing="false" text="Hide Graphs" />
-                <HBox>
-                    <TextField fx:id="ipAddress" layoutX="225.0" promptText="IP Address" />
-                    <Button fx:id="ipconnect" onAction="#connect" text="Connect" />
-                </HBox>
-                <HBox>
-                    <Button fx:id="startserver" onAction="#startServer" text="Start Server" />
-                    <Button fx:id="stopserver" onAction="#stopServer" text="Stop Server" />
-                    <Circle fx:id="statusCircle" fill="RED" radius="8" />
-                </HBox>
-
             </VBox>
         </VBox>
         <TabPane fx:id="graphPane" prefHeight="297.0" prefWidth="396.0" tabClosingPolicy="UNAVAILABLE">

@@ -1,16 +1,8 @@
 package solartracer.utils;
 
 import java.io.File;
-import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.time.Clock;
-import java.time.Duration;
-import java.util.Date;
-import java.util.logging.Logger;
 
 /**
  * Constants class.
@@ -97,11 +89,6 @@ public class Constants {
    * MQTT QoS.
    */
   public static final int MQTT_QOS = 0;
-
-  /**
-   * The NTP port number.
-   */
-  private static final int NTP_PORT = 123;
 
   /**
    * Private ctor.

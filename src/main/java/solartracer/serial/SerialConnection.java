@@ -2,7 +2,6 @@ package solartracer.serial;
 
 import javafx.collections.ObservableList;
 import solartracer.data.DataPointListener;
-import solartracer.gui.GuiController;
 import solartracer.utils.SolarException;
 
 /**
@@ -27,7 +26,6 @@ public interface SerialConnection extends ShutdownListener{
 	 * @return
 	 * 		the success of the operation as a boolean.
 	 */
-	@SuppressWarnings("unused")
 	boolean removeDataPointListener(DataPointListener dl) throws SolarException;
 	
 

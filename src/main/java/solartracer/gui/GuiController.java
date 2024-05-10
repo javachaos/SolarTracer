@@ -1,10 +1,15 @@
 package solartracer.gui;
 
+import static solartracer.main.Main.COORDINATOR;
+
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -16,21 +21,28 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.chart.XYChart.Series;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.shape.Circle;
 import javafx.stage.WindowEvent;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import solartracer.data.DataPoint;
 import solartracer.data.DataPointListener;
-import solartracer.net.MQTTClient;
-import solartracer.net.MQTTServer;
 import solartracer.serial.SerialConnection;
 import solartracer.serial.SerialFactory;
 import solartracer.serial.ShutdownListener;
-import solartracer.utils.*;
-
-import static solartracer.main.Main.COORDINATOR;
+import solartracer.utils.Constants;
+import solartracer.utils.FreqListStringConverter;
+import solartracer.utils.SQLiteDatabase;
+import solartracer.utils.StatusUtils;
 
 /**
  * GUI Controller class
@@ -122,8 +134,6 @@ public class GuiController implements EventHandler<WindowEvent>, DataPointListen
    * Serial connection
    */
   private SerialConnection serial;
-  private MQTTServer mqttServer;
-  private MQTTClient mqttClient;
 
   private SQLiteDatabase database;
 
@@ -175,13 +185,8 @@ public class GuiController implements EventHandler<WindowEvent>, DataPointListen
     setupSeries();
     setupGraphs();
     hideGraphBtn.setOnAction(e -> graphPane.setVisible(!graphPane.isVisible()));
-    mqttServer = new MQTTServer(this);
-    mqttClient = new MQTTClient(this);
-    serial.addDataPointListener(mqttServer);
     shutdownListeners = new ArrayList<>();
     shutdownListeners.add(this);
-    shutdownListeners.add(mqttClient);
-    shutdownListeners.add(mqttServer);
     shutdownListeners.add(serial);
     shutdownListeners.add(database);
   }
@@ -470,24 +475,6 @@ public class GuiController implements EventHandler<WindowEvent>, DataPointListen
   public void dataPointReceived(DataPoint dataPoint) {
     database.insertData(dataPoint);
     updateGraphs(dataPoint);
-  }
-
-  @FXML
-  public void connect() {
-    if (serial != null) {
-      serial.disconnect();//prevent infinite recursion
-    }
-    mqttClient.connect(ipAddress.getText());
-  }
-
-  @FXML
-  public void startServer() {
-    mqttServer.connect();
-  }
-
-  @FXML
-  public void stopServer() {
-    mqttServer.shutdown();
   }
 
   public Circle getCircle() {

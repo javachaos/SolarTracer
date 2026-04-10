@@ -16,7 +16,7 @@
     <staging.dir>${project.build.directory}/staging</staging.dir>
     <javafx.version>17.0.7</javafx.version>
     <javafx.maven.version>0.0.8</javafx.maven.version>
-    <log4j.version>2.23.0</log4j.version>
+    <log4j.version>2.25.4</log4j.version>
     <platform>win-x86</platform>
     <platform64>win</platform64>
   </properties>
